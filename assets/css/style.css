@@ -1,3 +1,20 @@
-    body{
+/* Body */
+   body{
+    /* This will be the default background on the pages*/
     background: url('/assets/images/meiji-temple-9603371_1280.jpg') no-repeat fixed center center/cover;
+}
+
+/* Logo */
+.navbar-brand{
+    min-width: 50px;
+    max-width: 120px;
+    max-height: 50px;
+}
+
+/* Main container */
+.main-container{
+    background-color: rgba(83, 79, 79, 0.371);
+    min-height: 500px;
+    max-width: 300px;
+    margin: 20px 20px;
 }
