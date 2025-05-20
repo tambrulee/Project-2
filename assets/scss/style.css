@@ -44,6 +44,11 @@ body {
   border-radius: 5px;
 }
 
+.theme-change {
+  position: absolute;
+  bottom: 70px;
+}
+
 .footer-container {
   background-color: rgb(246, 246, 246);
   height: 50px;
