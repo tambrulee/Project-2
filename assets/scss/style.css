@@ -1,0 +1,46 @@
+/* SCSS */
+/* Body */
+body {
+  /* This will be the default background on the pages*/
+  background: url("/assets/images/meiji-temple-9603371_1280.jpg") no-repeat fixed center center/cover;
+}
+
+/* Logo */
+.navbar-brand {
+  min-width: 50px;
+  max-width: 120px;
+  max-height: 50px;
+}
+
+/* List Title container */
+.list-title {
+  /* background-color: rgba(83, 79, 79, 0.371); */
+  background-color: rgba(208, 197, 213, 0.648);
+  margin: 10px 10px;
+  min-height: 50px;
+  max-width: 60%;
+  margin: 10px 20% 10px 20%;
+  padding: 10px 10px;
+}
+
+/* Main container */
+.main-container {
+  /* background-color: rgba(83, 79, 79, 0.371); */
+  background-color: rgba(108, 103, 109, 0.424);
+  margin: 10px 10px;
+  min-height: 400px;
+  max-width: 80%;
+  margin: 0 10% 0 10%;
+  padding: 10px 0;
+}
+
+/* Button for task creation */
+.task-container {
+  max-width: 90%;
+  background-color: rgb(255, 255, 255);
+  padding: 10px 2px;
+  border: black 2px;
+  border-radius: 5px;
+}
+
+/*# sourceMappingURL=style.css.map */
