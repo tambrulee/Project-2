@@ -1,8 +1,12 @@
 /* SCSS */
+* {
+  color: rgb(0, 0, 0);
+}
+
 /* Body */
 body {
   /* This will be the default background on the pages*/
-  background: url("/assets/images/meiji-temple-9603371_1280.jpg") no-repeat fixed center center/cover;
+  background: url("/assets/images/meiji-temple-9603371_1280.jpg") no-repeat center center/cover;
 }
 
 /* Logo */
@@ -14,23 +18,20 @@ body {
 
 /* List Title container */
 .list-title {
-  /* background-color: rgba(83, 79, 79, 0.371); */
   background-color: rgba(208, 197, 213, 0.648);
-  margin: 10px 10px;
   min-height: 50px;
   max-width: 60%;
-  margin: 10px 20% 10px 20%;
+  margin: 10px 10% 10px 10%;
   padding: 10px 10px;
 }
 
 /* Main container */
 .main-container {
-  /* background-color: rgba(83, 79, 79, 0.371); */
   background-color: rgba(108, 103, 109, 0.424);
   margin: 10px 10px;
-  min-height: 400px;
+  min-height: 690px;
   max-width: 80%;
-  margin: 0 10% 0 10%;
+  margin: 0 5% 20px 5%;
   padding: 10px 0;
 }
 
@@ -41,6 +42,13 @@ body {
   padding: 10px 2px;
   border: black 2px;
   border-radius: 5px;
+}
+
+.footer-container {
+  background-color: rgb(246, 246, 246);
+  height: 50px;
+  position: absolute;
+  bottom: 0;
 }
 
 /*# sourceMappingURL=style.css.map */
