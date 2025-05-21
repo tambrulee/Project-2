@@ -1,7 +1,6 @@
-/* SCSS */
-*{
-  color: rgb(0, 0, 0);
-}
+/* SCSS Variables */
+$border-radius: 5px;
+
 /* Body */
 body {
   /* This will be the default background on the pages*/
@@ -42,7 +41,10 @@ body {
   background-color: rgb(255, 255, 255);
   padding: 10px 2px;
   border: black 2px;
-  border-radius: 5px;
+}
+
+.list-title, .main-container, .task-container{
+  border-radius: $border-radius;
 }
 
 // Theme change
