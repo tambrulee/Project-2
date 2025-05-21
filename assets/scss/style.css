@@ -1,4 +1,8 @@
 /* SCSS Variables */
+* {
+  font-family: Hero, sans-serif;
+}
+
 /* Body */
 body {
   /* This will be the default background on the pages*/
@@ -14,16 +18,22 @@ body {
 
 /* List Title container */
 .list-title {
-  background-color: rgba(208, 197, 213, 0.648);
+  background-color: rgba(229, 243, 227, 0.2352941176);
   min-height: 50px;
   max-width: 80%;
   margin: 10px 10% 10px 10%;
   padding: 10px 10px;
 }
 
+#list-name {
+  background-color: rgba(161, 164, 164, 0.316);
+  border-radius: 5px;
+  border: none;
+}
+
 /* Main container */
 .main-container {
-  background-color: rgba(108, 103, 109, 0.424);
+  background-color: rgba(229, 243, 227, 0.2352941176);
   margin: 10px 10px;
   min-height: 600px;
   max-height: 690px;
@@ -33,7 +43,7 @@ body {
 }
 
 .second-container {
-  background-color: rgba(208, 204, 209, 0.424);
+  background-color: rgba(255, 255, 255, 0.4352941176);
   margin: 10px 10px;
   min-height: 590px;
   max-width: 95%;

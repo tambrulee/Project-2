@@ -1,5 +1,12 @@
 /* SCSS Variables */
 $border-radius: 5px;
+$primary-underlay: #e5f3e33c;
+
+// Global
+
+*{
+  font-family: Hero, sans-serif;
+}
 
 /* Body */
 body {
@@ -17,16 +24,22 @@ body {
 /* List Title container */
 .list-title {
 
-  background-color: rgba(208, 197, 213, 0.648);
+  background-color: $primary-underlay;
   min-height: 50px;
   max-width: 80%;
   margin: 10px 10% 10px 10%;
   padding: 10px 10px;
 }
 
+#list-name {
+  background-color: rgba(161, 164, 164, 0.316);
+  border-radius: 5px;
+  border: none;
+}
+
 /* Main container */
 .main-container {
-  background-color: rgba(108, 103, 109, 0.424);
+  background-color: $primary-underlay;
   margin: 10px 10px;
   min-height: 600px;
   max-height: 690px;
@@ -38,7 +51,7 @@ body {
 // Second container overlay goes on top of the main container
 // Wraps the divs from the hide/unhide to the last task container
 .second-container{
-  background-color: rgba(208, 204, 209, 0.424);
+  background-color: #ffffff6f;
   margin: 10px 10px;
   min-height: 590px;
   max-width: 95%;
