@@ -49,6 +49,9 @@ I intend to use Bootstrap for the main layout.
 
 ## Dependencies
 
-* <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API">Drag and Drop API<a>
+### Drag and Drop API
+* <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API"> You can read the Drag and Drop API Docs here<a>
+
+To implement this I had to create a drop zone so I duplicated one of the text box elements.
 
 ## Testing
