@@ -54,4 +54,12 @@ I intend to use Bootstrap for the main layout.
 
 To implement this I had to create a drop zone so I duplicated one of the text box elements.
 
+### W3
+
+* On-click event
+https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_onclick_dom
+
+* Duplicating task box
+https://www.w3schools.com/jsref/met_node_clonenode.asp
+
 ## Testing

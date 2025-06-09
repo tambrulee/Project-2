@@ -50,16 +50,30 @@ document.querySelectorAll(".drag-n-drop").forEach((el) => {
     });
   });
   
-  
-  
-  
-    
-
-// Adds a new tzask box to the drop zone on the list
-// function(addTask){}
 
 // Copies the task box html and adds it to the drop zone on the list
 // function(copyTask){}
+
+document.getElementById("add-new").onclick = function () {
+    let taskContainer = document.getElementById("landing-strip");
+
+    // Get the first task to clone
+    let original = document.getElementById("task-1");
+
+    // Clone the node
+    let clone = original.cloneNode(true);
+
+    // Make sure it has a unique id
+    let newId = "task-" + (taskContainer.children.length + 1);
+    clone.id = newId;
+    clone.textContent = "Task " + taskContainer.children.length;
+
+    // Append to container
+    taskContainer.appendChild(clone);
+
+    // Re-attach drag events (if needed)
+    clone.addEventListener("dragstart", dragStartHandler);
+};
 
 // Replaces the previous dropzone once the task box is created
 // function(replaceDropzone){}
