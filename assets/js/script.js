@@ -55,7 +55,7 @@ document.querySelectorAll(".drag-n-drop").forEach((el) => {
 // function(copyTask){}
 
 document.getElementById("add-new").onclick = function () {
-    let taskContainer = document.getElementById("landing-strip");
+    let taskContainer = document.getElementById("task-box");
 
     // Get the first task to clone
     let original = document.getElementById("task-1");
