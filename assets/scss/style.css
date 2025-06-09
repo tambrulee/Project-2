@@ -51,6 +51,20 @@ body {
   padding: 10px 0;
 }
 
+/* Drag and Drop */
+.drag-n-drop {
+  border: 2px dashed #ccc;
+  padding: 20px;
+  margin: 10px;
+  background-color: #f9f9f9;
+  cursor: move;
+}
+
+.drag-n-drop.drag-over {
+  background-color: #d0f0ff;
+  border-color: #00bfff;
+}
+
 /* Buttons for tasks */
 .task-container {
   max-width: 90%;
