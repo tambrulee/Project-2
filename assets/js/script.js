@@ -64,9 +64,9 @@ document.getElementById("add-new").onclick = function () {
     let clone = original.cloneNode(true);
 
     // Make sure it has a unique id
-    let newId = "task-" + (taskContainer.children.length + 1);
+    let newId = "task-";
     clone.id = newId;
-    clone.textContent = "Task " + taskContainer.children.length;
+    clone.textContent = "Enter new task here";
 
     // Append to container
     taskContainer.appendChild(clone);
