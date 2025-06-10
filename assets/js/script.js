@@ -61,7 +61,9 @@ function copyTask() {
 
   const clone = original.cloneNode(true);
   clone.id = `task-${taskCounter++}`;
-  clone.textContent = `Task ${taskCounter - 1}`;
+  clone.querySelector('input[type="checkbox"]').checked = false;
+clone.querySelector('input[type="text"]').value = '';
+clone.querySelector('input[type="text"]').placeholder = "Enter task here";
   clone.setAttribute("draggable", "true");
   clone.classList.add("drag-n-drop");
 
