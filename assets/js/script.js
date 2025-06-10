@@ -14,33 +14,34 @@ console.log(new Date())
 
 // Calls the drag and drop API to start
 // For every div with a classification of drag-n-drop the function will apply a data transfer
-document.querySelectorAll(".drag-n-drop").forEach((el) => {
+//
+
+// 1. Drag and drop logic
+function dragDrop() {
+  document.querySelectorAll(".drag-n-drop").forEach((el) => {
     el.addEventListener("dragstart", (ev) => {
       ev.dataTransfer.setData("text/plain", ev.target.id);
       ev.dataTransfer.effectAllowed = "move";
     });
 
-// Allows the div to be drasgged over the other same classified divs and to be added to the target location
-// Whilst also shifting the existing divs to either side of the div which is being moved
     el.addEventListener("dragover", (ev) => {
       ev.preventDefault();
-      ev.target.classList.add("drag-over");
+      el.classList.add("drag-over");
     });
 
-    el.addEventListener("dragleave", (ev) => {
-      ev.target.classList.remove("drag-over");
+    el.addEventListener("dragleave", () => {
+      el.classList.remove("drag-over");
     });
 
     el.addEventListener("drop", (ev) => {
       ev.preventDefault();
-      ev.target.classList.remove("drag-over");
+      el.classList.remove("drag-over");
 
       const draggedId = ev.dataTransfer.getData("text/plain");
       const draggedEl = document.getElementById(draggedId);
       const dropTarget = ev.target;
 
-      if (dropTarget !== draggedEl) {
-        // Swap elements visually
+      if (dropTarget !== draggedEl && dropTarget.classList.contains("drag-n-drop")) {
         const temp = document.createElement("div");
         dropTarget.parentNode.insertBefore(temp, dropTarget);
         draggedEl.parentNode.insertBefore(dropTarget, draggedEl);
@@ -49,31 +50,37 @@ document.querySelectorAll(".drag-n-drop").forEach((el) => {
       }
     });
   });
-  
+}
 
-// Copies the task box html and adds it to the drop zone on the list
-// function(copyTask){}
+// 2. Function to copy a task and add it to the container
+let taskCounter = 4; // Start from 4 if 1-3 already exist
 
-document.getElementById("add-new").onclick = function () {
-    let taskContainer = document.getElementById("task-box");
+function copyTask() {
+  const taskContainer = document.getElementById("task-box");
+  const original = document.getElementById("task-1");
 
-    // Get the first task to clone
-    let original = document.getElementById("task-1");
+  const clone = original.cloneNode(true);
+  clone.id = `task-${taskCounter++}`;
+  clone.textContent = `Task ${taskCounter - 1}`;
+  clone.setAttribute("draggable", "true");
+  clone.classList.add("drag-n-drop");
 
-    // Clone the node
-    let clone = original.cloneNode(true);
+  taskContainer.appendChild(clone);
 
-    // Make sure it has a unique id
-    let newId = "task-";
-    clone.id = newId;
-    clone.textContent = "Enter new task here";
+  // Reattach drag/drop to all items
+  dragDrop();
+}
 
-    // Append to container
-    taskContainer.appendChild(clone);
+// 3. Set up on page load
+document.addEventListener("DOMContentLoaded", () => {
+  dragDrop();
 
-    // Re-attach drag events (if needed)
-    clone.addEventListener("dragstart", dragStartHandler);
-};
+  const addBtn = document.getElementById("add-new");
+  if (addBtn) {
+    addBtn.addEventListener("click", copyTask);
+  }
+});
+
 
 // Replaces the previous dropzone once the task box is created
 // function(replaceDropzone){}
