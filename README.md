@@ -65,3 +65,16 @@ https://www.w3schools.com/jsref/met_node_clonenode.asp
 ## Testing
 
 * Tested on mobile phone with touch screen functionality - add a list of tests here:
+
+* Tests:
+    1. Will the user's input save when they navigate to another website, leave or refresh the web page?
+    
+    2. Add new task 
+        - do new tasks generate a duplicate of the standard task template?
+        - do new tasks allow you to edit & save text?
+        - does the add new task button move down the page accordingly as expected as the user adds task?
+        - does the page respond in a way which is accessible and promotes userbility when the added tasks reach the confines of the task container?
+
+    3. Change theme
+        - what happens if the user tries to upload a non-compliant or unrecognised file type?
+        - what happens if the user tries to upload an image which is too large for upload?
