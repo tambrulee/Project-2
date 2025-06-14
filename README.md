@@ -63,3 +63,5 @@ https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_onclick_dom
 https://www.w3schools.com/jsref/met_node_clonenode.asp
 
 ## Testing
+
+* Tested on mobile phone with touch screen functionality - add a list of tests here:

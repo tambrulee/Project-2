@@ -111,3 +111,22 @@ document.getElementById("toggle-done").addEventListener("click", function (e) {
 
 // Changes the theme
 // function(changeTheme){}
+
+// When user clicks the link, trigger the hidden file input
+document.getElementById("change-theme").addEventListener("click", function (e) {
+  e.preventDefault();
+  document.getElementById("bg-upload").click();
+});
+
+// When user selects a file, set it as the body's background
+document.getElementById("bg-upload").addEventListener("change", function () {
+  const file = this.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+      document.body.style.backgroundImage = `url('${e.target.result}')`;
+  };
+  reader.readAsDataURL(file); // Converts image file to base64
+});
+
