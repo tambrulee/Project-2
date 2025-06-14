@@ -83,6 +83,25 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// This will hide/show checked items
+
+document.getElementById("toggle-done").addEventListener("click", function (e) {
+  e.preventDefault(); // Prevent the link from navigating
+
+  const toggleLink = e.target;
+  const isHiding = toggleLink.textContent.trim().toLowerCase() === "hide done";
+
+  document.querySelectorAll(".drag-n-drop").forEach(task => {
+      const checkbox = task.querySelector('input[type="checkbox"]');
+      if (checkbox && checkbox.checked) {
+          task.style.display = isHiding ? "none" : "flex"; // or "block", depending on your layout
+      }
+  });
+
+  toggleLink.textContent = isHiding ? "Unhide Done" : "Hide Done";
+});
+
+
 
 // Replaces the previous dropzone once the task box is created
 // function(replaceDropzone){}
