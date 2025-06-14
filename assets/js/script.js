@@ -102,6 +102,25 @@ document.getElementById("toggle-done").addEventListener("click", function (e) {
 });
 
 
+// Switches task boxes between read only and edit
+
+document.querySelectorAll('.edit-btn').forEach((button) => {
+  button.addEventListener('click', function () {
+    const input = this.previousElementSibling;
+
+    if (input.hasAttribute('readonly')) {
+      // Edit mode
+      input.removeAttribute('readonly');
+      input.focus();
+      this.innerText = '💾';
+    } else {
+      // Save mode
+      input.setAttribute('readonly', true);
+      this.innerText = '✏️';
+    }
+  });
+});
+
 
 // Replaces the previous dropzone once the task box is created
 // function(replaceDropzone){}

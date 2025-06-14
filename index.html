@@ -26,9 +26,12 @@
 
         <!-- List Title -->
         <div class="container-fluid list-title">
-            <input type="text" name="" id="list-name" placeholder="Enter list name here">
-            <p id="time-date"></p>
-        </div>
+          <div class="editable-wrapper"></div>
+          <input type="text" class="editable-input" id="list-name" placeholder="Enter list name here" readonly />
+          <button class="edit-btn">✏️</button> 
+          </div>
+          <p id="time-date"></p>
+        </div>        
 
         <!-- Background layer -->
         <div class="container-fluid main-container">
@@ -45,20 +48,29 @@
             <!-- Tasks -->
             <div class="drag-n-drop task-container" id="task-1" draggable="true">
               <label class="task">
+                <div class="editable-wrapper">
                 <input type="checkbox" />
-                <input  class="task-name" type="text" placeholder="Enter task here" />
+                <input class="task-name editable-input" type="text" placeholder="Enter task here" />
+                <button class="edit-btn">✏️</button>
+                </div>
               </label>
             </div>
             <div class="drag-n-drop task-container" id="task-2" draggable="true">
               <label class="task">
+                <div class="editable-wrapper">
                 <input type="checkbox" />
-                <input class="task-name" type="text" placeholder="Enter task here" />
+                <input class="task-name editable-input" type="text" placeholder="Enter task here" />
+                <button class="edit-btn">✏️</button>
+                </div>
               </label>
             </div>
             <div class="drag-n-drop task-container" id="task-3" draggable="true">
               <label class="task">
+                <div class="editable-wrapper">
                 <input type="checkbox" />
-                <input  class="task-name" type="text" placeholder="Enter task here" />
+                <input  class="task-name editable-input" type="text" placeholder="Enter task here" />
+                <button class="edit-btn">✏️</button>
+                </div>
               </label>
             </div>
           </div> 

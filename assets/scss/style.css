@@ -69,6 +69,34 @@ body {
   background-color: #eef9ff;
 }
 
+.editable-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.editable-input[readonly] {
+  border: none;
+  background: transparent;
+  color: #333;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.editable-input:not([readonly]) {
+  border: 1px solid #ccc;
+  background: #fff;
+  pointer-events: auto;
+  padding: 4px;
+}
+
+.edit-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
 .theme-change {
   position: absolute;
   top: 700px;
