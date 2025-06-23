@@ -4,9 +4,33 @@
 }
 
 /* Body */
-body {
+.list-page {
   /* This will be the default background on the pages*/
   background: url("/assets/images/meiji-temple-9603371_1280.jpg") no-repeat center center/cover;
+}
+
+/* Landing page background */
+.landing-page {
+  color: white;
+  background-color: #CD6CE7;
+  /* background: url("/assets/images/ai-generated-8716995_1280.jpg") no-repeat center center/cover; */
+}
+
+.welcome-landing {
+  text-align: center;
+  padding: 150px 100px;
+}
+
+.welcome-message-cont {
+  background-color: rgba(51, 51, 51, 0.431372549);
+}
+
+#welcome-message {
+  font-size: 5rem;
+}
+
+#welcome-slogan {
+  font-size: 2rem;
 }
 
 /* Logo */
@@ -33,6 +57,15 @@ body {
   background-color: rgba(161, 164, 164, 0.316);
   border-radius: 5px;
   border: none;
+  font-size: 1.5rem;
+  padding: 10px 200px;
+  margin: 10px 30px;
+}
+
+#time-date {
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 20px 30px;
 }
 
 /* Main container */

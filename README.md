@@ -24,6 +24,10 @@ As a user, I want my tasks to stay saved even after I close the tab, so that I d
 
 ### Testing
 
+### Time/Date Feature
+
+Tested whilst abroad in Malta - automatically adjusts to time/zone. Will do further testing to ensure it works in multiple time zones. 
+
 ### Accessibility & Feedback
 As a user, I want to see a message or indicator when a task is added or removed, so that I know my actions have worked.
 
