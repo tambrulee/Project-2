@@ -102,24 +102,30 @@ document.getElementById("toggle-done").addEventListener("click", function (e) {
 });
 
 
-// Switches task boxes between read only and edit
-
 document.querySelectorAll('.edit-btn').forEach((button) => {
   button.addEventListener('click', function () {
     const input = this.previousElementSibling;
+    const icon = this.querySelector('i');
 
     if (input.hasAttribute('readonly')) {
-      // Edit mode
+      // Switch to edit mode
       input.removeAttribute('readonly');
       input.focus();
-      this.innerText = '💾';
+
+      // Change icon to save
+      icon.classList.remove('fa-pencil', 'fa-solid');
+      icon.classList.add('fa-floppy-disk', 'fa-regular');
     } else {
-      // Save mode
+      // Switch to readonly mode
       input.setAttribute('readonly', true);
-      this.innerText = '✏️';
+
+      // Change icon back to edit
+      icon.classList.remove('fa-floppy-disk', 'fa-regular');
+      icon.classList.add('fa-pencil', 'fa-solid');
     }
   });
 });
+
 
 
 // Replaces the previous dropzone once the task box is created
