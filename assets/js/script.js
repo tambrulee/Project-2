@@ -8,6 +8,56 @@ document.getElementById("time-date").textContent = timeDate;
 // Correct Date?
 console.log(new Date())
 
+// Changes the page title to the list name as input by user
+const listNameInput = document.getElementById('list-name');
+
+    listNameInput.addEventListener('input', () => {
+      document.title = listNameInput.value || 'Document'; // fallback if empty
+    });
+
+// Saves page to cache
+
+document.addEventListener('DOMContentLoaded', () => {
+  // ——— LIST NAME PERSISTENCE ———
+  const listNameInput = document.getElementById('list-name');
+  const savedListName = localStorage.getItem('listName');
+  if (savedListName) {
+    listNameInput.value = savedListName;
+    document.title     = savedListName;
+  }
+
+  listNameInput.addEventListener('input', () => {
+    const val = listNameInput.value;
+    localStorage.setItem('listName', val);
+    document.title = val || 'Document';
+  });
+
+  // ——— TASKS PERSISTENCE ———
+  const tasks = document.querySelectorAll('.task-container');
+  tasks.forEach((taskEl, idx) => {
+    const nameInput = taskEl.querySelector('.task-name');
+    const checkbox  = taskEl.querySelector('input[type="checkbox"]');
+    const nameKey   = `taskName${idx}`;
+    const doneKey   = `taskDone${idx}`;
+
+    // load
+    const savedName = localStorage.getItem(nameKey);
+    if (savedName) nameInput.value = savedName;
+    const savedDone = localStorage.getItem(doneKey);
+    if (savedDone === 'true') checkbox.checked = true;
+
+    // save on change
+    nameInput.addEventListener('input', () => {
+      localStorage.setItem(nameKey, nameInput.value);
+    });
+    checkbox.addEventListener('change', () => {
+      localStorage.setItem(doneKey, checkbox.checked);
+    });
+  });
+
+});
+
+
 // Drag and Drop functionality
 // The following functions allows drag and drop functionality for the user when they click and hold.
 // When the user adds a new task, these functions will add a new task into a default drop zone.
@@ -60,21 +110,92 @@ function copyTask() {
   const original = document.getElementById("task-1");
 
   const clone = original.cloneNode(true);
-  clone.id = `task-${taskCounter++}`;
-  clone.querySelector('input[type="checkbox"]').checked = false;
-clone.querySelector('input[type="text"]').value = '';
-clone.querySelector('input[type="text"]').placeholder = "Enter task here";
+  clone.id = `task-${taskCounter}`;
   clone.setAttribute("draggable", "true");
   clone.classList.add("drag-n-drop");
 
-  taskContainer.appendChild(clone);
+  const nameInput = clone.querySelector('.task-name');
+  const checkbox = clone.querySelector('input[type="checkbox"]');
+  const editButton = clone.querySelector('.edit-btn');
+  const icon = editButton.querySelector('i');
 
-  // Reattach drag/drop to all items
+  const nameKey = `taskName${taskCounter}`;
+  const doneKey = `taskDone${taskCounter}`;
+
+  // Reset state
+  nameInput.value = '';
+  nameInput.setAttribute('readonly', true);
+  checkbox.checked = false;
+  icon.classList.remove('fa-floppy-disk', 'fa-regular');
+  icon.classList.add('fa-pencil', 'fa-solid');
+
+  // Save to localStorage
+  nameInput.addEventListener('input', () => {
+    localStorage.setItem(nameKey, nameInput.value);
+  });
+
+  checkbox.addEventListener('change', () => {
+    localStorage.setItem(doneKey, checkbox.checked);
+  });
+
+  // Edit/save toggle
+  editButton.addEventListener('click', () => {
+    if (nameInput.hasAttribute('readonly')) {
+      nameInput.removeAttribute('readonly');
+      nameInput.focus();
+      icon.classList.remove('fa-pencil', 'fa-solid');
+      icon.classList.add('fa-floppy-disk', 'fa-regular');
+    } else {
+      nameInput.setAttribute('readonly', true);
+      icon.classList.remove('fa-floppy-disk', 'fa-regular');
+      icon.classList.add('fa-pencil', 'fa-solid');
+    }
+  });
+
+  taskContainer.appendChild(clone);
   dragDrop();
+
+  localStorage.setItem("taskCount", taskCounter);
+  taskCounter++;
 }
 
 // 3. Set up on page load
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
+  const taskContainer = document.getElementById("task-box");
+
+  // Load saved task count
+  const savedCount = parseInt(localStorage.getItem("taskCount")) || 3;
+  taskCounter = savedCount + 1;
+
+  // Rebuild saved tasks beyond the first 3
+  for (let i = 4; i <= savedCount; i++) {
+    const original = document.getElementById("task-1");
+    const clone = original.cloneNode(true);
+    clone.id = `task-${i}`;
+    clone.setAttribute("draggable", "true");
+    clone.classList.add("drag-n-drop");
+
+    const nameInput = clone.querySelector('input[type="text"]');
+    const checkbox = clone.querySelector('input[type="checkbox"]');
+
+    const nameKey = `taskName${i}`;
+    const doneKey = `taskDone${i}`;
+
+    nameInput.value = localStorage.getItem(nameKey) || '';
+    checkbox.checked = localStorage.getItem(doneKey) === 'true';
+
+    // Set up save listeners
+    nameInput.addEventListener('input', () => {
+      localStorage.setItem(nameKey, nameInput.value);
+    });
+
+    checkbox.addEventListener('change', () => {
+      localStorage.setItem(doneKey, checkbox.checked);
+    });
+
+    taskContainer.appendChild(clone);
+  }
+
   dragDrop();
 
   const addBtn = document.getElementById("add-new");
@@ -82,6 +203,8 @@ document.addEventListener("DOMContentLoaded", () => {
     addBtn.addEventListener("click", copyTask);
   }
 });
+
+
 
 // This will hide/show checked items
 
@@ -127,15 +250,6 @@ document.querySelectorAll('.edit-btn').forEach((button) => {
 });
 
 
-
-// Replaces the previous dropzone once the task box is created
-// function(replaceDropzone){}
-
-// Creates a dropzone each time a task box is created
-// function(loopDropzone){}
-
-// Changes the theme
-// function(changeTheme){}
 
 // When user clicks the link, trigger the hidden file input
 document.getElementById("change-theme").addEventListener("click", function (e) {
