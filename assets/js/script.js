@@ -241,8 +241,16 @@ document.getElementById("bg-upload").addEventListener("change", function () {
   if (!file) return;
 
   const reader = new FileReader();
-  reader.onload = function (e) {
-    document.body.style.backgroundImage = `url('${e.target.result}')`;
-  };
+  const listPage = document.querySelector('.list-page');
+
+reader.onload = function(e) {
+  listPage.style.backgroundImage = `url('${e.target.result}')`;
+  listPage.style.backgroundRepeat = 'no-repeat';
+  listPage.style.backgroundSize = 'cover';
+  listPage.style.backgroundPosition = 'center center';
+};
+
   reader.readAsDataURL(file);
 });
+
+
