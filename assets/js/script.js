@@ -9,7 +9,7 @@ if (hasVisited) {
 } else {
   // First time visit — set the flag and stay on index_landing
   localStorage.setItem('hasVisitedBefore', 'true');
-  window.location.href = 'index_landing.html';
+  window.location.href = 'index.html';
 }
 
 // Show current time and date
