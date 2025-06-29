@@ -1,129 +1,220 @@
-// This function calls the current time and date
-let timeDate = new Date();
-document.getElementById("time-date").textContent = timeDate;
+// Show current time and date
+function updateTimeDate() {
+  const now = new Date();
+  document.getElementById("time-date").textContent = now.toLocaleString();
+}
+updateTimeDate();
+setInterval(updateTimeDate, 60000); // Update every minute
 
-// Tests
-console.log(new Date())
-
-// Changes the page title to the list name as input by user
-const listNameInput = document.getElementById('list-name');
-listNameInput.addEventListener('input', () => {
-  document.title = listNameInput.value || 'Document'; // fallback if empty
-});
-
-// Saves page to cache
+// Set page title from saved list name
 document.addEventListener('DOMContentLoaded', () => {
-  // ——— LIST NAME PERSISTENCE ———
+  const listNameInput = document.getElementById('list-name');
+  const editBtn = document.getElementById('list-name-edit-btn');
+  const icon = editBtn.querySelector('i');
+
   const savedListName = localStorage.getItem('listName');
   if (savedListName) {
     listNameInput.value = savedListName;
     document.title = savedListName;
   }
 
-  listNameInput.addEventListener('input', () => {
-    const val = listNameInput.value;
-    localStorage.setItem('listName', val);
-    document.title = val || 'Document';
-  });
+  listNameInput.setAttribute('readonly', true);
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const listNameInput = document.getElementById('list-name');
-    const editBtn = document.getElementById('list-name-edit-btn');
-    const icon = editBtn.querySelector('i');
-  
-    // Load saved list name from localStorage
-    const savedListName = localStorage.getItem('listName');
-    if (savedListName) {
-      listNameInput.value = savedListName;
-      document.title = savedListName;
-    }
-  
-    // Initially readonly
-    listNameInput.setAttribute('readonly', true);
-  
-    editBtn.addEventListener('click', () => {
-      if (listNameInput.hasAttribute('readonly')) {
-        // Switch to edit mode
-        listNameInput.removeAttribute('readonly');
-        listNameInput.focus();
-        icon.classList.remove('fa-pencil');
-        icon.classList.add('fa-floppy-disk');
-      } else {
-        // Switch to save mode
-        listNameInput.setAttribute('readonly', true);
-        icon.classList.remove('fa-floppy-disk');
-        icon.classList.add('fa-pencil');
-  
-        // Save to localStorage and update title
-        const val = listNameInput.value.trim();
-        localStorage.setItem('listName', val);
-        document.title = val || 'Document';
-      }
-    });
-  
-    // Optional: save on Enter key press while editing
-    listNameInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !listNameInput.hasAttribute('readonly')) {
-        e.preventDefault();
-        editBtn.click(); // trigger save
-      }
-    });
-  });
-  
-
-  // Load saved task count or start at 3
-  const savedCount = parseInt(localStorage.getItem("taskCount")) || 3;
-  taskCounter = savedCount + 1;
-
-  // Rebuild saved tasks beyond the first 3
-  const taskContainer = document.getElementById("task-box");
-  const original = document.getElementById("task-1");
-
-  for (let i = 1; i <= savedCount; i++) {
-    // For the first 3 tasks, they exist in the DOM already, so just setup events
-    if (i <= 3) {
-      const taskEl = document.getElementById(`task-${i}`);
-      if (taskEl) setupTaskEvents(taskEl, i);
+  editBtn.addEventListener('click', () => {
+    if (listNameInput.hasAttribute('readonly')) {
+      listNameInput.removeAttribute('readonly');
+      listNameInput.focus();
+      icon.classList.replace('fa-pencil', 'fa-floppy-disk');
     } else {
-      // For tasks beyond 3, clone and append
-      const clone = original.cloneNode(true);
-      clone.id = `task-${i}`;
-      clone.setAttribute("draggable", "true");
-      clone.classList.add("drag-n-drop");
+      listNameInput.setAttribute('readonly', true);
+      icon.classList.replace('fa-floppy-disk', 'fa-pencil');
 
-      // Set saved values
-      const nameInput = clone.querySelector('.task-name');
-      const checkbox = clone.querySelector('input[type="checkbox"]');
-      const nameKey = `taskName${i}`;
-      const doneKey = `taskDone${i}`;
-
-      nameInput.value = localStorage.getItem(nameKey) || '';
-      checkbox.checked = localStorage.getItem(doneKey) === 'true';
-
-      taskContainer.appendChild(clone);
-
-      setupTaskEvents(clone, i);
+      const name = listNameInput.value.trim();
+      localStorage.setItem('listName', name);
+      document.title = name || 'Document';
     }
-  }
+  });
 
-  // Set up drag/drop for all
-  dragDrop();
+  listNameInput.addEventListener('input', () => {
+    document.title = listNameInput.value || 'Document';
+  });
 
-  // Add event to "Add" button
-  const addBtn = document.getElementById("add-new");
-  if (addBtn) {
-    addBtn.addEventListener("click", copyTask);
-  }
+  listNameInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !listNameInput.hasAttribute('readonly')) {
+      e.preventDefault();
+      editBtn.click();
+    }
+  });
 });
 
+// Rebuild tasks from storage
+let taskCounter = parseInt(localStorage.getItem("taskCount")) || 3;
+const taskContainer = document.getElementById("task-box");
+const original = document.getElementById("task-1");
 
-// Drag and Drop functionality
+for (let i = 1; i <= taskCounter; i++) {
+  if (i <= 3) {
+    const taskEl = document.getElementById(`task-${i}`);
+    if (taskEl) setupTaskEvents(taskEl, i);
+  } else {
+    const clone = original.cloneNode(true);
+    clone.id = `task-${i}`;
+    clone.classList.add("drag-n-drop");
+    clone.setAttribute("draggable", "true");
+
+    const nameInput = clone.querySelector('.task-name');
+    const checkbox = clone.querySelector('input[type="checkbox"]');
+
+    nameInput.value = localStorage.getItem(`taskName${i}`) || '';
+    checkbox.checked = localStorage.getItem(`taskDone${i}`) === 'true';
+
+    taskContainer.appendChild(clone);
+    setupTaskEvents(clone, i);
+  }
+}
+taskCounter++;
+dragDrop();
+
+// Add new task
+document.getElementById("add-new").addEventListener("click", () => {
+  const clone = original.cloneNode(true);
+  clone.id = `task-${taskCounter}`;
+  clone.classList.add("drag-n-drop");
+  clone.setAttribute("draggable", "true");
+
+  const nameInput = clone.querySelector('.task-name');
+  const checkbox = clone.querySelector('input[type="checkbox"]');
+  const editButton = clone.querySelector('.edit-btn');
+  const icon = editButton.querySelector('i');
+
+  nameInput.value = '';
+  nameInput.setAttribute('readonly', true);
+  checkbox.checked = false;
+
+  icon.className = 'fa-solid fa-pencil';
+
+  taskContainer.appendChild(clone);
+  setupTaskEvents(clone, taskCounter);
+  dragDrop();
+
+  localStorage.setItem("taskCount", taskCounter);
+  taskCounter++;
+});
+
+// Setup individual task
+function setupTaskEvents(taskEl, index) {
+  const nameInput = taskEl.querySelector('.task-name');
+  const checkbox = taskEl.querySelector('input[type="checkbox"]');
+  const editButton = taskEl.querySelector('.edit-btn');
+  const icon = editButton.querySelector('i');
+  const trashBtn = taskEl.querySelector('.trash-btn');
+
+  const nameKey = `taskName${index}`;
+  const doneKey = `taskDone${index}`;
+
+  nameInput.value = localStorage.getItem(nameKey) || '';
+  checkbox.checked = localStorage.getItem(doneKey) === 'true';
+
+  nameInput.setAttribute('readonly', true);
+  icon.className = 'fa-solid fa-pencil';
+
+  nameInput.addEventListener('input', () => {
+    localStorage.setItem(nameKey, nameInput.value);
+  });
+
+  checkbox.addEventListener('change', () => {
+    localStorage.setItem(doneKey, checkbox.checked);
+  });
+
+  editButton.addEventListener('click', () => {
+    if (nameInput.hasAttribute('readonly')) {
+      nameInput.removeAttribute('readonly');
+      nameInput.focus();
+      icon.className = 'fa-regular fa-floppy-disk';
+    } else {
+      nameInput.setAttribute('readonly', true);
+      icon.className = 'fa-solid fa-pencil';
+    }
+  });
+
+  nameInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !nameInput.hasAttribute('readonly')) {
+      e.preventDefault();
+      nameInput.setAttribute('readonly', true);
+      icon.className = 'fa-solid fa-pencil';
+    }
+  });
+
+  trashBtn.addEventListener('click', () => {
+    taskEl.remove();
+    localStorage.removeItem(nameKey);
+    localStorage.removeItem(doneKey);
+
+    const remaining = document.querySelectorAll('.drag-n-drop');
+    let max = 0;
+    remaining.forEach(task => {
+      const match = task.id.match(/task-(\d+)/);
+      if (match) max = Math.max(max, parseInt(match[1]));
+    });
+    localStorage.setItem('taskCount', max);
+  });
+
+  // Delete task on trash icon click
+if (trashBtn) {
+  trashBtn.addEventListener('click', () => {
+    // Remove from DOM
+    taskEl.remove();
+
+    // Remove localStorage data for this task
+    localStorage.removeItem(nameKey);
+    localStorage.removeItem(doneKey);
+
+    // Re-index remaining tasks
+    const allTasks = Array.from(document.querySelectorAll('.drag-n-drop'));
+    allTasks.forEach((task, idx) => {
+      const newIndex = idx + 1; // 1-based index
+      const oldId = task.id;
+      const oldNumMatch = oldId.match(/task-(\d+)/);
+      if (oldNumMatch) {
+        const oldIndex = oldNumMatch[1];
+
+        // Rename task id
+        task.id = `task-${newIndex}`;
+
+        // Update localStorage keys for task name and done state
+        const taskNameInput = task.querySelector('.task-name');
+        const taskCheckbox = task.querySelector('input[type="checkbox"]');
+
+        // Save current values under new keys
+        localStorage.setItem(`taskName${newIndex}`, taskNameInput.value);
+        localStorage.setItem(`taskDone${newIndex}`, taskCheckbox.checked);
+
+        // Remove old keys if different
+        if (oldIndex !== newIndex.toString()) {
+          localStorage.removeItem(`taskName${oldIndex}`);
+          localStorage.removeItem(`taskDone${oldIndex}`);
+        }
+      }
+    });
+
+    // Update task count
+    const newCount = allTasks.length;
+    localStorage.setItem('taskCount', newCount);
+
+    // Update global taskCounter so new tasks get correct ID
+    taskCounter = newCount + 1;
+  });
+}
+
+}
+
+// Drag-and-drop logic
 function dragDrop() {
   document.querySelectorAll(".drag-n-drop").forEach((el) => {
-    el.setAttribute("draggable", "true"); // Ensure draggable attribute set
+    el.setAttribute("draggable", "true");
+
     el.addEventListener("dragstart", (ev) => {
       ev.dataTransfer.setData("text/plain", ev.target.id);
-      ev.dataTransfer.effectAllowed = "move";
     });
 
     el.addEventListener("dragover", (ev) => {
@@ -141,9 +232,9 @@ function dragDrop() {
 
       const draggedId = ev.dataTransfer.getData("text/plain");
       const draggedEl = document.getElementById(draggedId);
-      const dropTarget = ev.target;
+      const dropTarget = el;
 
-      if (dropTarget !== draggedEl && dropTarget.classList.contains("drag-n-drop")) {
+      if (dropTarget !== draggedEl) {
         const temp = document.createElement("div");
         dropTarget.parentNode.insertBefore(temp, dropTarget);
         draggedEl.parentNode.insertBefore(dropTarget, draggedEl);
@@ -154,126 +245,9 @@ function dragDrop() {
   });
 }
 
-
-// Function to copy a task and add it to the container
-let taskCounter = 4; // Start from 4 if 1-3 already exist
-
-function copyTask() {
-  const taskContainer = document.getElementById("task-box");
-  const original = document.getElementById("task-1");
-
-  const clone = original.cloneNode(true);
-  clone.id = `task-${taskCounter}`;
-  clone.classList.add("drag-n-drop");
-  clone.setAttribute("draggable", "true");
-
-  // Reset state for cloned task
-  const nameInput = clone.querySelector('.task-name');
-  const checkbox = clone.querySelector('input[type="checkbox"]');
-  const editButton = clone.querySelector('.edit-btn');
-  const icon = editButton.querySelector('i');
-
-  nameInput.value = '';
-  nameInput.setAttribute('readonly', true);
-  checkbox.checked = false;
-
-  icon.classList.remove('fa-floppy-disk', 'fa-regular');
-  icon.classList.add('fa-pencil', 'fa-solid');
-
-  taskContainer.appendChild(clone);
-
-  setupTaskEvents(clone, taskCounter);
-
-  dragDrop(); // Reapply drag/drop handlers to include new task
-
-  localStorage.setItem("taskCount", taskCounter);
-  taskCounter++;
-
-  // Save on Enter key press while editing
-nameInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && !nameInput.hasAttribute('readonly')) {
-    e.preventDefault();
-    nameInput.setAttribute('readonly', true);
-    icon.classList.remove('fa-floppy-disk', 'fa-regular');
-    icon.classList.add('fa-pencil', 'fa-solid');
-  }
-});
-
-}
-
-
-// Sets up edit/save toggle, localStorage saving, and readonly on a task container
-function setupTaskEvents(taskEl, index) {
-  const nameInput = taskEl.querySelector('.task-name');
-  const checkbox = taskEl.querySelector('input[type="checkbox"]');
-  const editButton = taskEl.querySelector('.edit-btn');
-  const icon = editButton.querySelector('i');
-  const trashBtn = taskEl.querySelector('.trash-btn');
-
-  const nameKey = `taskName${index}`;
-  const doneKey = `taskDone${index}`;
-
-  // Load saved data (just in case)
-  const savedName = localStorage.getItem(nameKey);
-  if (savedName !== null) nameInput.value = savedName;
-
-  const savedDone = localStorage.getItem(doneKey);
-  checkbox.checked = savedDone === 'true';
-
-  // Ensure readonly and icon are set initially
-  nameInput.setAttribute('readonly', true);
-  icon.classList.remove('fa-floppy-disk', 'fa-regular');
-  icon.classList.add('fa-pencil', 'fa-solid');
-
-  // Save on input
-  nameInput.addEventListener('input', () => {
-    localStorage.setItem(nameKey, nameInput.value);
-  });
-
-  // Save checkbox changes
-  checkbox.addEventListener('change', () => {
-    localStorage.setItem(doneKey, checkbox.checked);
-  });
-
-  // Edit/save toggle
-  editButton.addEventListener('click', () => {
-    if (nameInput.hasAttribute('readonly')) {
-      nameInput.removeAttribute('readonly');
-      nameInput.focus();
-      icon.classList.remove('fa-pencil', 'fa-solid');
-      icon.classList.add('fa-floppy-disk', 'fa-regular');
-    } else {
-      nameInput.setAttribute('readonly', true);
-      icon.classList.remove('fa-floppy-disk', 'fa-regular');
-      icon.classList.add('fa-pencil', 'fa-solid');
-    }
-  });
-// Adds function to all user to click enter as a shortcut and save input
-  nameInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !nameInput.hasAttribute('readonly')) {
-      e.preventDefault(); // prevent form submission or default behavior
-      nameInput.setAttribute('readonly', true);
-      icon.classList.remove('fa-floppy-disk', 'fa-regular');
-      icon.classList.add('fa-pencil', 'fa-solid');
-    }
-  });
-
-  // Delete task on trash icon click
-  if (trashBtn) {
-    trashBtn.addEventListener('click', () => {
-      // Remove from DOM
-      taskEl.remove();
-
-      // Remove localStorage data
-      localStorage.removeItem(nameKey);
-      localStorage.removeItem(doneKey);
-    })}
-}
-
-// Hide/show done tasks toggle
+// Toggle completed tasks
 document.getElementById("toggle-done").addEventListener("click", function (e) {
   e.preventDefault();
-
   const toggleLink = e.target;
   const isHiding = toggleLink.textContent.trim().toLowerCase() === "hide done";
 
@@ -287,7 +261,7 @@ document.getElementById("toggle-done").addEventListener("click", function (e) {
   toggleLink.textContent = isHiding ? "Unhide Done" : "Hide Done";
 });
 
-// Theme background image upload
+// Background upload
 document.getElementById("change-theme").addEventListener("click", function (e) {
   e.preventDefault();
   document.getElementById("bg-upload").click();
@@ -302,29 +276,24 @@ document.getElementById("bg-upload").addEventListener("change", function () {
 
   reader.onload = function(e) {
     const imgData = e.target.result;
-
     listPage.style.backgroundImage = `url('${imgData}')`;
     listPage.style.backgroundRepeat = 'no-repeat';
     listPage.style.backgroundSize = 'cover';
     listPage.style.backgroundPosition = 'center center';
-
-    // Save to localStorage
-    localStorage.setItem('backgroundImage', imgData);
+    localStorage.setItem("backgroundImage", imgData);
   };
 
   reader.readAsDataURL(file);
 });
 
-// On page load, restore saved background image if it exists
-document.addEventListener('DOMContentLoaded', () => {
-  const listPage = document.querySelector('.list-page');
-  const savedBg = localStorage.getItem('backgroundImage');
-  if (savedBg) {
-    listPage.style.backgroundImage = `url('${savedBg}')`;
+// Restore saved background on page load
+document.addEventListener("DOMContentLoaded", () => {
+  const imgData = localStorage.getItem("backgroundImage");
+  if (imgData) {
+    const listPage = document.querySelector('.list-page');
+    listPage.style.backgroundImage = `url('${imgData}')`;
     listPage.style.backgroundRepeat = 'no-repeat';
     listPage.style.backgroundSize = 'cover';
     listPage.style.backgroundPosition = 'center center';
   }
 });
-
-
