@@ -26,6 +26,51 @@ document.addEventListener('DOMContentLoaded', () => {
     document.title = val || 'Document';
   });
 
+  document.addEventListener('DOMContentLoaded', () => {
+    const listNameInput = document.getElementById('list-name');
+    const editBtn = document.getElementById('list-name-edit-btn');
+    const icon = editBtn.querySelector('i');
+  
+    // Load saved list name from localStorage
+    const savedListName = localStorage.getItem('listName');
+    if (savedListName) {
+      listNameInput.value = savedListName;
+      document.title = savedListName;
+    }
+  
+    // Initially readonly
+    listNameInput.setAttribute('readonly', true);
+  
+    editBtn.addEventListener('click', () => {
+      if (listNameInput.hasAttribute('readonly')) {
+        // Switch to edit mode
+        listNameInput.removeAttribute('readonly');
+        listNameInput.focus();
+        icon.classList.remove('fa-pencil');
+        icon.classList.add('fa-floppy-disk');
+      } else {
+        // Switch to save mode
+        listNameInput.setAttribute('readonly', true);
+        icon.classList.remove('fa-floppy-disk');
+        icon.classList.add('fa-pencil');
+  
+        // Save to localStorage and update title
+        const val = listNameInput.value.trim();
+        localStorage.setItem('listName', val);
+        document.title = val || 'Document';
+      }
+    });
+  
+    // Optional: save on Enter key press while editing
+    listNameInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !listNameInput.hasAttribute('readonly')) {
+        e.preventDefault();
+        editBtn.click(); // trigger save
+      }
+    });
+  });
+  
+
   // Load saved task count or start at 3
   const savedCount = parseInt(localStorage.getItem("taskCount")) || 3;
   taskCounter = savedCount + 1;
@@ -163,6 +208,7 @@ function setupTaskEvents(taskEl, index) {
   const checkbox = taskEl.querySelector('input[type="checkbox"]');
   const editButton = taskEl.querySelector('.edit-btn');
   const icon = editButton.querySelector('i');
+  const trashBtn = taskEl.querySelector('.trash-btn');
 
   const nameKey = `taskName${index}`;
   const doneKey = `taskDone${index}`;
@@ -211,6 +257,17 @@ function setupTaskEvents(taskEl, index) {
       icon.classList.add('fa-pencil', 'fa-solid');
     }
   });
+
+  // Delete task on trash icon click
+  if (trashBtn) {
+    trashBtn.addEventListener('click', () => {
+      // Remove from DOM
+      taskEl.remove();
+
+      // Remove localStorage data
+      localStorage.removeItem(nameKey);
+      localStorage.removeItem(doneKey);
+    })}
 }
 
 // Hide/show done tasks toggle
@@ -243,14 +300,31 @@ document.getElementById("bg-upload").addEventListener("change", function () {
   const reader = new FileReader();
   const listPage = document.querySelector('.list-page');
 
-reader.onload = function(e) {
-  listPage.style.backgroundImage = `url('${e.target.result}')`;
-  listPage.style.backgroundRepeat = 'no-repeat';
-  listPage.style.backgroundSize = 'cover';
-  listPage.style.backgroundPosition = 'center center';
-};
+  reader.onload = function(e) {
+    const imgData = e.target.result;
+
+    listPage.style.backgroundImage = `url('${imgData}')`;
+    listPage.style.backgroundRepeat = 'no-repeat';
+    listPage.style.backgroundSize = 'cover';
+    listPage.style.backgroundPosition = 'center center';
+
+    // Save to localStorage
+    localStorage.setItem('backgroundImage', imgData);
+  };
 
   reader.readAsDataURL(file);
+});
+
+// On page load, restore saved background image if it exists
+document.addEventListener('DOMContentLoaded', () => {
+  const listPage = document.querySelector('.list-page');
+  const savedBg = localStorage.getItem('backgroundImage');
+  if (savedBg) {
+    listPage.style.backgroundImage = `url('${savedBg}')`;
+    listPage.style.backgroundRepeat = 'no-repeat';
+    listPage.style.backgroundSize = 'cover';
+    listPage.style.backgroundPosition = 'center center';
+  }
 });
 
 
