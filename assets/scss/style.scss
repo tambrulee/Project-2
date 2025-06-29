@@ -72,6 +72,11 @@ $primary-underlay: #e5f3e33c;
   text-align: center;
 }
 
+/* Add this to your CSS */
+.drag-n-drop,
+.drag-n-drop .task-name {
+  user-select: text !important;
+}
 
 /* Main container */
 .main-container {

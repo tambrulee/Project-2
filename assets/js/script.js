@@ -12,20 +12,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const editBtn = document.getElementById('list-name-edit-btn');
   const icon = editBtn.querySelector('i');
 
+  // Load saved name from localStorage
   const savedListName = localStorage.getItem('listName');
   if (savedListName) {
     listNameInput.value = savedListName;
     document.title = savedListName;
   }
 
+  // Start with input readonly
   listNameInput.setAttribute('readonly', true);
 
+  // Toggle edit/save on button click
   editBtn.addEventListener('click', () => {
     if (listNameInput.hasAttribute('readonly')) {
+      // Switch to edit mode
       listNameInput.removeAttribute('readonly');
       listNameInput.focus();
       icon.classList.replace('fa-pencil', 'fa-floppy-disk');
     } else {
+      // Save mode
       listNameInput.setAttribute('readonly', true);
       icon.classList.replace('fa-floppy-disk', 'fa-pencil');
 
@@ -35,10 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Optional: Update document title live while typing
   listNameInput.addEventListener('input', () => {
     document.title = listNameInput.value || 'Document';
   });
 
+  // Save on Enter key while editing
   listNameInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !listNameInput.hasAttribute('readonly')) {
       e.preventDefault();
