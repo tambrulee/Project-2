@@ -1,17 +1,3 @@
-// Redirect based on whether first time or a returning user
-
-// Check if user has visited before
-const hasVisited = localStorage.getItem('hasVisitedBefore');
-
-if (hasVisited) {
-  // If they've visited before, go to the task list
-  window.location.href = 'list.html';
-} else {
-  // First time visit — set the flag and stay on index_landing
-  localStorage.setItem('hasVisitedBefore', 'true');
-  window.location.href = 'index.html';
-}
-
 // Show current time and date
 function updateTimeDate() {
   const now = new Date();
