@@ -3,10 +3,11 @@
   font-family: Hero, sans-serif;
 }
 
-/* Body */
-.list-page {
-  /* This will be the default background on the pages*/
-  background: url("/assets/images/meiji-temple-9603371_1280.jpg") no-repeat center center/cover;
+/* Logo */
+.navbar-brand {
+  min-width: 50px;
+  max-width: 120px;
+  max-height: 50px;
 }
 
 /* Landing page background */
@@ -33,15 +34,14 @@
   font-size: 2rem;
 }
 
-/* Logo */
-.navbar-brand {
-  min-width: 50px;
-  max-width: 120px;
-  max-height: 50px;
-}
-
 .list-title, .main-container, .task-container {
   border-radius: 5px;
+}
+
+/* List Page */
+.list-page {
+  /* This will be the default background on the pages*/
+  background: url("/assets/images/meiji-temple-9603371_1280.jpg") no-repeat center center/cover;
 }
 
 /* List Title container */
@@ -93,7 +93,7 @@
   padding: 10px 0;
 }
 
-/* Buttons for tasks */
+/* Task containers */
 .task-container {
   max-width: 90%;
   background-color: rgb(153, 145, 162);
@@ -133,6 +133,15 @@
   border: none;
   cursor: pointer;
   font-size: 1rem;
+}
+
+.trash-btn, .pencil-btn, .edit-btn {
+  position: absolute;
+  right: 70px;
+}
+
+.edit-btn {
+  right: 90px;
 }
 
 .theme-change {
