@@ -113,6 +113,21 @@
   gap: 0.5rem;
 }
 
+.editable-input {
+  resize: none;
+  overflow: hidden;
+  min-height: 1em;
+  max-height: 2em;
+  font-size: 1rem;
+  line-height: 1.4;
+  padding: 0.25em 0.5em;
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .editable-input[readonly] {
   border: none;
   background: transparent;
