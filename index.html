@@ -5,20 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Sort'd</title>
     <!-- Custom CSS -->
-     <link rel="stylesheet" href="assets/scss/style.css">
-     <script>
-        // Check if user has visited before
-        const hasVisited = localStorage.getItem('hasVisitedBefore');
-      
-        if (hasVisited) {
-          // If they've visited before, go to the task list
-          window.location.href = 'list.html';
-        } else {
-          // First time visit — set the flag and stay on index_landing
-          localStorage.setItem('hasVisitedBefore', 'true');
-          window.location.href = 'index_landing.html';
-        }
-      </script>      
+     <link rel="stylesheet" href="assets/scss/style.css">  
 </head>
 <body>
     <main class="landing-page">
