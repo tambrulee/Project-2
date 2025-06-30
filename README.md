@@ -1,10 +1,26 @@
 Hello and welcome to my README for Project 2 - Sort'd
 
-This is a project which will utilise Javascript to create a daily to-do-list! At this point the user will not be able to login and store the data, but this can be part of a future project unless I find myself with time on my hands!
+# What is Sort'd?
+
+Sort'd is a simple web application which allows the user to create a list which saves to their cache using local storage.
+
+It is limited to being used on one device on a time as it relies on the cache for local storage. 
+
+Main features include:
+
+## Landing Page
+* How to instructions
+* Call-to-action 
+
+## List Page
+* Ability to change window tab name
+* Drag and drop
+* Add new task
+* Hide checked items
+* Change background
 
 ## User Stories
 
-### Core Functionality
 As a user, I want to add tasks to my to-do list, so that I can keep track of what I need to do.
 
 As a user, I want to tick off completed tasks, so that I can visually see what I’ve finished.
@@ -12,6 +28,8 @@ As a user, I want to tick off completed tasks, so that I can visually see what I
 As a user, I want to drag and drop tasks, so that I can prioritise or reorder them easily.
 
 As a user, I want to remove tasks from my list, so that I can keep my to-do list clean and relevant.
+
+As a user, I want to be able change the page background, so that I can customise or add a theme to my list.
 
 ### Testing
 
