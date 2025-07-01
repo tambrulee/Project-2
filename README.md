@@ -6,6 +6,8 @@ Sort'd is a simple web application which allows the user to create a list which 
 
 It is limited to being used on one device on a time as it relies on the cache for local storage. 
 
+I have chosen to have no navigation on the website as I felt it wasn't necessary for functionality. The landing page welcomes the user and gives a brief intro to the web app and guides them on how to use it.  
+
 Main features include:
 
 ## Landing Page
@@ -86,6 +88,12 @@ https://www.w3schools.com/jsref/met_node_clonenode.asp
 
 ## Testing
 
+### HTML
+
+### CSS
+
+### JS
+
 * Tested on mobile phone with touch screen functionality - add a list of tests here:
 
 * Tests:
@@ -100,3 +108,5 @@ https://www.w3schools.com/jsref/met_node_clonenode.asp
     3. Change theme
         - what happens if the user tries to upload a non-compliant or unrecognised file type?
         - what happens if the user tries to upload an image which is too large for upload?
+
+# Jest or JS Testing
