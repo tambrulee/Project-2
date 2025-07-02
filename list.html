@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/sortd_favicon.png">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/scss/style.css">
     <!-- Bootstrap CSS-->
@@ -16,7 +17,15 @@
 <body>
   <header>
     <!-- Welcome pop up -->
+    <div id="firstTimePopup" class="popup-overlay">
+      <div class="popup-content">
+        <h2>Welcome to Sort’d!</h2>
+        <p>Sort’d helps you stay organized with simple, editable lists. Start by naming your list and adding your tasks. Easy, clean, and built just for you.</p>
+        <button id="closePopup">Get Started</button>
+      </div>
+    </div>
 
+    <!-- Main web app -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <img class="navbar-brand" style="max-width: 200px;" src="assets/images/sortd.png" alt="Website Logo - Sort'd"></a>

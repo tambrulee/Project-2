@@ -1,8 +1,31 @@
-// Sets time and date to match time on PC
+/**
+ * Sets time and date to match time on PC
+ * 
+ *  */ 
 function updateTimeDate() {
   const now = new Date();
   document.getElementById("time-date").textContent = now.toLocaleString();
 }
+
+// Pop up to generate when it's first time on website
+document.addEventListener('DOMContentLoaded', () => {
+  const popup = document.getElementById('firstTimePopup');
+  const closeBtn = document.getElementById('closePopup');
+
+  // Check if user is visiting for the first time
+  if (!localStorage.getItem('visitedBefore')) {
+    popup.style.display = 'flex';
+    localStorage.setItem('visitedBefore', 'true');
+  }
+
+  closeBtn.addEventListener('click', () => {
+    popup.style.display = 'none';
+  });
+});
+
+// Enables popovers
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 
 /* 
 The next set of functions and event listeners allow the user to edit the list name, 
@@ -10,9 +33,6 @@ which changes the HTML document name and appears tab window for easy navigation.
 It then saves the result to the local storage.
 */
 
-// Enables popovers
-const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 
 // Set page title from saved list name
 document.addEventListener('DOMContentLoaded', () => {
@@ -125,7 +145,7 @@ document.getElementById("add-new").addEventListener("click", () => {
 });
 
 /**
- * Hello - do this for all functions
+ * This function calls event listeners for inputting, saving and editing task boxes.
  * 
  * */
 function setupTaskEvents(taskEl, index) {
@@ -235,7 +255,10 @@ if (trashBtn) {
 
 }
 
-// Drag-and-drop logic
+/**
+ * Creates a seamless drag and drop feature for all task containers. Allows the user to order their tasks for a personalised feel.
+ * 
+ *  */ 
 function dragDrop() {
   document.querySelectorAll(".drag-n-drop").forEach((el) => {
     el.setAttribute("draggable", "true");
@@ -272,8 +295,11 @@ function dragDrop() {
   });
 }
 
-// Toggle completed tasks
-document.getElementById("toggle-done").addEventListener("click", function (e) {
+
+/**
+ * Toggles visibility of completed tasks when 'Hide Done' or 'Unhide Done' is clicked.
+ */
+function toggleCompletedTasks(e) {
   e.preventDefault();
   const toggleLink = e.target;
   const isHiding = toggleLink.textContent.trim().toLowerCase() === "hide done";
@@ -286,17 +312,40 @@ document.getElementById("toggle-done").addEventListener("click", function (e) {
   });
 
   toggleLink.textContent = isHiding ? "Unhide Done" : "Hide Done";
-});
+}
 
-// Background upload
-document.getElementById("change-theme").addEventListener("click", function (e) {
+document.getElementById("toggle-done").addEventListener("click", toggleCompletedTasks);
+
+
+/**
+ * Opens the file selector to upload a new background image.
+ */
+function triggerBackgroundUpload(e) {
   e.preventDefault();
   document.getElementById("bg-upload").click();
-});
+}
 
-document.getElementById("bg-upload").addEventListener("change", function () {
+document.getElementById("change-theme").addEventListener("click", triggerBackgroundUpload);
+
+// Grabs file if selected by user and terminates if none selected
+document.getElementById("bg-upload").addEventListener("change",
+ function () {
   const file = this.files[0];
   if (!file) return;
+
+  // Validate file size (between 10KB and 5MB)
+  const fileSizeKB = file.size / 1024;
+  if (fileSizeKB < 10 || fileSizeKB > 5 * 1024) {
+    alert("Please select an image between 10KB and 5MB in size.");
+    return;
+  }
+
+  // Validate file type
+  const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp", "image/svg+xml"];
+  if (!allowedTypes.includes(file.type)) {
+    alert("Only JPG, PNG, GIF, WEBP, or SVG images are supported.");
+    return;
+  }
 
   const reader = new FileReader();
   const listPage = document.querySelector('.list-page');
@@ -324,3 +373,4 @@ document.addEventListener("DOMContentLoaded", () => {
     listPage.style.backgroundPosition = 'center center';
   }
 });
+
