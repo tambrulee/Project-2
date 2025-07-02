@@ -30,6 +30,11 @@ $theme-colour-2: #4f0963;
   margin: 20px 40%;
 }
 
+// Hide button position
+.hide-btn{
+  left: 20px;
+}
+
 // Navigation
 .nav-bar{
   background-color: $base-colour;
@@ -37,7 +42,7 @@ $theme-colour-2: #4f0963;
 
 /* Logo */
 .navbar-brand {
-  position: fixed;
+  position: relative;
   margin: 0;
   min-width: 50px;
   max-width: 120px;
@@ -128,11 +133,11 @@ $theme-colour-2: #4f0963;
   background-color: $primary-underlay;
   top: 10px;
   min-height: 50px;
-  max-width: 80%;
+  max-width: 30%;
   margin: 0px 10% 30px 10%;
   padding: 10px 10px;
 }
-
+// List Text
 #list-name {
   background-color: rgba(161, 164, 164, 0.714);
   border-radius: 5px;
@@ -140,16 +145,26 @@ $theme-colour-2: #4f0963;
   font-size: 1rem;
 }
 
+// List button
+
+.list-btn{
+  position: relative;
+  left: 50px;
+  top: 7px;
+}
+
 // Time Date
 
 #time-date{
-  font-size: 1.5rem;
+  position: relative;
+  font-size: 1rem;
   text-align: center;
-  background-color: #c8bacc;
+  background-color: #27202a14;
   max-width: 500px;
-  margin: 10px 30%;
+  margin: 10px 25%;
+  padding: 5px 10px;;
+  left: 400px;
   border-radius: $border-radius;
-
 }
 
 /* Add this to your CSS */

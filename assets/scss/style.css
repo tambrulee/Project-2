@@ -18,13 +18,17 @@
   margin: 20px 40%;
 }
 
+.hide-btn {
+  left: 20px;
+}
+
 .nav-bar {
   background-color: #ffffff;
 }
 
 /* Logo */
 .navbar-brand {
-  position: fixed;
+  position: relative;
   margin: 0;
   min-width: 50px;
   max-width: 120px;
@@ -111,7 +115,7 @@
   background-color: rgba(243, 255, 241, 0.3725490196);
   top: 10px;
   min-height: 50px;
-  max-width: 80%;
+  max-width: 30%;
   margin: 0px 10% 30px 10%;
   padding: 10px 10px;
 }
@@ -123,12 +127,21 @@
   font-size: 1rem;
 }
 
+.list-btn {
+  position: relative;
+  left: 50px;
+  top: 7px;
+}
+
 #time-date {
-  font-size: 1.5rem;
+  position: relative;
+  font-size: 1rem;
   text-align: center;
-  background-color: #c8bacc;
+  background-color: rgba(39, 32, 42, 0.0784313725);
   max-width: 500px;
-  margin: 10px 30%;
+  margin: 10px 25%;
+  padding: 5px 10px;
+  left: 400px;
   border-radius: 5px;
 }
 
