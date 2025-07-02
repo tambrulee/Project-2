@@ -191,8 +191,8 @@
 }
 
 .drag-over {
-  border: 2px dashed #4f0963;
-  background-color: rgba(41, 12, 41, 0.2352941176);
+  border: 2px dashed rgb(238, 234, 234);
+  background-color: rgb(170, 169, 169);
 }
 
 .editable-wrapper {
