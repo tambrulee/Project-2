@@ -33,7 +33,7 @@ As a user, I want to remove tasks from my list, so that I can keep my to-do list
 
 As a user, I want to be able change the page background, so that I can customise or add a theme to my list.
 
-### Testing
+### UX Testing
 
 ### Usability & Preferences
 As a user, I want to hide or unhide completed tasks, so that I can focus on what still needs doing.
@@ -42,7 +42,7 @@ As a user, I want to change the theme colour, so that the interface feels more p
 
 As a user, I want my tasks to stay saved even after I close the tab, so that I don’t lose progress (via localStorage).
 
-### Testing
+### UX Testing
 
 ### Time/Date Feature
 
@@ -53,7 +53,7 @@ As a user, I want to see a message or indicator when a task is added or removed,
 
 As a user, I want to navigate the to-do list easily on desktop and mobile, so I can use it wherever I am.
 
-### Testing
+### UX Testing
 
 ## Core Features
 - Add tasks — basic input + button to add to list.
@@ -62,31 +62,15 @@ As a user, I want to navigate the to-do list easily on desktop and mobile, so I 
 - Hide/unhide tasks — toggle visibility of the entire task list.
 - Theme color changer — button to cycle or pick from predefined colors.
 
-### Testing
-
-
 
 ## Wireframes
 
 I intend to use Bootstrap for the main layout.
 
 
-## Dependencies
+## Other Testing
 
-### Drag and Drop API
-* <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API"> You can read the Drag and Drop API Docs here<a>
-
-To implement this I had to create a drop zone so I duplicated one of the text box elements.
-
-### W3
-
-* On-click event
-https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_onclick_dom
-
-* Duplicating task box
-https://www.w3schools.com/jsref/met_node_clonenode.asp
-
-## Testing
+### 404 Testing
 
 ### HTML
 
@@ -110,3 +94,18 @@ https://www.w3schools.com/jsref/met_node_clonenode.asp
         - what happens if the user tries to upload an image which is too large for upload?
 
 # Jest or JS Testing
+
+## Dependencies
+
+### Drag and Drop API
+* <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API"> You can read the Drag and Drop API Docs here<a>
+
+To implement this I had to create a drop zone so I duplicated one of the text box elements.
+
+### W3
+
+* On-click event
+https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_onclick_dom
+
+* Duplicating task box
+https://www.w3schools.com/jsref/met_node_clonenode.asp
