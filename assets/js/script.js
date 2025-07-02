@@ -71,6 +71,7 @@ let taskCounter = parseInt(localStorage.getItem("taskCount")) || 3;
 const taskContainer = document.getElementById("task-box");
 const original = document.getElementById("task-1");
 
+// Draggable elements
 for (let i = 1; i <= taskCounter; i++) {
   if (i <= 3) {
     const taskEl = document.getElementById(`task-${i}`);
@@ -145,6 +146,7 @@ function setupTaskEvents(taskEl, index) {
     localStorage.setItem(doneKey, checkbox.checked);
   });
 
+  // Changes the save and edit buttons over on click and toggles between readonly and input
   editButton.addEventListener('click', () => {
     if (nameInput.hasAttribute('readonly')) {
       nameInput.removeAttribute('readonly');

@@ -25,8 +25,6 @@ Main features include:
 
 As a user, I want to add tasks to my to-do list, so that I can keep track of what I need to do.
 
-
-
 As a user, I want to tick off completed tasks, so that I can visually see what I’ve finished.
 
 As a user, I want to drag and drop tasks, so that I can prioritise or reorder them easily.
