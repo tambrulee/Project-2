@@ -3,6 +3,10 @@
   font-family: Hero, sans-serif;
 }
 
+.nav-bar {
+  background-color: #ffffff;
+}
+
 /* Logo */
 .navbar-brand {
   min-width: 50px;
@@ -205,7 +209,7 @@
 }
 
 .footer-container {
-  background-color: rgb(246, 246, 246);
+  background-color: #ffffff;
   height: 50px;
   position: relative;
   bottom: 0;
