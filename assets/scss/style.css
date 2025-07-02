@@ -112,7 +112,7 @@
 /* List Title container */
 .list-title {
   position: relative;
-  background-color: rgba(243, 255, 241, 0.3725490196);
+  background-color: rgba(197, 198, 196, 0.3882352941);
   top: 10px;
   min-height: 50px;
   max-width: 30%;
@@ -121,7 +121,7 @@
 }
 
 #list-name {
-  background-color: rgba(161, 164, 164, 0.714);
+  background-color: rgba(123, 127, 123, 0.3568627451);
   border-radius: 5px;
   border: none;
   font-size: 1rem;
@@ -155,7 +155,7 @@
 
 /* Main container */
 .main-container {
-  background-color: rgba(243, 255, 241, 0.3725490196);
+  background-color: rgba(197, 198, 196, 0.3882352941);
   margin: 10px 10px;
   min-height: 600px;
   max-height: 690px;
@@ -165,10 +165,10 @@
 }
 
 .second-container {
-  background-color: rgba(255, 255, 255, 0.4352941176);
+  background-color: rgba(123, 127, 123, 0.3568627451);
   margin: 10px 10px;
   min-height: 590px;
-  max-width: 95%;
+  max-width: 60%;
   margin: 0 2% 20px 2%;
   padding: 10px 0;
   border-radius: 5px;
@@ -176,11 +176,14 @@
 
 /* Task containers */
 .task-container {
-  max-width: 90%;
-  background-color: rgb(153, 145, 162);
+  position: relative;
+  left: 70px;
+  max-width: 70%;
+  background-color: rgb(238, 234, 234);
+  color: rgb(0, 0, 0);
   padding: 10px 2px;
   margin: 2px 5%;
-  border: black 2px;
+  border: rgb(46, 37, 37) 2px;
 }
 
 .drag-over {
@@ -234,6 +237,7 @@
 .trash-btn, .pencil-btn, .edit-btn {
   position: absolute;
   right: 50px;
+  z-index: 200;
 }
 
 .edit-btn {

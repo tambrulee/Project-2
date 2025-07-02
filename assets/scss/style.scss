@@ -1,6 +1,8 @@
 /* SCSS Variables */
 $border-radius: 5px;
-$primary-underlay: #f3fff15f;
+$primary-underlay: #c5c6c463;
+$theme-colour-2: hsl(287, 83%, 21%);
+$secondary-underlay: #7b7f7b5b;
 $base-colour: #ffffff;
 $base-colour-2: #290c293c;
 $theme-colour-1: #CD6CE7;
@@ -139,7 +141,7 @@ $theme-colour-2: #4f0963;
 }
 // List Text
 #list-name {
-  background-color: rgba(161, 164, 164, 0.714);
+  background-color: $secondary-underlay;
   border-radius: 5px;
   border: none;
   font-size: 1rem;
@@ -187,10 +189,10 @@ $theme-colour-2: #4f0963;
 // Second container overlay goes on top of the main container
 // Wraps the divs from the hide/unhide to the last task container
 .second-container{
-  background-color: #ffffff6f;
+  background-color: $secondary-underlay;
   margin: 10px 10px;
   min-height: 590px;
-  max-width: 95%;
+  max-width: 60%;
   margin: 0 2% 20px 2%;
   padding: 10px 0;
   border-radius: $border-radius;
@@ -198,11 +200,14 @@ $theme-colour-2: #4f0963;
 
 /* Task containers */
 .task-container {
-  max-width: 90%;
-  background-color: rgb(153, 145, 162);
+  position: relative;
+  left: 70px;
+  max-width: 70%;
+  background-color: rgb(238, 234, 234);
+  color: rgb(0, 0, 0);
   padding: 10px 2px;
   margin: 2px 5%;
-  border: black 2px;
+  border: rgb(46, 37, 37) 2px;
 }
 
 .drag-over {
@@ -262,6 +267,7 @@ $theme-colour-2: #4f0963;
   .trash-btn, .pencil-btn, .edit-btn{
     position: absolute;
     right: 50px;
+    z-index: 200;
   }
 
   .edit-btn{
