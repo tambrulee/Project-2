@@ -223,18 +223,21 @@ $base-colour: #ffffff;
     right: 70px;
   }
 
-// Theme change
-.theme-change{
-  position: absolute;
-  top: 700px;
-}
 
 // Footer text
 .footer-container{
+  display: flex;
   background-color: #ffffff;
   height: 50px;
   position: relative;
   bottom: 0;
+}
+
+// Change theme button
+
+#change-theme{
+  position: relative;
+ left: 25%;
 }
 
 /*# sourceMappingURL=style.scss.map */

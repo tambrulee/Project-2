@@ -203,16 +203,17 @@
   right: 70px;
 }
 
-.theme-change {
-  position: absolute;
-  top: 700px;
-}
-
 .footer-container {
+  display: flex;
   background-color: #ffffff;
   height: 50px;
   position: relative;
   bottom: 0;
+}
+
+#change-theme {
+  position: relative;
+  left: 25%;
 }
 
 /*# sourceMappingURL=style.css.map */
