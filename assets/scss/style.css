@@ -3,6 +3,21 @@
   font-family: Hero, sans-serif;
 }
 
+.hide-btn, .how-btn, .add-btn {
+  background-color: rgba(31, 9, 37, 0.737254902) !important;
+}
+
+.theme-btn {
+  background-color: rgba(205, 191, 209, 0.737254902) !important;
+  color: black !important;
+  border: #ffffff !important;
+}
+
+.hide-btn, .add-btn {
+  position: relative;
+  margin: 20px 40%;
+}
+
 .nav-bar {
   background-color: #ffffff;
 }
@@ -70,7 +85,7 @@
 }
 
 #closePopup {
-  background-color: #007bff;
+  background-color: #CD6CE7;
   color: white;
   border: none;
   padding: 0.7rem 1.2rem;
@@ -107,7 +122,7 @@
 #time-date {
   font-size: 1.5rem;
   text-align: center;
-  z-index: 100;
+  background-color: #4f0963;
 }
 
 /* Add this to your CSS */
@@ -148,8 +163,8 @@
 }
 
 .drag-over {
-  border: 2px dashed #00bfff;
-  background-color: #eef9ff;
+  border: 2px dashed #4f0963;
+  background-color: rgba(41, 12, 41, 0.2352941176);
 }
 
 .editable-wrapper {

@@ -2,11 +2,32 @@
 $border-radius: 5px;
 $primary-underlay: #e5f3e33c;
 $base-colour: #ffffff;
+$base-colour-2: #290c293c;
+$theme-colour-1: #CD6CE7;
+$theme-colour-2: #4f0963;
 
 // Global
 
 *{
   font-family: Hero, sans-serif;
+}
+
+// Buttons
+// Colours for all except change theme button
+.hide-btn, .how-btn,  .add-btn{
+  background-color: #1f0925bc !important;
+}
+
+// Theme button
+.theme-btn{
+  background-color: #cdbfd1bc !important;
+  color: black !important;
+  border: #ffffff!important;
+}
+// Position of hide/unhide and change theme buttons
+.hide-btn, .add-btn{
+  position: relative;
+  margin: 20px 40%;
 }
 
 // Navigation
@@ -79,7 +100,7 @@ $base-colour: #ffffff;
 }
 
 #closePopup {
-  background-color: #007bff;
+  background-color: $theme-colour-1;
   color: white;
   border: none;
   padding: 0.7rem 1.2rem;
@@ -121,6 +142,7 @@ $base-colour: #ffffff;
 #time-date{
   font-size: 1.5rem;
   text-align: center;
+  background-color: #4f0963;
 }
 
 /* Add this to your CSS */
@@ -161,8 +183,8 @@ $base-colour: #ffffff;
 }
 
 .drag-over {
-  border: 2px dashed #00bfff;
-  background-color: #eef9ff;
+  border: 2px dashed $theme-colour-2;
+  background-color: $base-colour-2;
 }
 
 
