@@ -1,10 +1,15 @@
-// Show current time and date
+// Sets time and date to match time on PC
 function updateTimeDate() {
   const now = new Date();
   document.getElementById("time-date").textContent = now.toLocaleString();
 }
-updateTimeDate();
-setInterval(updateTimeDate, 60000); // Update every minute
+
+/* 
+The next set of functions and event listeners allow the user to edit the list name, 
+which changes the HTML document name and appears tab window for easy navigation. 
+It then saves the result to the local storage.
+*/
+
 
 // Set page title from saved list name
 document.addEventListener('DOMContentLoaded', () => {
@@ -19,6 +24,18 @@ document.addEventListener('DOMContentLoaded', () => {
     document.title = savedListName;
   }
 
+  // Update document title live while typing
+  listNameInput.addEventListener('input', () => {
+    document.title = listNameInput.value || 'Document';
+  });
+
+/* 
+These functions make the task boxes default to input. Then toggle between save and input
+allowing the user to edit and save text to prevent items being overwritten.
+
+It also add a shortcut which allows the user to hit 'Enter' and save the text in the input box
+automatically.
+*/
   // Start with input readonly
   listNameInput.setAttribute('readonly', true);
 
@@ -38,11 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('listName', name);
       document.title = name || 'Document';
     }
-  });
-
-  // Optional: Update document title live while typing
-  listNameInput.addEventListener('input', () => {
-    document.title = listNameInput.value || 'Document';
   });
 
   // Save on Enter key while editing
