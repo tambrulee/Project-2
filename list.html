@@ -20,15 +20,14 @@
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid nav-bar">
         <img class="navbar-brand" style="max-width: 200px;" src="assets/images/sortd.png" alt="Website Logo - Sort'd"></a>
-      <!-- Popover for how to (Bootstrap) -->
-      <button type="button" class="btn btn-secondary"
-        data-bs-toggle="popover" data-bs-placement="bottom"
-        data-bs-custom-class="custom-popover"
-        data-bs-title="How to use Sort'd"
-        data-bs-content="Sort’d is a simple, intuitive task app designed to help you stay on top of your day. Just click the pencil icon to name your list, then start adding tasks by clicking “+ Add New Task.” You can edit, drag to reorder, or tick them off as you go. Finished tasks can be hidden with a click to keep things neat. You can even personalise the look with themes or your own background image. It’s everything you need, without the fuss.">
-        Learn More
-       </button>
-
+        <!-- Popover for how to (Bootstrap) -->
+        <button type="button" class="btn btn-secondary"
+          data-bs-toggle="popover" data-bs-placement="bottom"
+          data-bs-custom-class="custom-popover"
+          data-bs-title="How to use Sort'd"
+          data-bs-content="Sort’d is a simple, intuitive task app designed to help you stay on top of your day. Just click the pencil icon to name your list, then start adding tasks by clicking “+ Add New Task.” You can edit, drag to reorder, or tick them off as you go. Finished tasks can be hidden with a click to keep things neat. You can even personalise the look with themes or your own background image. It’s everything you need, without the fuss.">
+          Learn More
+        </button>
       </div>
     </nav>
 
@@ -41,66 +40,60 @@
       </div>
     </div>
   </header>
-
   <!-- Main website -->
-    <main class="list-page">
-
-        <!-- List Title -->
-        <div class="container-fluid list-title">
-          <div class="editable-wrapper"></div>
+  <main class="list-page">
+    <!-- List Title -->
+      <div class="container-fluid list-title">
+        <div class="editable-wrapper"></div>
           <input type="text" class="editable-input" id="list-name" placeholder="Enter list name here" readonly />
           <button class="edit-btn" id="list-name-edit-btn"><i class="fa-solid fa-pencil pencil-btn"></i></button> 
           </div>
-          <p id="time-date"></p>
-        </div>        
-
-          <!-- Background layer -->
-          <div class="container-fluid second-container">
-
-          <!-- Done/Unhide done -->
-          
-          <a href="#" id="toggle-done" class="switch">
-            <button type="button" class="btn btn-secondary">Hide Done</button>
-          </a>
-           
+        </div>   
+        <p id="time-date"></p>     
+        <!-- Background layer -->
+        <div class="container-fluid second-container">
+        <!-- Done/Unhide done -->
+        <a href="#" id="toggle-done" class="switch">
+          <button type="button" class="btn btn-secondary">Hide Done</button>
+        </a>
           <!-- Tasks Section-->
-           <div id="task-box">
+          <div id="task-box">
             <div class="drag-n-drop task-container" id="task-1" draggable="true">
               <!-- Default task boxes which will be copied when event listener is activated -->
               <label class="task">
                 <div class="editable-wrapper">
-                <input type="checkbox" />
-                <textarea class="task-name editable-input" placeholder="Enter task here"></textarea>
-                <button class="edit-btn"><i class="fa-solid fa-pencil pencil-btn"></i></button>
-                <i class="fa-solid fa-trash trash-btn"></i>
+                  <input type="checkbox" />
+                  <textarea class="task-name editable-input" placeholder="Enter task here"></textarea>
+                  <button class="edit-btn"><i class="fa-solid fa-pencil pencil-btn"></i></button>
+                  <i class="fa-solid fa-trash trash-btn"></i>
                 </div>
               </label>
             </div>
             <div class="drag-n-drop task-container" id="task-2" draggable="true">
               <label class="task">
                 <div class="editable-wrapper">
-                <input type="checkbox" />
-                <textarea class="task-name editable-input" placeholder="Enter task here"></textarea>
-                <button class="edit-btn"><i class="fa-solid fa-pencil pencil-btn"></i></button>
-                <i class="fa-solid fa-trash trash-btn"></i>
+                  <input type="checkbox" />
+                  <textarea class="task-name editable-input" placeholder="Enter task here"></textarea>
+                  <button class="edit-btn"><i class="fa-solid fa-pencil pencil-btn"></i></button>
+                  <i class="fa-solid fa-trash trash-btn"></i>
                 </div>
               </label>
             </div>
             <div class="drag-n-drop task-container" id="task-3" draggable="true">
               <label class="task">
                 <div class="editable-wrapper">
-                <input type="checkbox" />
-                <input  class="task-name editable-input" type="text" placeholder="Enter task here" />
-                <button class="edit-btn"><i class="fa-solid fa-pencil pencil-btn"></i></button>
-                <i class="fa-solid fa-trash trash-btn"></i>
+                  <input type="checkbox" />
+                  <input  class="task-name editable-input" type="text" placeholder="Enter task here" />
+                  <button class="edit-btn"><i class="fa-solid fa-pencil pencil-btn"></i></button>
+                  <i class="fa-solid fa-trash trash-btn"></i>
                 </div>
               </label>
             </div>
-          </div> 
-            <div class="add-new-task " id="add-new" draggable="false"><button type="button" class="btn btn-secondary">+ Add New Task</button></div>             
-          </div>  
-
-        </main>
+          </div>
+          <!--Add new task -->
+          <div class="add-new-task " id="add-new" draggable="false"><button type="button" class="btn btn-secondary">+ Add New Task</button></div>             
+          </div>        
+   </main>
 
         
 
