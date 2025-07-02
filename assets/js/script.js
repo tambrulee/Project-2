@@ -10,6 +10,9 @@ which changes the HTML document name and appears tab window for easy navigation.
 It then saves the result to the local storage.
 */
 
+// Enables popovers
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 
 // Set page title from saved list name
 document.addEventListener('DOMContentLoaded', () => {
@@ -121,7 +124,10 @@ document.getElementById("add-new").addEventListener("click", () => {
   taskCounter++;
 });
 
-// Setup individual task
+/**
+ * Hello - do this for all functions
+ * 
+ * */
 function setupTaskEvents(taskEl, index) {
   const nameInput = taskEl.querySelector('.task-name');
   const checkbox = taskEl.querySelector('input[type="checkbox"]');
