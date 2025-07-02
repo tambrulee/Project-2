@@ -1,6 +1,6 @@
 /* SCSS Variables */
 $border-radius: 5px;
-$primary-underlay: #e5f3e33c;
+$primary-underlay: #f3fff15f;
 $base-colour: #ffffff;
 $base-colour-2: #290c293c;
 $theme-colour-1: #CD6CE7;
@@ -37,6 +37,8 @@ $theme-colour-2: #4f0963;
 
 /* Logo */
 .navbar-brand {
+  position: fixed;
+  margin: 0;
   min-width: 50px;
   max-width: 120px;
   max-height: 70px;
@@ -122,16 +124,17 @@ $theme-colour-2: #4f0963;
 
 /* List Title container */
 .list-title {
-
+  position: relative;
   background-color: $primary-underlay;
+  top: 10px;
   min-height: 50px;
   max-width: 80%;
-  margin: 10px 10% 10px 10%;
+  margin: 0px 10% 30px 10%;
   padding: 10px 10px;
 }
 
 #list-name {
-  background-color: rgba(161, 164, 164, 0.316);
+  background-color: rgba(161, 164, 164, 0.714);
   border-radius: 5px;
   border: none;
   font-size: 1rem;
