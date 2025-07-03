@@ -61,7 +61,7 @@
 #not-found, #not-found-msg {
   text-align: center;
   position: relative;
-  top: 50px;
+  top: 0px;
 }
 
 #not-found {
@@ -72,12 +72,10 @@
 
 #not-found-msg {
   font-size: 2rem;
+  color: black !important;
 }
 
 #nf-btn {
-  position: relative;
-  top: 100px;
-  left: 540px;
   background-color: rgba(31, 8, 37, 0.737254902) !important;
   border: #CD6CE7;
 }

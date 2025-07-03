@@ -32,7 +32,7 @@ $button-colour-3: #cdbfd1bc;
 #not-found, #not-found-msg{
   text-align: center;
   position: relative;
-  top: 50px;
+  top: 0px;
 }
 
 // 404 Title
@@ -45,13 +45,11 @@ $button-colour-3: #cdbfd1bc;
 // 404 Message
 #not-found-msg{
   font-size: 2rem;
+  color: black!important;
 }
 
 // Return to home button
 #nf-btn{
-  position: relative; 
-  top: 100px;
-  left: 540px;
   background-color: $button-colour-1 !important;
   border: #CD6CE7;
 }
