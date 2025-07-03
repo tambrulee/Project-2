@@ -3,8 +3,38 @@
   font-family: Hero, sans-serif;
 }
 
+.not-found-cont {
+  background-color: #CD6CE7;
+  min-height: 450px;
+  border-radius: 5px;
+}
+
+#not-found, #not-found-msg {
+  text-align: center;
+  position: relative;
+  top: 50px;
+}
+
+#not-found {
+  font-size: 10rem;
+  color: rgb(238, 234, 234);
+  margin: 0;
+}
+
+#not-found-msg {
+  font-size: 2rem;
+}
+
+#nf-btn {
+  position: relative;
+  top: 100px;
+  left: 540px;
+  background-color: rgba(31, 8, 37, 0.737254902) !important;
+  border: #CD6CE7;
+}
+
 .hide-btn, .how-btn, .add-btn {
-  background-color: rgba(31, 9, 37, 0.737254902) !important;
+  background-color: rgba(31, 8, 37, 0.737254902) !important;
 }
 
 .theme-btn {

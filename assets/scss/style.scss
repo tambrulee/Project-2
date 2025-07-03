@@ -1,12 +1,12 @@
 /* SCSS Variables */
 $border-radius: 5px;
 $primary-underlay: #c5c6c463;
-$theme-colour-2: hsl(287, 83%, 21%);
 $secondary-underlay: #7b7f7b5b;
 $base-colour: #ffffff;
 $base-colour-2: rgb(170, 169, 169);
 $theme-colour-1: #CD6CE7;
 $theme-colour-2: rgb(238, 234, 234);
+$theme-colour-3: (#1f0825bc);
 
 // Global
 
@@ -14,10 +14,47 @@ $theme-colour-2: rgb(238, 234, 234);
   font-family: Hero, sans-serif;
 }
 
+// 404 - Page Not Found
+
+// Container
+.not-found-cont{
+  background-color: #CD6CE7;
+  min-height: 450px;
+  border-radius: $border-radius;
+}
+
+// Sets position for text
+#not-found, #not-found-msg{
+  text-align: center;
+  position: relative;
+  top: 50px;
+}
+
+// 404 Title
+#not-found{
+  font-size: 10rem;
+  color: $theme-colour-2;
+  margin: 0;
+}
+
+// 404 Message
+#not-found-msg{
+  font-size: 2rem;
+}
+
+// Return to home button
+#nf-btn{
+  position: relative; 
+  top: 100px;
+  left: 540px;
+  background-color: $theme-colour-3 !important;
+  border: #CD6CE7;
+}
+
 // Buttons
 // Colours for all except change theme button
 .hide-btn, .how-btn,  .add-btn{
-  background-color: #1f0925bc !important;
+  background-color: $theme-colour-3 !important;
 }
 
 // Theme button

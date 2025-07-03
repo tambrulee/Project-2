@@ -7,6 +7,13 @@ function updateTimeDate() {
   document.getElementById("time-date").textContent = now.toLocaleString();
 }
 
+// Call once immediately
+updateTimeDate();
+
+// Then update every second
+setInterval(updateTimeDate, 1000);
+
+
 // Pop up to generate when it's first time on website
 document.addEventListener('DOMContentLoaded', () => {
   const popup = document.getElementById('firstTimePopup');
