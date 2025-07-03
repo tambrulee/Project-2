@@ -37,10 +37,12 @@
   background-color: rgba(31, 8, 37, 0.737254902) !important;
 }
 
-.theme-btn {
+#theme-btn {
   background-color: rgba(205, 191, 209, 0.737254902) !important;
   color: black !important;
   border: #ffffff !important;
+  position: relative;
+  left: 600px;
 }
 
 .hide-btn, .add-btn {

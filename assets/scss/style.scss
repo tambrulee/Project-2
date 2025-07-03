@@ -6,7 +6,9 @@ $base-colour: #ffffff;
 $base-colour-2: rgb(170, 169, 169);
 $theme-colour-1: #CD6CE7;
 $theme-colour-2: rgb(238, 234, 234);
-$theme-colour-3: (#1f0825bc);
+$button-colour-1: (#1f0825bc);
+$button-colour-2: #27202a14;
+$button-colour-3: #cdbfd1bc;
 
 // Global
 
@@ -47,21 +49,23 @@ $theme-colour-3: (#1f0825bc);
   position: relative; 
   top: 100px;
   left: 540px;
-  background-color: $theme-colour-3 !important;
+  background-color: $button-colour-1 !important;
   border: #CD6CE7;
 }
 
 // Buttons
 // Colours for all except change theme button
 .hide-btn, .how-btn,  .add-btn{
-  background-color: $theme-colour-3 !important;
+  background-color: $button-colour-1 !important;
 }
 
 // Theme button
-.theme-btn{
-  background-color: #cdbfd1bc !important;
+#theme-btn{
+  background-color: $button-colour-3 !important;
   color: black !important;
   border: #ffffff!important;
+  position: relative;
+  left: 600px
 }
 // Position of hide/unhide and change theme buttons
 .hide-btn, .add-btn{
