@@ -3,6 +3,55 @@
   font-family: Hero, sans-serif;
 }
 
+.list-btn {
+  position: relative;
+  left: 0px;
+  top: 6px;
+}
+
+.how-btn {
+  position: relative;
+}
+
+#theme-btn {
+  background-color: rgba(205, 191, 209, 0.737254902) !important;
+  color: black !important;
+  border: #ffffff !important;
+  position: relative;
+  left: 0px;
+}
+
+.hide-btn, .how-btn, .add-btn {
+  background-color: rgba(31, 8, 37, 0.737254902) !important;
+}
+
+.hide-btn, .add-btn {
+  position: relative;
+  margin: 20px 40%;
+}
+
+.hide-btn {
+  left: 0px;
+  margin: 0 30%;
+  min-width: 130px !important;
+}
+
+.add-btn {
+  min-width: 150px;
+  left: -10px;
+}
+
+.trash-btn, .pencil-btn, .edit-btn {
+  position: absolute;
+  right: 20px;
+  z-index: 200;
+  color: rgba(31, 8, 37, 0.737254902) !important;
+}
+
+.edit-btn {
+  right: 40px;
+}
+
 .not-found-cont {
   background-color: #CD6CE7;
   min-height: 450px;
@@ -31,19 +80,6 @@
   left: 540px;
   background-color: rgba(31, 8, 37, 0.737254902) !important;
   border: #CD6CE7;
-}
-
-.hide-btn, .how-btn, .add-btn {
-  background-color: rgba(31, 8, 37, 0.737254902) !important;
-}
-
-.hide-btn, .add-btn {
-  position: relative;
-  margin: 20px 25%;
-}
-
-.hide-btn {
-  left: 20px;
 }
 
 .popup-overlay {
@@ -88,32 +124,35 @@
 
 .navbar {
   background-color: #ffffff;
-  min-height: 110px;
+  min-height: 50px;
   max-height: 150px;
 }
 
 /* Logo */
 .navbar-brand {
   position: absolute;
-  top: 10px;
-  left: 30%;
+  top: 5px;
+  left: 10%;
   margin: 0;
   min-width: 50px;
   max-width: 120px;
   max-height: 70px;
 }
 
-#time-date {
-  position: relative;
-  font-size: 1rem;
-  text-align: center;
-  background-color: rgba(39, 32, 42, 0.0784313725);
-  max-width: 500px;
-  margin: 10px 5%;
-  padding: 5px 10px;
-  top: 30px;
-  left: 5px;
-  border-radius: 5px;
+.time-learn-panel {
+  background-color: #f5f5f5;
+  border: 1px solid #dee2e6;
+  border-radius: 1rem;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.time-learn-panel #time-date {
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+.time-learn-panel .how-btn {
+  white-space: nowrap;
 }
 
 /* Add this to your CSS */
@@ -122,13 +161,6 @@
   -webkit-user-select: text !important;
      -moz-user-select: text !important;
           user-select: text !important;
-}
-
-.how-btn {
-  font-size: 0.8rem !important;
-  position: absolute;
-  top: 69px;
-  left: 200px;
 }
 
 .list-title, .main-container, .task-container {
@@ -147,7 +179,7 @@
   background-color: rgba(197, 198, 196, 0.3882352941);
   top: 10px;
   min-height: 50px;
-  max-width: 80%;
+  max-width: 60%;
   margin: 0px 10% 30px 10%;
   padding: 10px 10px;
 }
@@ -157,12 +189,6 @@
   border-radius: 5px;
   border: none;
   font-size: 1rem;
-}
-
-.list-btn {
-  position: relative;
-  left: 50px;
-  top: 7px;
 }
 
 /* Main container */
@@ -205,7 +231,6 @@
 .editable-wrapper {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
 }
 
 .editable-input {
@@ -245,73 +270,17 @@
   font-size: 1rem;
 }
 
-.trash-btn, .pencil-btn, .edit-btn {
-  position: absolute;
-  right: 20px;
-  z-index: 200;
-}
-
-.edit-btn {
-  right: 40px;
-}
-
 .footer-container {
-  display: flex;
   background-color: #ffffff;
   height: 50px;
   position: relative;
   bottom: 0;
-  left: 20%;
+  left: 0%;
 }
 
-#theme-btn {
-  background-color: rgba(205, 191, 209, 0.737254902) !important;
-  color: black !important;
-  border: #ffffff !important;
-  position: absolute;
-  top: 30px;
-  left: 7%;
+.list-btn {
+  position: relative;
+  top: 0px;
 }
 
-@media only screen and (max-width: 768px) {
-  .navbar {
-    min-height: 90px;
-  }
-  .navbar-brand {
-    position: relative;
-    left: 0;
-    top: 0;
-  }
-  .list-btn {
-    position: relative;
-    left: 0px;
-    top: 3px;
-  }
-  .second-container {
-    min-height: 750px;
-  }
-  #time-date {
-    position: absolute;
-    top: 20px;
-    left: 450px;
-  }
-  .how-btn {
-    top: 30px;
-    left: 650px;
-  }
-  #theme-btn {
-    left: 3%;
-    top: 30px;
-  }
-  .footer-container {
-    left: 40%;
-  }
-  .hide-btn, .add-btn {
-    margin: 20px 30%;
-    left: 50px;
-  }
-  .hide-btn {
-    left: 70px;
-  }
-}
 /*# sourceMappingURL=style.css.map */

@@ -1,0 +1,59 @@
+// Buttons - majority of buttons for the project will be in here
+
+// List button
+
+.list-btn{
+    position: relative;
+    left: 0px;
+    top: 6px;
+  }
+
+// How to button - Learn More
+.how-btn{
+   position: relative; 
+}
+
+// Theme button
+#theme-btn{
+    background-color: $button-colour-3 !important;
+    color: black !important;
+    border: #ffffff!important;
+    position: relative;
+    left: 0px;
+  }
+
+// Colours for all except change theme button
+.hide-btn, .how-btn,  .add-btn{
+    background-color: $button-colour-1 !important;
+  }
+  // Position of hide/unhide and change theme buttons
+  .hide-btn, .add-btn{
+    position: relative;
+    margin: 20px 40%;
+  }
+  // Hide button position
+  .hide-btn{
+    left: 0px;
+    margin: 0 30%;
+    min-width: 130px !important;
+  }
+
+// Add buttom position
+.add-btn{
+    min-width: 150px;
+    left: -10px;
+}
+
+
+  // Font Awesome buttons
+
+  .trash-btn, .pencil-btn, .edit-btn{
+    position: absolute;
+    right: 20px;
+    z-index: 200;
+    color: $button-colour-1 !important;
+  }
+
+  .edit-btn{
+    right: 40px;
+  }

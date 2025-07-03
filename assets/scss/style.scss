@@ -16,6 +16,9 @@ $button-colour-3: #cdbfd1bc;
   font-family: Hero, sans-serif;
 }
 
+// Imports button themes
+@import './buttons.scss';
+
 // 404 - Page Not Found
 
 // Container
@@ -53,24 +56,7 @@ $button-colour-3: #cdbfd1bc;
   border: #CD6CE7;
 }
 
-
-// Buttons
-// Colours for all except change theme button
-.hide-btn, .how-btn,  .add-btn{
-  background-color: $button-colour-1 !important;
-}
-// Position of hide/unhide and change theme buttons
-.hide-btn, .add-btn{
-  position: relative;
-  margin: 20px 25%;
-}
-// Hide button position
-.hide-btn{
-  left: 20px;
-}
-
 // Popup - Home page
-
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -114,34 +100,37 @@ $button-colour-3: #cdbfd1bc;
 // Navigation - Home page
 .navbar{
   background-color: $base-colour;
-  min-height: 110px;
+  min-height: 50px;
   max-height: 150px;
 }
 
 /* Logo */
 .navbar-brand {
   position: absolute;
-  top: 10px;
-  left: 30%;
+  top: 5px;
+  left: 10%;
   margin: 0;
   min-width: 50px;
   max-width: 120px;
   max-height: 70px;
 }
 
-// Time Date
+.time-learn-panel {
+  background-color: #f5f5f5; // Soft background
+  border: 1px solid #dee2e6;
+  border-radius: 1rem; // More rounded for pill feel
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 
-#time-date{
-  position: relative;
-  font-size: 1rem;
-  text-align: center;
-  background-color: #27202a14;
-  max-width: 500px;
-  margin: 10px 5%;
-  padding: 5px 10px;
-  top: 30px;
-  left: 5px;
-  border-radius: $border-radius;
+  #time-date {
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  .how-btn {
+    white-space: nowrap;
+  }
 }
 
 /* Add this to your CSS */
@@ -149,16 +138,6 @@ $button-colour-3: #cdbfd1bc;
 .drag-n-drop .task-name {
   user-select: text !important;
 }
-
-// Popover - Learn More button (Bootstrap)
-
-.how-btn{
-  font-size: 0.8rem !important;
-  position: absolute;
-  top: 69px;
-  left: 200px;
-}
-
 // Controls border radius
 .list-title, .main-container, .task-container{
   border-radius: $border-radius;
@@ -176,7 +155,7 @@ $button-colour-3: #cdbfd1bc;
   background-color: $primary-underlay;
   top: 10px;
   min-height: 50px;
-  max-width: 80%;
+  max-width: 60%;
   margin: 0px 10% 30px 10%;
   padding: 10px 10px;
 }
@@ -186,14 +165,6 @@ $button-colour-3: #cdbfd1bc;
   border-radius: 5px;
   border: none;
   font-size: 1rem;
-}
-
-// List button
-
-.list-btn{
-  position: relative;
-  left: 50px;
-  top: 7px;
 }
 
 /* Main container */
@@ -241,7 +212,6 @@ $button-colour-3: #cdbfd1bc;
   .editable-wrapper {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
   }
 
   .editable-input {
@@ -258,7 +228,6 @@ $button-colour-3: #cdbfd1bc;
     width: 100%;
     box-sizing: border-box;
   }
-  
   
   .editable-input[readonly] {
     border: none;
@@ -281,99 +250,23 @@ $button-colour-3: #cdbfd1bc;
     cursor: pointer;
     font-size: 1rem;
   }
- 
-  // Font Awesome buttons
-
-  .trash-btn, .pencil-btn, .edit-btn{
-    position: absolute;
-    right: 20px;
-    z-index: 200;
-  }
-
-  .edit-btn{
-    right: 40px;
-  }
-
 
 // Footer text
 .footer-container{
-  display: flex;
   background-color: #ffffff;
   height: 50px;
   position: relative;
   bottom: 0;
-  left: 20%
-}
-
-// Theme button
-#theme-btn{
-  background-color: $button-colour-3 !important;
-  color: black !important;
-  border: #ffffff!important;
-  position: absolute;
-  top: 30px;
-  left: 7%;
+  left: 0%
 }
 
 // Media query for a screen of min-width of 768px and above
-
-@media only screen and (max-width: 768px) {
-  // Changes navbar height
-  .navbar{
-    min-height: 90px;
-  }
-// Positions logo to left hand side of page
-  .navbar-brand{
-    position: relative;
-    left: 0;
-    top: 0;
-  }
 
 // List button
 
 .list-btn{
   position: relative;
-  left: 0px;
-  top: 3px;
-}
-
-//Increases second container min-height
-.second-container{
-  min-height: 750px;
-}
-
-// Repositions time and Learn More button
-  #time-date{
-    position: absolute;
-    top: 20px;
-    left: 450px;
-  }
-
-  .how-btn{
-    top: 30px;
-    left: 650px;
-  }
-
-  // Change position of theme button & copyright text
-  #theme-btn{
-    left: 3%;
-    top: 30px;
-  }
-
-  .footer-container{
-    left: 40%
-  }
-
-  // Position of hide/unhide and change theme buttons
-.hide-btn, .add-btn{
-  
-  margin: 20px 30%;
-  left: 50px;
-}
-// Hide button position
-.hide-btn{
-  left: 70px;
-}
+  top: 0px;
 }
 
 /*# sourceMappingURL=style.scss.map */
