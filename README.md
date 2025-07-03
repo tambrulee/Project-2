@@ -109,3 +109,7 @@ https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_onclick_dom
 
 * Duplicating task box
 https://www.w3schools.com/jsref/met_node_clonenode.asp
+
+## Known Bugs
+
+* Text that does not fix in the box does not show unless the user selects edit to view

@@ -53,75 +53,23 @@ $button-colour-3: #cdbfd1bc;
   border: #CD6CE7;
 }
 
+
 // Buttons
 // Colours for all except change theme button
 .hide-btn, .how-btn,  .add-btn{
   background-color: $button-colour-1 !important;
 }
-
-// Theme button
-#theme-btn{
-  background-color: $button-colour-3 !important;
-  color: black !important;
-  border: #ffffff!important;
-  position: relative;
-  left: 600px
-}
 // Position of hide/unhide and change theme buttons
 .hide-btn, .add-btn{
   position: relative;
-  margin: 20px 40%;
+  margin: 20px 25%;
 }
-
 // Hide button position
 .hide-btn{
   left: 20px;
 }
 
-// Add button position
-.add-btn{
-  left: 10px;
-}
-
-// Navigation
-.nav-bar{
-  background-color: $base-colour;
-}
-
-/* Logo */
-.navbar-brand {
-  position: relative;
-  margin: 0;
-  min-width: 50px;
-  max-width: 120px;
-  max-height: 70px;
-}
-
-/* Landing page background */
-.landing-page {
-  color: white;
-  background-color: #CD6CE7;
-  /* background: url("/assets/images/ai-generated-8716995_1280.jpg") no-repeat center center/cover; */
-}
-
-.welcome-landing{
-  text-align: center;
-  padding: 150px 100px;
-}
-
-.welcome-message-cont{
-  background-color: #3333336e;
-}
-
-#welcome-message{
-  font-size: 5rem;
-}
-
-#welcome-slogan{
-  font-size: 2rem;
-}
-
-// Popup
+// Popup - Home page
 
 .popup-overlay {
   position: fixed;
@@ -163,6 +111,53 @@ $button-colour-3: #cdbfd1bc;
   cursor: pointer;
 }
 
+// Navigation - Home page
+.navbar{
+  background-color: $base-colour;
+  min-height: 110px;
+  max-height: 150px;
+}
+
+/* Logo */
+.navbar-brand {
+  position: absolute;
+  top: 10px;
+  left: 30%;
+  margin: 0;
+  min-width: 50px;
+  max-width: 120px;
+  max-height: 70px;
+}
+
+// Time Date
+
+#time-date{
+  position: relative;
+  font-size: 1rem;
+  text-align: center;
+  background-color: #27202a14;
+  max-width: 500px;
+  margin: 10px 5%;
+  padding: 5px 10px;
+  top: 30px;
+  left: 5px;
+  border-radius: $border-radius;
+}
+
+/* Add this to your CSS */
+.drag-n-drop,
+.drag-n-drop .task-name {
+  user-select: text !important;
+}
+
+// Popover - Learn More button (Bootstrap)
+
+.how-btn{
+  font-size: 0.8rem !important;
+  position: absolute;
+  top: 69px;
+  left: 200px;
+}
 
 // Controls border radius
 .list-title, .main-container, .task-container{
@@ -181,7 +176,7 @@ $button-colour-3: #cdbfd1bc;
   background-color: $primary-underlay;
   top: 10px;
   min-height: 50px;
-  max-width: 30%;
+  max-width: 80%;
   margin: 0px 10% 30px 10%;
   padding: 10px 10px;
 }
@@ -201,26 +196,6 @@ $button-colour-3: #cdbfd1bc;
   top: 7px;
 }
 
-// Time Date
-
-#time-date{
-  position: relative;
-  font-size: 1rem;
-  text-align: center;
-  background-color: #27202a14;
-  max-width: 500px;
-  margin: 10px 25%;
-  padding: 5px 10px;;
-  left: 400px;
-  border-radius: $border-radius;
-}
-
-/* Add this to your CSS */
-.drag-n-drop,
-.drag-n-drop .task-name {
-  user-select: text !important;
-}
-
 /* Main container */
 .main-container {
   background-color: $primary-underlay;
@@ -238,7 +213,7 @@ $button-colour-3: #cdbfd1bc;
   background-color: $secondary-underlay;
   margin: 10px 10px;
   min-height: 590px;
-  max-width: 60%;
+  max-width: 90%;
   margin: 0 2% 20px 2%;
   padding: 10px 0;
   border-radius: $border-radius;
@@ -247,20 +222,19 @@ $button-colour-3: #cdbfd1bc;
 /* Task containers */
 .task-container {
   position: relative;
-  left: 70px;
-  max-width: 70%;
+  
+  max-width: 90%;
   background-color: rgb(238, 234, 234);
   color: rgb(0, 0, 0);
   padding: 10px 2px;
   margin: 2px 5%;
   border: rgb(46, 37, 37) 2px;
 }
-
+// Drag over line and background colour
 .drag-over {
   border: 2px dashed $theme-colour-2;
   background-color: $base-colour-2;
 }
-
 
   //Editable styles - task boxes
   
@@ -312,12 +286,12 @@ $button-colour-3: #cdbfd1bc;
 
   .trash-btn, .pencil-btn, .edit-btn{
     position: absolute;
-    right: 50px;
+    right: 20px;
     z-index: 200;
   }
 
   .edit-btn{
-    right: 70px;
+    right: 40px;
   }
 
 
@@ -328,13 +302,17 @@ $button-colour-3: #cdbfd1bc;
   height: 50px;
   position: relative;
   bottom: 0;
+  left: 20%
 }
 
-// Change theme button
-
-#change-theme{
-  position: relative;
- left: 25%;
+// Theme button
+#theme-btn{
+  background-color: $button-colour-3 !important;
+  color: black !important;
+  border: #ffffff!important;
+  position: absolute;
+  top: 30px;
+  left: 7%;
 }
 
 /*# sourceMappingURL=style.scss.map */
