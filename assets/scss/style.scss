@@ -315,4 +315,65 @@ $button-colour-3: #cdbfd1bc;
   left: 7%;
 }
 
+// Media query for a screen of min-width of 768px and above
+
+@media only screen and (max-width: 768px) {
+  // Changes navbar height
+  .navbar{
+    min-height: 90px;
+  }
+// Positions logo to left hand side of page
+  .navbar-brand{
+    position: relative;
+    left: 0;
+    top: 0;
+  }
+
+// List button
+
+.list-btn{
+  position: relative;
+  left: 0px;
+  top: 3px;
+}
+
+//Increases second container min-height
+.second-container{
+  min-height: 750px;
+}
+
+// Repositions time and Learn More button
+  #time-date{
+    position: absolute;
+    top: 20px;
+    left: 450px;
+  }
+
+  .how-btn{
+    top: 30px;
+    left: 650px;
+  }
+
+  // Change position of theme button & copyright text
+  #theme-btn{
+    left: 3%;
+    top: 30px;
+  }
+
+  .footer-container{
+    left: 40%
+  }
+
+  // Position of hide/unhide and change theme buttons
+.hide-btn, .add-btn{
+  
+  margin: 20px 30%;
+  left: 50px;
+}
+// Hide button position
+.hide-btn{
+  left: 70px;
+}
+}
+
 /*# sourceMappingURL=style.scss.map */
