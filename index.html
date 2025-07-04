@@ -17,6 +17,7 @@
   <!-- Font Awesome -->
   <script src="https://kit.fontawesome.com/40f053d397.js" crossorigin="anonymous"></script>
 </head>
+<body>
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg  py-3">
     <div class="container-fluid d-flex justify-content-between align-items-center flex-wrap gap-3">
@@ -26,23 +27,11 @@
     </div>
   </nav>
 
-<!-- Unified Time + Learn More Panel -->
-<div class="time-learn-panel d-flex flex-row flex-nowrap align-items-center gap-3 p-2 shadow-sm rounded">
-
-  <!-- Time/Date -->
-  <div id="time-date" class="small mb-0 text-muted"></div>
-
-  <!-- Learn More Button -->
-  <button type="button" class="btn btn-sm btn-secondary how-btn"
-    data-bs-toggle="popover" data-bs-placement="bottom"
-    data-bs-custom-class="custom-popover"
-    data-bs-title="How to use Sort'd"
-    data-bs-content="Sort’d is a simple, intuitive task app designed to help you stay on top of your day...">
-    Learn More
-  </button>
-</div>
-
-
+  <!-- Unified Time + Learn More Panel -->
+  <div class="time-learn-panel d-flex flex-row flex-nowrap align-items-center gap-3 p-2 shadow-sm rounded">
+    <!-- Time/Date -->
+    <div id="time-date" class="small mb-0 text-muted"></div>
+  </div>
 
   <!-- Welcome Popup -->
   <div id="firstTimePopup" class="popup-overlay">
@@ -55,86 +44,89 @@
 
   <!-- Main -->
   <main class="list-page py-4">
+    <!-- Control Panel -->
     <div class="container-fluid">
+      <div class="container my-3">
+        <div class="d-flex flex-wrap justify-content-center gap-2 small-control-panel">
 
-      <!-- Smart Control Panel -->
-<div class="container my-3">
-  <div class="card shadow-sm border-0 rounded-3">
-    <div class="card-body py-2 px-3">
-      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+          <!-- Add New Task -->
+          <button type="button" class="btn btn-sm" id="add-new" data-bs-toggle="tooltip" title="Add New Task">
+            <i class="fas fa-plus"></i>
+          </button>
+      
+          <!-- Hide/Unhide Done -->
+          <button type="button" class="btn btn-sm" id="toggle-done" data-bs-toggle="tooltip" title="Hide Done Tasks">
+            <i class="fas fa-eye-slash"></i>
+          </button>
 
-        <!-- Add New Task -->
-        <button type="button" class="btn btn-sm btn-primary d-flex align-items-center gap-1" id="add-new">
-          <i class="fas fa-plus"></i><span class="d-none d-sm-inline">Add</span>
-        </button>
+          <!-- Your theme button -->
+          <button type="button" class="btn btn-sm" id="theme-btn" data-bs-toggle="tooltip" title="Change Theme">
+            <i class="fas fa-adjust"></i>
+          </button>
 
-        <!-- Hide Done -->
-        <button type="button" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1" id="toggle-done">
-          <i class="fas fa-eye-slash"></i><span class="d-none d-sm-inline">Hide Done</span>
-        </button>
+          <!-- Hidden file input -->
+          <input type="file" id="bg-upload" accept="image/*" style="display: none;" />
 
-        <!-- Change Theme -->
-        <button type="button" class="btn btn-sm btn-outline-dark d-flex align-items-center gap-1" id="theme-btn">
-          <i class="fas fa-moon"></i><span class="d-none d-sm-inline">Theme</span>
-        </button>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-
-      <!-- List Title -->
-      <div class="row mb-4">
-        <div class="col-md-8 mx-auto d-flex align-items-center gap-2 list-title">
-          <input type="text" class="form-control editable-input" id="list-name" placeholder="Enter list name here" readonly />
-          <button class="btn btn-outline-secondary" id="list-name-edit-btn">
-            <i class="fa-solid fa-pencil pencil-btn list-btn"></i>
+          <!-- Learn More Button -->
+          <button type="button" class="btn btn-sm how-btn" id="how-btn"
+            data-bs-toggle="popover" data-bs-placement="bottom"
+            data-bs-custom-class="custom-popover"
+            data-bs-title="How to use Sort'd"
+            data-bs-content="Sort’d is a simple, intuitive task app designed to help you stay on top of your day...">
+            Learn More
           </button>
         </div>
       </div>
+    </div>
+    <!-- List Title -->
+    <div class="row mb-4">
+      <div class="col-md-8 d-flex align-items-center gap-2 list-title">
+        <input type="text" class="form-control editable-input" id="list-name" placeholder="Enter list name here" readonly />
+          <button class="btn btn-outline-secondary" id="list-name-edit-btn">
+            <i class="fa-solid fa-pencil pencil-btn list-btn"></i>
+          </button>
+      </div>
+    </div>
 
-      <!-- Tasks -->
-      <div class="row">
-        <div class="col-md-8 mx-auto">
-          <div id="task-box">
-            <!-- Task Template 1 -->
-            <div class="drag-n-drop task-container mb-3" id="task-1" draggable="true">
-              <label class="task d-flex align-items-center gap-2">
-                <input type="checkbox" />
-                <textarea class="form-control task-name editable-input" placeholder="Enter task here"></textarea>
-                <button class="btn btn-sm btn-outline-secondary edit-btn"><i class="fa-solid fa-pencil"></i></button>
-                <i class="fa-solid fa-trash text-danger trash-btn"></i>
-              </label>
-            </div>
+  <!-- Tasks -->
+  <div class="row">
+      <div class="col-md-8 mx-auto">
+        <div id="task-box">
+          <!-- Task Template 1 -->
+          <div class="drag-n-drop task-container mb-3" id="task-1" draggable="true">
+          <label class="task d-flex align-items-center gap-2">
+            <input type="checkbox" />
+            <textarea class="form-control task-name editable-input" placeholder="Enter task here"></textarea>
+            <button class="btn btn-sm btn-outline-secondary edit-btn"><i class="fa-solid fa-pencil"></i></button>
+            <i class="fa-solid fa-trash text-danger trash-btn"></i>
+          </label>
+          </div>
 
-            <!-- Task Template 2 -->
-            <div class="drag-n-drop task-container mb-3" id="task-2" draggable="true">
-              <label class="task d-flex align-items-center gap-2">
-                <input type="checkbox" />
-                <textarea class="form-control task-name editable-input" placeholder="Enter task here"></textarea>
-                <button class="btn btn-sm btn-outline-secondary edit-btn"><i class="fa-solid fa-pencil"></i></button>
-                <i class="fa-solid fa-trash text-danger trash-btn"></i>
-              </label>
-            </div>
+        <!-- Task Template 2 -->
+          <div class="drag-n-drop task-container mb-3" id="task-2" draggable="true">
+            <label class="task d-flex align-items-center gap-2">
+              <input type="checkbox" />
+              <textarea class="form-control task-name editable-input" placeholder="Enter task here"></textarea>
+              <button class="btn btn-sm btn-outline-secondary edit-btn"><i class="fa-solid fa-pencil"></i></button>
+              <i class="fa-solid fa-trash text-danger trash-btn"></i>
+            </label>
+          </div>
 
-            <!-- Task Template 3 -->
-            <div class="drag-n-drop task-container mb-3" id="task-3" draggable="true">
-              <label class="task d-flex align-items-center gap-2">
-                <input type="checkbox" />
-                <input type="text" class="form-control task-name editable-input" placeholder="Enter task here" />
-                <button class="btn btn-sm btn-outline-secondary edit-btn"><i class="fa-solid fa-pencil"></i></button>
-                <i class="fa-solid fa-trash text-danger trash-btn"></i>
-              </label>
-            </div>
+          <!-- Task Template 3 -->
+          <div class="drag-n-drop task-container mb-3" id="task-3" draggable="true">
+            <label class="task d-flex align-items-center gap-2">
+              <input type="checkbox" />
+              <input type="text" class="form-control task-name editable-input" placeholder="Enter task here" />
+              <button class="btn btn-sm btn-outline-secondary edit-btn"><i class="fa-solid fa-pencil"></i></button>
+              <i class="fa-solid fa-trash text-danger trash-btn"></i>
+            </label>
           </div>
         </div>
       </div>
-    </div>
   </main>
 
   <!-- Footer -->
-  <footer class="bg-light py-3 mt-5">
+  <footer class="bg-light py-3">
     <div class="container-fluid d-flex flex-column flex-md-row justify-content-between align-items-center">
       <p class="mb-2 mb-md-0 footer-text">&copy; Copyright Sort'd 2025©</p>
     </div>

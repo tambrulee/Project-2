@@ -308,9 +308,12 @@ function dragDrop() {
  */
 function toggleCompletedTasks(e) {
   e.preventDefault();
-  const toggleLink = e.target;
-  const isHiding = toggleLink.textContent.trim().toLowerCase() === "hide done";
 
+  const button = e.currentTarget;
+  const icon = button.querySelector('i');
+  const isHiding = icon.classList.contains('fa-eye-slash');
+
+  // Toggle visibility of completed tasks
   document.querySelectorAll(".drag-n-drop").forEach(task => {
     const checkbox = task.querySelector('input[type="checkbox"]');
     if (checkbox && checkbox.checked) {
@@ -318,7 +321,9 @@ function toggleCompletedTasks(e) {
     }
   });
 
-  toggleLink.textContent = isHiding ? "Unhide Done" : "Hide Done";
+  // Toggle icon class
+  icon.classList.toggle("fa-eye-slash", !isHiding); // show hide icon if now hiding
+  icon.classList.toggle("fa-eye", isHiding);        // show unhide icon if now unhiding
 }
 
 document.getElementById("toggle-done").addEventListener("click", toggleCompletedTasks);

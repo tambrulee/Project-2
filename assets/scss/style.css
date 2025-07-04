@@ -9,31 +9,20 @@
   top: 6px;
 }
 
-.how-btn {
-  position: relative;
-}
-
-#theme-btn {
-  background-color: rgba(205, 191, 209, 0.737254902) !important;
-  color: black !important;
-  border: #ffffff !important;
-  position: relative;
-  left: 0px;
-}
-
-.hide-btn, .how-btn, .add-btn {
-  background-color: rgba(31, 8, 37, 0.737254902) !important;
+#how-btn, #add-new, #theme-btn, #toggle-done {
+  background-color: rgba(28, 30, 28, 0.5333333333);
+  color: #ffffff;
 }
 
 .trash-btn, .pencil-btn, .edit-btn {
   position: absolute;
-  right: 20px;
+  right: 30px;
   z-index: 200;
   color: rgba(31, 8, 37, 0.737254902) !important;
 }
 
 .edit-btn {
-  right: 40px;
+  right: 50px;
 }
 
 .list-btn {
@@ -150,7 +139,7 @@
           user-select: text !important;
 }
 
-.list-title, .main-container, .task-container {
+.list-title, .task-container {
   border-radius: 5px;
 }
 
@@ -162,68 +151,54 @@
 
 /* List Title container */
 .list-title {
-  position: relative;
-  background-color: rgba(197, 198, 196, 0.3882352941);
-  top: 10px;
-  min-height: 50px;
-  max-width: 60%;
-  margin: 0px 10% 30px 10%;
-  padding: 10px 10px;
+  max-width: 80%;
+  width: 100%;
+  margin: 0 auto;
 }
 
 #list-name {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   background-color: rgb(238, 234, 234);
   border-radius: 5px;
   border: none;
   font-size: 1rem;
-}
-
-.smart-panel .card {
-  position: relative;
-  background-color: rgba(197, 198, 196, 0.3882352941);
-  border-radius: 0.75rem;
-  left: 0;
-  min-width: 100%;
-}
-.smart-panel .btn {
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
-  transition: all 0.2s ease;
-}
-.smart-panel .btn i {
-  opacity: 0.7;
-}
-.smart-panel .btn:hover i {
-  opacity: 1;
 }
 
-.main-container {
-  background-color: rgba(197, 198, 196, 0.3882352941);
-  margin: 10px 10px;
-  min-height: 600px;
-  max-height: 690px;
-  max-width: 90%;
-  margin: 0 5% 20px 5%;
-  padding: 10px 0;
+.small-control-panel {
+  max-width: 360px;
+  margin: 0 auto;
+}
+.small-control-panel button,
+.small-control-panel label.btn {
+  padding: 0.375rem 0.5rem;
+  font-size: 0.85rem;
+  border-radius: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.small-control-panel i {
+  pointer-events: none;
 }
 
 .second-container {
-  background-color: rgba(123, 127, 123, 0.3568627451);
-  margin: 10px 10px;
-  min-height: 590px;
-  max-width: 90%;
-  margin: 0 2% 20px 2%;
+  background-color: rgba(28, 30, 28, 0.5333333333);
   padding: 10px 0;
   border-radius: 5px;
 }
 
 /* Task containers */
 .task-container {
-  position: relative;
-  max-width: 90%;
+  max-width: 85%;
   background-color: rgb(238, 234, 234);
   color: rgb(0, 0, 0);
   padding: 10px 2px;
-  margin: 2px 5%;
+  margin: auto;
   border: rgb(46, 37, 37) 2px;
 }
 
@@ -276,16 +251,6 @@
 
 .footer-container {
   background-color: #ffffff;
-  height: 50px;
-  position: relative;
-  bottom: 0;
-  left: 0%;
 }
 
-@media only screen and (min-width: 1000px) {
-  .card {
-    max-width: 50%;
-    left: 25%;
-  }
-}
 /*# sourceMappingURL=style.css.map */

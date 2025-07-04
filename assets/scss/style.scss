@@ -1,7 +1,7 @@
 /* SCSS Variables */
 $border-radius: 5px;
 $primary-underlay: #c5c6c463;
-$secondary-underlay: #7b7f7b5b;
+$secondary-underlay: #1c1e1c88;
 $base-colour: #ffffff;
 $base-colour-2: rgb(170, 169, 169);
 $theme-colour-1: #CD6CE7;
@@ -137,7 +137,7 @@ $button-colour-3: #cdbfd1bc;
   user-select: text !important;
 }
 // Controls border radius
-.list-title, .main-container, .task-container{
+.list-title, .task-container{
   border-radius: $border-radius;
 }
 
@@ -149,78 +149,60 @@ $button-colour-3: #cdbfd1bc;
 
 /* List Title container */
 .list-title {
-  position: relative;
-  background-color: $primary-underlay;
-  top: 10px;
-  min-height: 50px;
-  max-width: 60%;
-  margin: 0px 10% 30px 10%;
-  padding: 10px 10px;
+  max-width: 80%;
+  width: 100%;
+  margin: 0 auto;
 }
+
 // List Text
 #list-name {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   background-color: rgb(238, 234, 234);
   border-radius: 5px;
   border: none;
   font-size: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 // Smart button panel
-.smart-panel {
-  .card {
-    position: relative;
-    background-color: $primary-underlay;
-    border-radius: 0.75rem;
-    left: 0;
-    min-width: 100%;
+.small-control-panel {
+  max-width: 360px;
+  margin: 0 auto;
 
+  button,
+  label.btn {
+    padding: 0.375rem 0.5rem;
+    font-size: 0.85rem;
+    border-radius: 0.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .btn {
-    white-space: nowrap;
-    transition: all 0.2s ease;
-    i {
-      opacity: 0.7;
-    }
-    &:hover {
-      i {
-        opacity: 1;
-      }
-    }
+  i {
+    pointer-events: none;
   }
-}
-// Main container
-.main-container {
-  background-color: $primary-underlay;
-  margin: 10px 10px;
-  min-height: 600px;
-  max-height: 690px;
-  max-width: 90%;
-  margin: 0 5% 20px 5%;
-  padding: 10px 0;
 }
 
 // Second container overlay goes on top of the main container
 // Wraps the divs from the hide/unhide to the last task container
 .second-container{
   background-color: $secondary-underlay;
-  margin: 10px 10px;
-  min-height: 590px;
-  max-width: 90%;
-  margin: 0 2% 20px 2%;
   padding: 10px 0;
   border-radius: $border-radius;
 }
 
 /* Task containers */
 .task-container {
-  position: relative;
-  
-  max-width: 90%;
+  max-width: 85%;
   background-color: rgb(238, 234, 234);
   color: rgb(0, 0, 0);
   padding: 10px 2px;
-  margin: 2px 5%;
+  margin: auto;
   border: rgb(46, 37, 37) 2px;
 }
 // Drag over line and background colour
@@ -276,20 +258,6 @@ $button-colour-3: #cdbfd1bc;
 // Footer text
 .footer-container{
   background-color: #ffffff;
-  height: 50px;
-  position: relative;
-  bottom: 0;
-  left: 0%
 }
-
-// Media query for a screen of min-width of 1000px and above
-@media only screen and (min-width: 1000px) {
-
-  // 
-    .card {
-      max-width: 50%;
-      left: 25%
-    }
-  }
 
 /*# sourceMappingURL=style.scss.map */

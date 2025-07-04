@@ -8,39 +8,23 @@
     top: 6px;
   }
 
-// How to button - Learn More
-.how-btn{
-   position: relative; 
+// Panel buttons
+#how-btn, #add-new, #theme-btn, #toggle-done{
+  background-color: $secondary-underlay;
+  color: $base-colour;
 }
-
-// Theme button
-#theme-btn{
-    background-color: $button-colour-3 !important;
-    color: black !important;
-    border: #ffffff!important;
-    position: relative;
-    left: 0px;
-  }
-
-// Colours for all except change theme button
-.hide-btn, .how-btn,  .add-btn{
-    background-color: $button-colour-1 !important;
-  }
-  // Position of hide/unhide and change theme buttons
-
-
 
   // Font Awesome buttons
 
   .trash-btn, .pencil-btn, .edit-btn{
     position: absolute;
-    right: 20px;
+    right: 30px;
     z-index: 200;
     color: $button-colour-1 !important;
   }
 
   .edit-btn{
-    right: 40px;
+    right: 50px;
   }
 // List button position
 

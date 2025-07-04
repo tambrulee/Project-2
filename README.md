@@ -35,6 +35,10 @@ As a user, I want to be able change the page background, so that I can customise
 
 ### UX Testing
 
+[Control Panel](assets/images/README/ctrl_panel.png)
+[Checkboxes -  Before Toggled](assets/images/README/checked_list.png)
+[Checkboxes -  After Toggled](assets/images/README/unchecked_list.png)
+[Reordered list](assets/images/README/reordered_list.png)
 ### Usability & Preferences
 As a user, I want to hide or unhide completed tasks, so that I can focus on what still needs doing.
 
