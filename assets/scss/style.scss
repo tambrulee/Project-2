@@ -168,8 +168,12 @@ $button-colour-3: #cdbfd1bc;
 // Smart button panel
 .smart-panel {
   .card {
-    background-color: rgba(255, 255, 255, 0.95);
+    position: relative;
+    background-color: $primary-underlay;
     border-radius: 0.75rem;
+    left: 0;
+    min-width: 100%;
+
   }
 
   .btn {
@@ -278,13 +282,14 @@ $button-colour-3: #cdbfd1bc;
   left: 0%
 }
 
-// Media query for a screen of min-width of 768px and above
+// Media query for a screen of min-width of 1000px and above
+@media only screen and (min-width: 1000px) {
 
-// List button
-
-.list-btn{
-  position: relative;
-  top: 0px;
-}
+  // 
+    .card {
+      max-width: 50%;
+      left: 25%
+    }
+  }
 
 /*# sourceMappingURL=style.scss.map */

@@ -332,7 +332,7 @@ function triggerBackgroundUpload(e) {
   document.getElementById("bg-upload").click();
 }
 
-document.getElementById("change-theme").addEventListener("click", triggerBackgroundUpload);
+document.getElementById("theme-btn").addEventListener("click", triggerBackgroundUpload);
 
 // Grabs file if selected by user and terminates if none selected
 document.getElementById("bg-upload").addEventListener("change",

@@ -36,6 +36,11 @@
   right: 40px;
 }
 
+.list-btn {
+  position: relative;
+  top: 0px;
+}
+
 .not-found-cont {
   background-color: #CD6CE7;
   min-height: 450px;
@@ -174,8 +179,11 @@
 }
 
 .smart-panel .card {
-  background-color: rgba(255, 255, 255, 0.95);
+  position: relative;
+  background-color: rgba(197, 198, 196, 0.3882352941);
   border-radius: 0.75rem;
+  left: 0;
+  min-width: 100%;
 }
 .smart-panel .btn {
   white-space: nowrap;
@@ -274,9 +282,10 @@
   left: 0%;
 }
 
-.list-btn {
-  position: relative;
-  top: 0px;
+@media only screen and (min-width: 1000px) {
+  .card {
+    max-width: 50%;
+    left: 25%;
+  }
 }
-
 /*# sourceMappingURL=style.css.map */
