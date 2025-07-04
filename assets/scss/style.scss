@@ -131,7 +131,7 @@ $button-colour-3: #cdbfd1bc;
   }
 }
 
-/* Add this to your CSS */
+/* Drag and drop */
 .drag-n-drop,
 .drag-n-drop .task-name {
   user-select: text !important;
@@ -165,7 +165,27 @@ $button-colour-3: #cdbfd1bc;
   font-size: 1rem;
 }
 
-/* Main container */
+// Smart button panel
+.smart-panel {
+  .card {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 0.75rem;
+  }
+
+  .btn {
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    i {
+      opacity: 0.7;
+    }
+    &:hover {
+      i {
+        opacity: 1;
+      }
+    }
+  }
+}
+// Main container
 .main-container {
   background-color: $primary-underlay;
   margin: 10px 10px;
