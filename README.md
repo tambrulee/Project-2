@@ -75,8 +75,9 @@ I intend to use Bootstrap for the main layout.
 [Unclosed div](assets/images/README/html-unclosed-div.png)
 [HTML Test - No Errors](assets/images/READ/html-unclosed-div.png)
 ### CSS
-
+[CSS Test - No Errors](assets/images/README/css-no-errors.png)
 ### JS
+[JS Quotes](assets/images/README/js-quotes.png)
 
 * Tested on mobile phone with touch screen functionality - add a list of tests here:
 
