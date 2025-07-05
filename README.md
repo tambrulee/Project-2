@@ -66,7 +66,14 @@ I intend to use Bootstrap for the main layout.
 ### 404 Testing
 [404 Testing](assets/images/README/404-testing.png)
 ### HTML
+1. Error message about trailing slash
+* Solution: removed all forward slashes from end tags
 [Trailing Slash](assets/images/README/html-trailing-slash.png)
+2. Too many descendants within label tag
+*  Solution: 
+[Labels](assets/images/README/html-labels.png)
+[Unclosed div](assets/images/README/html-unclosed-div.png)
+[HTML Test - No Errors](assets/images/READ/html-unclosed-div.png)
 ### CSS
 
 ### JS

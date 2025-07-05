@@ -59,6 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.title = listNameInput.value || 'Document';
   });
 
+
+
 /* 
 These functions make the task boxes default to input. Then toggle between save and input
 allowing the user to edit and save text to prevent items being overwritten.
@@ -313,7 +315,7 @@ function toggleCompletedTasks(e) {
   const icon = button.querySelector('i');
   const isHiding = icon.classList.contains('fa-eye-slash');
 
-  // Toggle visibility of completed tasks
+  // Toggle completed task visibility
   document.querySelectorAll(".drag-n-drop").forEach(task => {
     const checkbox = task.querySelector('input[type="checkbox"]');
     if (checkbox && checkbox.checked) {
@@ -321,9 +323,31 @@ function toggleCompletedTasks(e) {
     }
   });
 
-  // Toggle icon class
-  icon.classList.toggle("fa-eye-slash", !isHiding); // show hide icon if now hiding
-  icon.classList.toggle("fa-eye", isHiding);        // show unhide icon if now unhiding
+  document.addEventListener("DOMContentLoaded", function () {
+    const toggleBtn = document.getElementById("toggle-done");
+    if (!toggleBtn) return;
+  
+    toggleBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      const icon = toggleBtn.querySelector("i");
+      const isHiding = icon.classList.contains("fa-eye-slash");
+  
+      document.querySelectorAll(".drag-n-drop").forEach(task => {
+        const checkbox = task.querySelector('input[type="checkbox"]');
+        if (checkbox && checkbox.checked) {
+          task.style.display = isHiding ? "none" : "flex";
+        }
+      });
+  
+      icon.classList.toggle("fa-eye-slash", !isHiding);
+      icon.classList.toggle("fa-eye", isHiding);
+    });
+  });
+  
+
+  // Update icon
+  icon.classList.toggle("fa-eye-slash", !isHiding); // now hiding
+  icon.classList.toggle("fa-eye", isHiding);        // now unhiding
 }
 
 document.getElementById("toggle-done").addEventListener("click", toggleCompletedTasks);
