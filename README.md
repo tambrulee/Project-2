@@ -66,7 +66,7 @@ I intend to use Bootstrap for the main layout.
 ### 404 Testing
 [404 Testing](assets/images/README/404-testing.png)
 ### HTML
-
+[Trailing Slash](assets/images/README/html-trailing-slash.png)
 ### CSS
 
 ### JS
