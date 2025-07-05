@@ -10,16 +10,14 @@ I have chosen to have no navigation on the website as I felt it wasn't necessary
 
 Main features include:
 
-## Landing Page
-* How to instructions
-* Call-to-action 
-
 ## List Page
+* How to instructions
 * Ability to change window tab name
 * Drag and drop
 * Add new task
 * Hide checked items
 * Change background
+* Current time
 
 ## User Stories
 
@@ -33,49 +31,40 @@ As a user, I want to remove tasks from my list, so that I can keep my to-do list
 
 As a user, I want to be able change the page background, so that I can customise or add a theme to my list.
 
+As a user, I want my tasks to stay saved even after I close the tab, so that I don’t lose progress (via localStorage).
+
+As a user, I want to navigate the to-do list easily on desktop and mobile, so I can use it wherever I am.
+
 ### UX Testing
 
 [Control Panel](assets/images/README/ctrl_panel.png)
 [Checkboxes -  Before Toggled](assets/images/README/checked_list.png)
 [Checkboxes -  After Toggled](assets/images/README/unchecked_list.png)
 [Reordered list](assets/images/README/reordered_list.png)
-### Usability & Preferences
-As a user, I want to hide or unhide completed tasks, so that I can focus on what still needs doing.
-
-As a user, I want to change the theme colour, so that the interface feels more personal or fun to use.
-
-As a user, I want my tasks to stay saved even after I close the tab, so that I don’t lose progress (via localStorage).
-
-### UX Testing
+[Change Background](assets/images/README/change_bg.png)
+[Change Tab Name](assets/images/README/change_tab_name.png)
 
 ### Time/Date Feature
 
 Tested whilst abroad in Malta - automatically adjusts to time/zone. Will do further testing to ensure it works in multiple time zones. 
-
-### Accessibility & Feedback
-As a user, I want to see a message or indicator when a task is added or removed, so that I know my actions have worked.
-
-As a user, I want to navigate the to-do list easily on desktop and mobile, so I can use it wherever I am.
-
-### UX Testing
-
-## Core Features
-- Add tasks — basic input + button to add to list.
-- Drag-and-drop tasks — reorder tasks visually.
-- Checkboxes for completion — toggle task done/undone styles.
-- Hide/unhide tasks — toggle visibility of the entire task list.
-- Theme color changer — button to cycle or pick from predefined colors.
 
 
 ## Wireframes
 
 I intend to use Bootstrap for the main layout.
 
+## Github Deployment
+
+[Installed Codespaces](assets/images/README/codespaces-git-vs.png)
+[Live code in Github](assets/images/README/github-code.png)
+[Github delpoyment via pages](assets/images/README/github-deploy-pgs.png)
+[VS Code - Github panel](assets/images/README/vs-gitcontrols.png)
+[Project deployed via Github](assets/images/README/git-deploy-final.png)
 
 ## Other Testing
 
 ### 404 Testing
-
+[404 Testing](assets/images/README/404-testing.png)
 ### HTML
 
 ### CSS
@@ -97,7 +86,7 @@ I intend to use Bootstrap for the main layout.
         - what happens if the user tries to upload a non-compliant or unrecognised file type?
         - what happens if the user tries to upload an image which is too large for upload?
 
-# Jest or JS Testing
+
 
 ## Dependencies
 
