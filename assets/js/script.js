@@ -241,7 +241,10 @@ document.getElementById("add-new").addEventListener("click", function () {
 // Hide/unhide
 
 const toggleBtn = document.getElementById("toggle-done");
-
+/** 
+ * Turns on toggle functionality
+ * 
+*/
 function applyToggleState() {
   const icon = toggleBtn.querySelector("i");
   const tasks = document.querySelectorAll(".drag-n-drop");
@@ -270,7 +273,7 @@ document.addEventListener("DOMContentLoaded", function () {
   hideDoneTasks = savedState === "true";
 
   // Rebuild tasks only after DOM is fully loaded
-  rebuildTasks(); // ✅ NOW it’s in the right place
+  rebuildTasks(); 
 
   if (toggleBtn) {
     toggleBtn.addEventListener("click", function (e) {
@@ -281,15 +284,18 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // 🧠 This is critical: re-apply state after DOM is fully loaded
+  // Re-apply state after DOM is fully loaded
   applyToggleState();
 });
 
 
 
 
-// Rebuild tasks
 
+/**
+ * Processes Task
+ * 
+ */
 function processTask(currentI) {
   var taskEl;
   var clone;
@@ -317,7 +323,8 @@ function processTask(currentI) {
       setupTaskEvents(taskEl, currentI);
   }
 }
-
+/** 
+ * Rebuilds task */
 function rebuildTasks() {
   while (i <= taskCounter) {
       processTask(i);
@@ -326,10 +333,6 @@ function rebuildTasks() {
   dragDrop();
   applyToggleState();
 }
-
-
-
-
 
 // Change theme
 // Load saved background from localStorage on page load
