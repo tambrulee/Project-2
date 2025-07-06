@@ -15,8 +15,8 @@ main {
   overflow-y: auto;
 }
 
-footer {
-  flex-shrink: 0;
+body, html {
+  overflow-x: hidden;
 }
 
 .list-btn {
@@ -151,8 +151,6 @@ footer {
 
 /* Logo */
 .navbar-brand {
-  position: absolute;
-  margin: 0 44%;
   min-width: 50px;
   max-width: 120px;
   max-height: 70px;
@@ -166,10 +164,9 @@ footer {
   border-radius: 5px;
   max-width: -moz-fit-content;
   max-width: fit-content;
-  margin: 0 40%;
   padding: 10px;
   position: relative;
-  left: 65px;
+  right: 0px;
 }
 
 .how-btn {
@@ -239,7 +236,9 @@ footer {
 
 /* Task containers */
 .task-container {
-  max-width: 85%;
+  width: 80%;
+  max-width: 600px;
+  margin: auto;
   background-color: rgb(238, 234, 234);
   color: rgb(0, 0, 0);
   padding: 10px 2px;
