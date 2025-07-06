@@ -55,10 +55,19 @@ I intend to use Bootstrap for the main layout.
 
 ## Github Deployment
 
+My preferred method of deploying projects to GitHub is via Codespaces in VSCode.
+
+1. I already had Codespaces installed in GitHub, so I went ahead and opened up a new folder in my local documents.
+2. I started a new Codespace for my projects and wrote up my first files.
+3. I committed my first few files and pushed them to GitHub.
 [Installed Codespaces](assets/images/README/codespaces-git-vs.png)
-[Live code in Github](assets/images/README/github-code.png)
-[Github delpoyment via pages](assets/images/README/github-deploy-pgs.png)
+4. From VS Code I am now able to commit, push and pull from the Git Hub panel tool.
 [VS Code - Github panel](assets/images/README/vs-gitcontrols.png)
+5. I checked in GitHub and confirmed the project had been correctly set up and my first push was in GitHub.
+[Live code in Github](assets/images/README/github-code.png)
+6. Next, I went to Pages for the project in GitHub. I checked the page was made public, then deployed from the main / root folder.
+[Github delpoyment via pages](assets/images/README/github-deploy-pgs.png)
+7. Final check was to follow the live link produced by GitHub and check web app is displaying as expected which I confirmed.
 [Project deployed via Github](assets/images/README/git-deploy-final.png)
 
 ## Other Testing
