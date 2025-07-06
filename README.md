@@ -53,7 +53,7 @@ As a user, I want to navigate the to-do list easily on desktop and mobile, so I 
 
 
 * [Background can be changed](assets/images/README/change_bg.png) with images from local documents.
- 
+
 
 * [The list name can be changed](assets/images/README/change_tab_name.png) and automatically updates the window tab to reflect the user input to make finding the list easier when multiple tabs are open.
 
@@ -72,9 +72,14 @@ As a user, I want to navigate the to-do list easily on desktop and mobile, so I 
 
 ## Wireframes
 
-I intend to use Bootstrap for the main layout.
+[Wireframe - 1](assets/images/README/wireframes-1.png)
+[Wireframe - 2](assets/images/README/wireframes-2.png)
 
+I focused my wireframes on functionality. My intention from the outset was to use Bootstrap and SCSS for the overall design. Note: I choose to use SCSS over CSS as I prefer having the ability to create variables in my work. 
 
+I had some rough ideas on how I wanted the website to look which was modern and user-friendly. The decision not to include a navigation was made from the start as it was intended to be one page. I knew that I wanted the user to be able to add, move and list items. The changing background feature was also a priority in terms of functionality and design to make the app customisable. I considered other features including the toggle between editing and saving input, also the save on keying 'Enter' which made their way into the final project. The idea to have the list name also update the document title on the HTML came later - an app called Notion has a similar feature and I thought it was a good UX design idea to help the user easily identify their open tab in the browser.
+
+Designing the web app as one page presented some challenges. Since I wasn't going to have any other pages, I needed a way to communicate what the app does to the user without overwhelming the layout. This led to the later additions of the pop-up which is designed only to show to first-time users. Initially, I thought about having a landing page and creating conditions to redirect returning users to the main list, but this proved to be time-consuming and I found the pop-up easier to set-up and control with JS. I also added a popover from the Bootstrap toolkit so that the user can refer back to the same information that appears on the first-time user pop-up.
 
 ## Github Deployment
 
