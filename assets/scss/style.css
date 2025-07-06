@@ -3,6 +3,16 @@
   font-family: Hero, sans-serif;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body, html {
+  overflow-x: hidden;
+}
+
 .list-btn {
   position: relative;
   left: 0px;
@@ -135,8 +145,6 @@
 
 /* Logo */
 .navbar-brand {
-  position: absolute;
-  margin: 0 44%;
   min-width: 50px;
   max-width: 120px;
   max-height: 70px;
@@ -150,10 +158,9 @@
   border-radius: 5px;
   max-width: -moz-fit-content;
   max-width: fit-content;
-  margin: 0 40%;
   padding: 10px;
   position: relative;
-  left: 65px;
+  right: 0px;
 }
 
 .how-btn {
@@ -223,7 +230,9 @@
 
 /* Task containers */
 .task-container {
-  max-width: 85%;
+  width: 80%;
+  max-width: 600px;
+  margin: auto;
   background-color: rgb(238, 234, 234);
   color: rgb(0, 0, 0);
   padding: 10px 2px;
