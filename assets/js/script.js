@@ -6,9 +6,7 @@ var taskCounter = parseInt(localStorage.getItem("taskCount"), 10) || 3;
 var taskContainer = document.getElementById("task-box");
 var original = document.getElementById("task-1");
 var i = 1;
-var tasks;
 var hideDoneTasks = localStorage.getItem("hideDoneTasks") === "true";
-var task;
 var checkbox;
 
 /**

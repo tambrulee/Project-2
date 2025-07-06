@@ -119,7 +119,14 @@ My preferred method of deploying projects to GitHub is via Codespaces in VSCode.
 ### CSS
 [CSS Test - No Errors](assets/images/README/css-no-errors.png)
 ### JS
+[ES Linter](assets/images/README/eslinter.png)
 [JS Quotes](assets/images/README/js-quotes.png)
+[80 characters](assets/images/README/js-80-chars.png)
+[Trailing spaces](assets/images/README/js-trailing-space.png)
+[Functions](assets/images/README/js-functions.png)
+[Functions](assets/images/README/js-functions2.png)
+[Undeclared doc](assets/images/README/js-undeclared-doc.png)
+[Unexpected for/let](assets/images/README/js-unexpected-forlet.png)
 
 * Tested on mobile phone with touch screen functionality - add a list of tests here:
 
