@@ -38,7 +38,7 @@
     <div class="popup-content">
       <h2>Welcome to Sort’d!</h2>
       <p>Sort’d helps you stay organized with simple, editable lists. Start by naming your list and adding your tasks. Easy, clean, and built just for you.</p>
-      <button id="closePopup">Get Started</button>
+      <button aria-label="Go to main app page" id="closePopup">Get Started</button>
     </div>
   </div>
 
@@ -50,17 +50,17 @@
         <div class="d-flex flex-wrap justify-content-center gap-2 small-control-panel">
 
           <!-- Add New Task -->
-          <button type="button" class="btn btn-sm" id="add-new" data-bs-toggle="tooltip" title="Add New Task">
+          <button aria-label="Add New Task" type="button" class="btn btn-sm" id="add-new" data-bs-toggle="tooltip" title="Add New Task">
             <i class="fas fa-plus"></i>
           </button>
       
           <!-- Hide/Unhide Done -->
-          <button type="button" class="btn btn-sm" id="toggle-done" data-bs-toggle="tooltip" title="Hide Done Tasks">
+          <button aria-label="Hide or Unhide tasks" type="button" class="btn btn-sm" id="toggle-done" data-bs-toggle="tooltip" title="Hide Done Tasks">
             <i class="fas fa-eye-slash"></i>
           </button>
 
           <!-- Your theme button -->
-          <button type="button" class="btn btn-sm" id="theme-btn" data-bs-toggle="tooltip" title="Change Theme">
+          <button aria-label="Change page background" type="button" class="btn btn-sm" id="theme-btn" data-bs-toggle="tooltip" title="Change Theme">
             <i class="fas fa-adjust"></i>
           </button>
 
@@ -68,7 +68,7 @@
           <input type="file" id="bg-upload" accept="image/*" style="display: none;">
 
           <!-- Learn More Button -->
-          <button type="button" class="btn btn-sm how-btn" id="how-btn"
+          <button aria-label="Click here to learn how to use app" type="button" class="btn btn-sm how-btn" id="how-btn"
             data-bs-toggle="popover" data-bs-placement="bottom"
             data-bs-custom-class="custom-popover"
             data-bs-title="How to use Sort'd"
@@ -82,7 +82,7 @@
     <div class="row mb-4">
       <div class="col-md-8 d-flex align-items-center gap-2 list-title">
         <input type="text" class="form-control editable-input" id="list-name" placeholder="Enter list name here" readonly>
-          <button class="btn btn-outline-secondary" id="list-name-edit-btn">
+          <button aria-label="Edit/Save list name" class="btn btn-outline-secondary" id="list-name-edit-btn">
             <i class="fa-solid fa-pencil pencil-btn list-btn"></i>
           </button>
       </div>
@@ -96,7 +96,7 @@
           <div class="drag-n-drop d-flex task-container mb-3" id="task-1" draggable="true">
            <input type="checkbox">
             <textarea class="form-control task-name editable-input" placeholder="Enter task here"></textarea>
-            <button class="btn btn-sm btn-outline-secondary edit-btn"><i class="fa-solid fa-pencil"></i></button>
+            <button aria-label="Edit/add task" class="btn btn-sm btn-outline-secondary edit-btn"><i class="fa-solid fa-pencil"></i></button>
             <i class="fa-solid fa-trash text-danger trash-btn"></i>
           </div>
 
@@ -104,7 +104,7 @@
           <div class="drag-n-drop d-flex task-container mb-3" id="task-2" draggable="true">
               <input type="checkbox">
               <textarea class="form-control task-name editable-input" placeholder="Enter task here"></textarea>
-              <button class="btn btn-sm btn-outline-secondary edit-btn"><i class="fa-solid fa-pencil"></i></button>
+              <button aria-label="Edit/add task" class="btn btn-sm btn-outline-secondary edit-btn"><i class="fa-solid fa-pencil"></i></button>
               <i class="fa-solid fa-trash text-danger trash-btn"></i>
           </div>
 
@@ -112,7 +112,7 @@
           <div class="drag-n-drop d-flex task-container mb-3" id="task-3" draggable="true">
               <input type="checkbox">
               <input type="text" class="form-control task-name editable-input" placeholder="Enter task here">
-              <button class="btn btn-sm btn-outline-secondary edit-btn"><i class="fa-solid fa-pencil"></i></button>
+              <button aria-label="Edit/add task" class="btn btn-sm btn-outline-secondary edit-btn"><i class="fa-solid fa-pencil"></i></button>
               <i class="fa-solid fa-trash text-danger trash-btn"></i>
           </div>
         </div>
