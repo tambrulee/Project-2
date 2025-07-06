@@ -21,15 +21,33 @@
 
 .trash-btn, .pencil-btn, .edit-btn {
   z-index: 200;
-  color: rgba(31, 8, 37, 0.737254902) !important;
+  color: rgba(31, 8, 37, 0.9294117647) !important;
+}
+
+.trash-btn:hover {
+  background-color: rgba(205, 191, 209, 0.737254902);
+}
+
+.edit-btn:hover {
+  background-color: rgba(205, 191, 209, 0.737254902);
 }
 
 #add-new, #toggle-done, #theme-btn, #how-btn {
-  background-color: rgba(31, 8, 37, 0.737254902) !important;
+  background-color: rgba(31, 8, 37, 0.9294117647) !important;
 }
 
 .edit-btn {
   right: 50px;
+}
+
+#list-name-edit-btn {
+  background-color: rgb(238, 234, 234);
+  border: none;
+}
+
+#list-name-edit-btn:hover {
+  background-color: rgba(205, 191, 209, 0.737254902);
+  color: rgb(238, 234, 234) !important;
 }
 
 .list-btn {
@@ -61,7 +79,7 @@
 }
 
 #nf-btn {
-  background-color: rgba(31, 8, 37, 0.737254902) !important;
+  background-color: rgba(31, 8, 37, 0.9294117647) !important;
   border: #CD6CE7;
 }
 

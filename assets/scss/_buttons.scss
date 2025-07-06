@@ -27,15 +27,31 @@
     
   }
 
+  .trash-btn:hover{
+    background-color: $button-colour-3;
+  }
+
+  .edit-btn:hover{
+    background-color: $button-colour-3;
+  }
+
   #add-new, #toggle-done, #theme-btn, #how-btn {
     background-color: $button-colour-1 !important;
   }
-
 
   .edit-btn{
     right: 50px;
   }
 // List button position
+#list-name-edit-btn{
+  background-color: $main-container;
+  border: none;
+}
+
+#list-name-edit-btn:hover{
+  background-color: $button-colour-3;
+  color: $main-container !important;
+}
 
 .list-btn{
     position: relative;
