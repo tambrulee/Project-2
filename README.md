@@ -1,5 +1,3 @@
-Hello and welcome to my README for Project 2 - Sort'd
-
 # What is Sort'd?
 
 Sort'd is a simple web application which allows the user to create a list which saves to their cache using local storage. It's intended for every day casual use and therefore was intended to be user-friendly and easy to use with basic functions.
