@@ -69,7 +69,8 @@ As a user, I want to navigate the to-do list easily on desktop and mobile, so I 
 | Add Task     | Add button creates a new task to the bottom of the list       |Y|
 | Edit/Save Buttons - List | Toggles input so that text can be input and then saved to list container       |Y|
 | Edit/Save Buttons - Tasks | Toggles input so that text can be input and then saved to task container        |Y|
-| Hide/Unhide Button | Toggles hide/unhide button and simultaneously hides any tasks which have a checkbox selected        |Y|
+| Hide/Unhide Button - Existing Task | Toggles hide/unhide button and simultaneously hides any existing tasks which have a checkbox selected        |Y|
+| Hide/Unhide Button - New Tasks | Toggles hide/unhide button and simultaneously hides any new tasks which have a checkbox selected        |Y|
 | Delete Button | When clicked deletes the task        |Y|
 | Change background Button | Prompts a local documents window to open and allows user to select image to upload as a background       |Y|
 | Change background - Image validation | Ensures the user can only select image file types       |Y|
