@@ -6,9 +6,8 @@ var taskCounter = parseInt(localStorage.getItem("taskCount"), 10) || 3;
 var taskContainer = document.getElementById("task-box");
 var original = document.getElementById("task-1");
 var i = 1;
-var toggleBtn;
-var hideDoneTasks;
 var tasks;
+var hideDoneTasks = localStorage.getItem("hideDoneTasks") === "true";
 var task;
 var checkbox;
 
@@ -48,6 +47,12 @@ function setupTaskEvents(taskEl, index) {
             icon.className = "fa-solid fa-pencil";
         }
     });
+
+    checkbox.addEventListener("change", function () {
+      localStorage.setItem(doneKey, checkbox.checked);
+      applyToggleState();
+  });
+  
 
     nameInput.addEventListener("keydown", function (e) {
         if (e.key === "Enter" && !nameInput.hasAttribute("readonly")) {
@@ -148,45 +153,7 @@ function dragDrop() {
     });
 }
 
-// Rebuild tasks
 
-function processTask(currentI) {
-    var taskEl;
-    var clone;
-    var nameInput;
-
-    if (currentI <= 3) {
-        taskEl = document.getElementById("task-" + currentI);
-    } else {
-        clone = original.cloneNode(true);
-        clone.id = "task-" + currentI;
-        clone.classList.add("drag-n-drop");
-        clone.setAttribute("draggable", "true");
-
-        nameInput = clone.querySelector(".task-name");
-        checkbox = clone.querySelector("input[type='checkbox']");
-        nameInput.value = localStorage.getItem("taskName" + currentI) || "";
-        checkbox.checked = (
-            localStorage.getItem("taskDone" + currentI) === "true"
-        );
-        taskContainer.appendChild(clone);
-        taskEl = clone;
-    }
-
-    if (taskEl) {
-        setupTaskEvents(taskEl, currentI);
-    }
-}
-
-function rebuildTasks() {
-    while (i <= taskCounter) {
-        processTask(i);
-        i += 1;
-    }
-    dragDrop();
-}
-
-rebuildTasks();
 
 /**
  * Sets time and date to match time on PC
@@ -275,41 +242,96 @@ document.getElementById("add-new").addEventListener("click", function () {
 
 // Hide/unhide
 
-toggleBtn = document.getElementById("toggle-done");
-hideDoneTasks = false; // Track toggle state
+const toggleBtn = document.getElementById("toggle-done");
 
-if (toggleBtn) {
-  toggleBtn.addEventListener("click", function (e) {
-      e.preventDefault();
+function applyToggleState() {
+  const icon = toggleBtn.querySelector("i");
+  const tasks = document.querySelectorAll(".drag-n-drop");
 
-      hideDoneTasks = !hideDoneTasks;
+  if (icon) {
+    icon.classList.toggle("fa-eye", hideDoneTasks);
+    icon.classList.toggle("fa-eye-slash", !hideDoneTasks);
+  }
 
-      const icon = toggleBtn.querySelector("i");
-      if (icon) {
-          if (hideDoneTasks) {
-              icon.classList.remove("fa-eye-slash");
-              icon.classList.add("fa-eye");
-          } else {
-              icon.classList.remove("fa-eye");
-              icon.classList.add("fa-eye-slash");
-          }
+  tasks.forEach(function (task) {
+    const checkbox = task.querySelector("input[type='checkbox']");
+    if (checkbox && checkbox.checked) {
+      if (hideDoneTasks) {
+        task.classList.add("hidden-task");
+      } else {
+        task.classList.remove("hidden-task");
       }
-
-      const tasks = document.querySelectorAll(".drag-n-drop");
-
-tasks.forEach(function (task) {
-  const checkbox = task.querySelector("input[type='checkbox']");
-  if (checkbox && checkbox.checked) {
-    if (hideDoneTasks) {
-      task.classList.add("hidden-task");
     } else {
       task.classList.remove("hidden-task");
     }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const savedState = localStorage.getItem("hideDoneTasks");
+  hideDoneTasks = savedState === "true";
+
+  // Rebuild tasks only after DOM is fully loaded
+  rebuildTasks(); // ✅ NOW it’s in the right place
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      hideDoneTasks = !hideDoneTasks;
+      localStorage.setItem("hideDoneTasks", hideDoneTasks.toString());
+      applyToggleState();
+    });
   }
+
+  // 🧠 This is critical: re-apply state after DOM is fully loaded
+  applyToggleState();
 });
 
-    });      
-    }
+
+
+
+// Rebuild tasks
+
+function processTask(currentI) {
+  var taskEl;
+  var clone;
+  var nameInput;
+
+  if (currentI <= 3) {
+      taskEl = document.getElementById("task-" + currentI);
+  } else {
+      clone = original.cloneNode(true);
+      clone.id = "task-" + currentI;
+      clone.classList.add("drag-n-drop");
+      clone.setAttribute("draggable", "true");
+
+      nameInput = clone.querySelector(".task-name");
+      checkbox = clone.querySelector("input[type='checkbox']");
+      nameInput.value = localStorage.getItem("taskName" + currentI) || "";
+      checkbox.checked = (
+          localStorage.getItem("taskDone" + currentI) === "true"
+      );
+      taskContainer.appendChild(clone);
+      taskEl = clone;
+  }
+
+  if (taskEl) {
+      setupTaskEvents(taskEl, currentI);
+  }
+}
+
+function rebuildTasks() {
+  while (i <= taskCounter) {
+      processTask(i);
+      i += 1;
+  }
+  dragDrop();
+  applyToggleState();
+}
+
+
+
+
 
 // Change theme
 // Load saved background from localStorage on page load
@@ -319,7 +341,6 @@ window.addEventListener("DOMContentLoaded", function () {
 if (savedBg) {
   document.querySelector(".list-page").style.backgroundImage = `url('${savedBg}')`;
 }
-
 
   // Trigger hidden file input when theme button is clicked
   document.getElementById("theme-btn").addEventListener("click", function (e) {

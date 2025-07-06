@@ -3,6 +3,10 @@
   font-family: Hero, sans-serif;
 }
 
+body {
+  min-height: 700px;
+}
+
 .list-btn {
   position: relative;
   left: 0px;

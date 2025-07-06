@@ -18,6 +18,10 @@ $main-container: rgb(238, 234, 234);
   font-family: Hero, sans-serif;
 }
 
+body{
+  min-height: 700px
+}
+
 // Imports button themes
 @import './buttons.scss';
 
