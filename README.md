@@ -197,6 +197,8 @@ I had some rough ideas on how I wanted the website to look which was modern and 
 
 Designing the web app as one page presented some challenges. Since I wasn't going to have any other pages, I needed a way to communicate what the app does to the user without overwhelming the layout. This led to the later additions of the pop-up which is designed only to show to first-time users. Initially, I thought about having a landing page and creating conditions to redirect returning users to the main list, but this proved to be time-consuming and I found the pop-up easier to set-up and control with JS. I also added a popover from the Bootstrap toolkit so that the user can refer back to the same information that appears on the first-time user pop-up.
 
+Overall, I think that the final design is close to the original wireframes although final design choices such as having certain buttons as a panel have made a big difference to the look and feel of the app. In terms of mobile-responsiveness the app ticks all the boxes and the generated image from [Am-I-Responsive](assets/images/README/am-i-responsive.png) demonstrates usability across platforms.
+
 ## Github Deployment
 
 My preferred method of deploying projects to GitHub is via Codespaces in VSCode.
@@ -239,22 +241,10 @@ My preferred method of deploying projects to GitHub is via Codespaces in VSCode.
 [Undeclared doc](assets/images/README/js-undeclared-doc.png)
 [Unexpected for/let](assets/images/README/js-unexpected-forlet.png)
 
-* Tested on mobile phone with touch screen functionality - add a list of tests here:
+### Lighthouse
 
-* Tests:
-    1. Will the user's input save when they navigate to another website, leave or refresh the web page?
-    
-    2. Add new task 
-        - do new tasks generate a duplicate of the standard task template?
-        - do new tasks allow you to edit & save text?
-        - does the add new task button move down the page accordingly as expected as the user adds task?
-        - does the page respond in a way which is accessible and promotes userbility when the added tasks reach the confines of the task container?
-
-    3. Change theme
-        - what happens if the user tries to upload a non-compliant or unrecognised file type?
-        - what happens if the user tries to upload an image which is too large for upload?
-
-
+[Lighthouse - Mobile](assets/images/README/lighthouse-mobile.png)
+[Lighthouse - Desktop](assets/images/README/lighthouse-desktop.png)
 
 ## Dependencies
 
