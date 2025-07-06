@@ -37,6 +37,8 @@ As a user, I want to navigate the to-do list easily on desktop and mobile, so I 
 
 ### UX Testing
 
+* [Pop up shows to first time users only](assets/images/README/pop-up.png)
+
 * [Control Panel](assets/images/README/ctrl_panel.png) allows user to add, hide and change background.
 
 
@@ -60,7 +62,9 @@ As a user, I want to navigate the to-do list easily on desktop and mobile, so I 
 #### Tests Run
 | Test     | Expected Outcome |Outcome Achieved? (Y/N)|
 | ----------- | ----------- |----------- |
-| Time and Date     | Time and date updates to currnet time on desktop      |Y|
+| 1st Time User - Pop Up    | Pop up greeting user and explaining how the app works pops up when a first time user arrives on the website      |Y|
+| Returning User - No Pop Up    | Pop up does not appear when a returning user arrives on the website      |Y|
+| Time and Date     | Time and date updates to current time on desktop      |Y|
 | Add Task     | Add button creates a new task to the bottom of the list       |Y|
 | Edit/Save Buttons - List | Toggles input so that text can be input and then saved to list container       |Y|
 | Edit/Save Buttons - Tasks | Toggles input so that text can be input and then saved to task container        |Y|
@@ -68,7 +72,7 @@ As a user, I want to navigate the to-do list easily on desktop and mobile, so I 
 | Delete Button | When clicked deletes the task        |Y|
 | Change background Button | Prompts a local documents window to open and allows user to select image to upload as a background       |N|
 | Change background - Image validation | Ensures the user can only select        |N|
-| Learn More button | When clicked, opens up a popover which gives the user some instructions on using the app        |N|
+| Learn More button | When clicked, opens up a popover which gives the user some instructions on using the app        |Y|
 
 ## Wireframes
 

@@ -27,19 +27,19 @@
     </div>
   </nav>
 
-  <!-- Unified Time + Learn More Panel -->
-  <div class="time-learn-panel d-flex flex-row flex-nowrap align-items-center gap-3 p-2 shadow-sm rounded">
-    <!-- Time/Date -->
-    <div id="time-date" class="small mb-0 text-muted"></div>
-  </div>
-
-  <!-- Welcome Popup -->
-  <div id="firstTimePopup" class="popup-overlay">
+   <!-- Welcome Popup -->
+   <div id="firstTimePopup" class="popup-overlay">
     <div class="popup-content">
       <h2>Welcome to Sort’d!</h2>
       <p>Sort’d helps you stay organized with simple, editable lists. Start by naming your list and adding your tasks. Easy, clean, and built just for you.</p>
       <button aria-label="Go to main app page" id="closePopup">Get Started</button>
     </div>
+  </div>
+
+  <!-- Unified Time + Learn More Panel -->
+  <div class="time-learn-panel d-flex flex-row flex-nowrap align-items-center gap-3 p-2 shadow-sm rounded">
+    <!-- Time/Date -->
+    <div id="time-date" class="small mb-0 text-muted"></div>
   </div>
 
   <!-- Main -->
@@ -68,13 +68,31 @@
           <input type="file" id="bg-upload" accept="image/*" style="display: none;">
 
           <!-- Learn More Button -->
-          <button aria-label="Click here to learn how to use app" type="button" class="btn btn-sm how-btn" id="how-btn"
-            data-bs-toggle="popover" data-bs-placement="bottom"
-            data-bs-custom-class="custom-popover"
-            data-bs-title="How to use Sort'd"
-            data-bs-content="Sort’d is a simple, intuitive task app designed to help you stay on top of your day...">
-            Learn More
-          </button>
+          <button
+  aria-label="Click here to learn how to use the app"
+  type="button"
+  class="btn btn-sm how-btn"
+  id="how-btn"
+  data-bs-toggle="popover"
+  data-bs-placement="bottom"
+  data-bs-custom-class="custom-popover"
+  data-bs-html="true"
+  data-bs-title="How to use Sort'd"
+  data-bs-content="<ul class='how-list'>
+    
+    <li><i class='fa-solid fa-plus'></i> Add a new task.</li>
+    <li><i class='fa-solid fa-pen'></i> Rename a task.</li>
+    <li><i class='fa-solid fa-trash'></i> Delete a task.</li>
+    <li><i class='fa-solid fa-check-square'></i> Tick the checkbox to mark a task as complete.</li>
+    <li><i class='fa-solid fa-eye-slash'></i> Use the hide/show toggle to filter completed tasks.</li>
+    <li><i class='fa-solid fa-adjust'></i> Change the background.</li>
+
+
+  </ul>"
+>
+  Learn More
+</button>
+
         </div>
       </div>
     </div>
