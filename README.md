@@ -56,6 +56,7 @@ As a user, I want to navigate the to-do list easily on desktop and mobile, so I 
 
 * [Background can be changed](assets/images/README/change_bg.png) with images from local documents.
 
+* [Validation - Only image file types can be selected for a background](/assets/images/README/img-validation.png)
 
 * [The list name can be changed](assets/images/README/change_tab_name.png) and automatically updates the window tab to reflect the user input to make finding the list easier when multiple tabs are open.
 
@@ -70,8 +71,8 @@ As a user, I want to navigate the to-do list easily on desktop and mobile, so I 
 | Edit/Save Buttons - Tasks | Toggles input so that text can be input and then saved to task container        |Y|
 | Hide/Unhide Button | Toggles hide/unhide button and simultaneously hides any tasks which have a checkbox selected        |N|
 | Delete Button | When clicked deletes the task        |Y|
-| Change background Button | Prompts a local documents window to open and allows user to select image to upload as a background       |N|
-| Change background - Image validation | Ensures the user can only select        |N|
+| Change background Button | Prompts a local documents window to open and allows user to select image to upload as a background       |Y|
+| Change background - Image validation | Ensures the user can only select image file types       |Y|
 | Learn More button | When clicked, opens up a popover which gives the user some instructions on using the app        |Y|
 
 ## Wireframes
