@@ -310,63 +310,42 @@ for (i = 0; i < tasks.length; i += 1) {
 
 // Change theme
 // Load saved background from localStorage on page load
+// Load saved background from localStorage on page load
 window.addEventListener("DOMContentLoaded", function () {
   const savedBg = localStorage.getItem("customBackground");
-  if (savedBg) {
-    document.body.style.backgroundImage = `url('${savedBg}')`;
-  }
-});
+if (savedBg) {
+  document.querySelector(".list-page").style.backgroundImage = `url('${savedBg}')`;
+}
 
-// Trigger hidden file input when theme button is clicked
-document.getElementById("theme-btn").addEventListener("click", function (e) {
-  e.preventDefault();
-  document.getElementById("bg-upload").click();
-});
 
-// When user selects a file, set and save it as the background
-document.getElementById("bg-upload").addEventListener("change", function () {
-  const file = this.files[0];
-  if (!file) return;
-
-  // ✅ Validate MIME type
-  if (!file.type.startsWith("image/")) {
-    alert("Please select a valid image file (JPEG, PNG, GIF, etc).");
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    const base64Image = e.target.result;
-    document.body.style.backgroundImage = `url('${base64Image}')`;
-    localStorage.setItem("customBackground", base64Image);
-  };
-  reader.readAsDataURL(file);
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const savedBackground = localStorage.getItem("customBackground");
-    if (savedBackground) {
-      document.querySelector(".list-page").style.backgroundImage = `url('${savedBackground}')`;
-    }
+  // Trigger hidden file input when theme button is clicked
+  document.getElementById("theme-btn").addEventListener("click", function (e) {
+    e.preventDefault();
+    document.getElementById("bg-upload").click();
   });
-  
+
+  // When user selects a file, set and save it as the background
   document.getElementById("bg-upload").addEventListener("change", function () {
     const file = this.files[0];
     if (!file) return;
-  
+
     if (!file.type.startsWith("image/")) {
       alert("Please select a valid image file.");
       return;
     }
-  
+
     const reader = new FileReader();
     reader.onload = function (e) {
       const imageData = e.target.result;
-      document.querySelector(".list-page").style.backgroundImage = `url('${imageData}')`;
+      // Apply to body or your custom element
+      document.querySelector(".list-page")
+  .style.backgroundImage = `url('${imageData}')`;
       localStorage.setItem("customBackground", imageData);
     };
     reader.readAsDataURL(file);
-  });  
+  });
 });
+
 
 
 
