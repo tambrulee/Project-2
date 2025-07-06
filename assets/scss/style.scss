@@ -56,6 +56,13 @@ $main-container: rgb(238, 234, 234);
   border: #CD6CE7;
 }
 
+// Hidden task
+
+.hidden-task {
+  display: none !important;
+}
+
+
 // Popup - Home page
 .popup-overlay {
   position: fixed;

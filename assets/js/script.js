@@ -273,6 +273,8 @@ document.getElementById("add-new").addEventListener("click", function () {
     localStorage.setItem("taskCount", taskCounter);
 });
 
+// Hide/unhide
+
 toggleBtn = document.getElementById("toggle-done");
 hideDoneTasks = false; // Track toggle state
 
@@ -293,19 +295,20 @@ if (toggleBtn) {
           }
       }
 
-        tasks = document.querySelectorAll(".drag-n-drop");
+      const tasks = document.querySelectorAll(".drag-n-drop");
 
-       // Then in your loop:
-for (i = 0; i < tasks.length; i += 1) {
-  task = tasks[i];
-  checkbox = task.querySelector("input[type='checkbox']");
+tasks.forEach(function (task) {
+  const checkbox = task.querySelector("input[type='checkbox']");
   if (checkbox && checkbox.checked) {
-      task.style.display = hideDoneTasks ? "none" : "flex";
-  } else {
-      task.style.display = "flex";
+    if (hideDoneTasks) {
+      task.classList.add("hidden-task");
+    } else {
+      task.classList.remove("hidden-task");
+    }
   }
-}
-      });
+});
+
+    });      
     }
 
 // Change theme
@@ -345,9 +348,3 @@ if (savedBg) {
     reader.readAsDataURL(file);
   });
 });
-
-
-
-
-
-

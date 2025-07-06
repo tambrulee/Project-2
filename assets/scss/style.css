@@ -83,6 +83,10 @@
   border: #CD6CE7;
 }
 
+.hidden-task {
+  display: none !important;
+}
+
 .popup-overlay {
   position: fixed;
   top: 0;
