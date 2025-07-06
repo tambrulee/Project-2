@@ -138,19 +138,21 @@
   max-height: 70px;
 }
 
-.time-learn-panel {
-  background-color: #f5f5f5;
-  border: 1px solid #dee2e6;
-  border-radius: 1rem;
-  max-width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-}
-.time-learn-panel #time-date {
+#time-date {
   font-size: 0.9rem;
-  white-space: nowrap;
+  font-weight: 600;
+  text-align: center;
+  background-color: rgb(238, 234, 234);
+  border-radius: 5px;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  margin: 0 40%;
+  padding: 10px;
+  position: relative;
+  left: 65px;
 }
-.time-learn-panel .how-btn {
+
+.how-btn {
   white-space: nowrap;
 }
 
