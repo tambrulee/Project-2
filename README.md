@@ -120,6 +120,7 @@ As a user, I want to navigate the to-do list easily on desktop and mobile, so I 
 * [The list name can be changed](assets/images/README/change_tab_name.png) and automatically updates the window tab to reflect the user input to make finding the list easier when multiple tabs are open.
 
 #### Tests Run
+
 | Test     | Expected Outcome |Outcome Achieved? (Y/N)|
 | ----------- | ----------- |----------- |
 | 1st Time User - Pop Up    | Pop up greeting user and explaining how the app works pops up when a first time user arrives on the website      |Y|
@@ -128,8 +129,24 @@ As a user, I want to navigate the to-do list easily on desktop and mobile, so I 
 | Add Task     | Add button creates a new task to the bottom of the list       |Y|
 | Edit/Save Buttons - List | Toggles input so that text can be input and then saved to list container       |Y|
 | Edit/Save Buttons - Tasks | Toggles input so that text can be input and then saved to task container        |Y|
-| Hide/Unhide Button - Existing Task | Toggles hide/unhide button and simultaneously hides any existing tasks which have a checkbox selected        |Y|
-| Hide/Unhide Button - New Tasks | Toggles hide/unhide button and simultaneously hides any new tasks which have a checkbox selected        |Y|
+| Hide/Unhide Button - Existing Task | Toggles hide/unhide button and simultaneously hides any existing tasks which have a checkbox selected        |N - Please see bottom of README for known bugs|
+| Hide/Unhide Button - New Tasks | Toggles hide/unhide button and simultaneously hides any new tasks which have a checkbox selected        |N - Please see bottom of README for known bugs|
+| Delete Button | When clicked deletes the task        |Y|
+| Change background Button | Prompts a local documents window to open and allows user to select image to upload as a background       |Y|
+| Change background - Image validation | Ensures the user can only select image file types       |Y|
+| Learn More button | When clicked, opens up a popover which gives the user some instructions on using the app        |Y|
+
+* Further mobile testing:
+
+All of these tests were performed on a touchscreen device
+
+| Test     | Expected Outcome |Outcome Achieved? (Y/N)|
+| ----------- | ----------- |----------- |
+| Add Task - Mobile     | Add button creates a new task to the bottom of the list       |Y|
+| Edit/Save Buttons - List  - Mobile | Toggles input so that text can be input and then saved to list container       |Y|
+| Edit/Save Buttons - Tasks  - Mobile | Toggles input so that text can be input and then saved to task container        |Y|
+| Hide/Unhide Button - Existing Task | Toggles hide/unhide button and simultaneously hides any existing tasks which have a checkbox selected        |N - Please see bottom of README for known bugs|
+| Hide/Unhide Button - New Tasks | Toggles hide/unhide button and simultaneously hides any new tasks which have a checkbox selected        |N - Please see bottom of README for known bugs|
 | Delete Button | When clicked deletes the task        |Y|
 | Change background Button | Prompts a local documents window to open and allows user to select image to upload as a background       |Y|
 | Change background - Image validation | Ensures the user can only select image file types       |Y|
