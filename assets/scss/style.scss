@@ -18,6 +18,23 @@ $main-container: rgb(238, 234, 234);
   font-family: Hero, sans-serif;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+  overflow-y: auto;
+}
+
+footer {
+  flex-shrink: 0;
+}
+
+
 // Imports button themes
 @import './buttons.scss';
 
