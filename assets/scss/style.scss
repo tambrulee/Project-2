@@ -105,9 +105,7 @@ $button-colour-3: #cdbfd1bc;
 /* Logo */
 .navbar-brand {
   position: absolute;
-  top: 5px;
-  left: 10%;
-  margin: 0;
+  margin: 0 44%;
   min-width: 50px;
   max-width: 120px;
   max-height: 70px;
@@ -145,7 +143,7 @@ $button-colour-3: #cdbfd1bc;
 .list-page {
   /* This will be the default background on the pages*/
   // https://pixabay.com/photos/dolomites-mountains-italy-alps-2914157/- Credits to kordi_vahle
-  background: url("assets/images/default-img.jpg") no-repeat center center/cover;
+  background: url('assets/images/default-img.jpg') no-repeat center center/cover;
 }
 
 /* List Title container */

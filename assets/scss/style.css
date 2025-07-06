@@ -114,9 +114,7 @@
 /* Logo */
 .navbar-brand {
   position: absolute;
-  top: 5px;
-  left: 10%;
-  margin: 0;
+  margin: 0 44%;
   min-width: 50px;
   max-width: 120px;
   max-height: 70px;
