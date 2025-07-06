@@ -111,28 +111,51 @@
       <div class="col-md-8 mx-auto">
         <div id="task-box">
           <!-- Task Template 1 -->
-          <div class="drag-n-drop d-flex task-container mb-3" id="task-1" draggable="true">
-           <input type="checkbox">
-            <textarea class="form-control task-name editable-input" placeholder="Enter task here"></textarea>
-            <button aria-label="Edit/add task" class="btn btn-sm btn-outline-secondary edit-btn"><i class="fa-solid fa-pencil"></i></button>
-            <i class="fa-solid fa-trash text-danger trash-btn"></i>
+          <div class="drag-n-drop d-flex align-items-center gap-2 task-container mb-3" id="task-1" draggable="true">
+            <input type="checkbox" aria-label="Mark task as complete">
+          
+            <textarea class="form-control task-name editable-input" placeholder="Enter task here" aria-label="Task name"></textarea>
+          
+            <button aria-label="Edit or save task" class="btn btn-sm btn-outline-secondary edit-btn">
+              <i class="fa-solid fa-pencil"></i>
+            </button>
+          
+            <button aria-label="Delete task" class="btn btn-sm trash-btn">
+              <i class="fa-solid fa-trash"></i>
+            </button>
           </div>
+          
 
         <!-- Task Template 2 -->
-          <div class="drag-n-drop d-flex task-container mb-3" id="task-2" draggable="true">
-              <input type="checkbox">
-              <textarea class="form-control task-name editable-input" placeholder="Enter task here"></textarea>
-              <button aria-label="Edit/add task" class="btn btn-sm btn-outline-secondary edit-btn"><i class="fa-solid fa-pencil"></i></button>
-              <i class="fa-solid fa-trash text-danger trash-btn"></i>
-          </div>
+        <div class="drag-n-drop d-flex align-items-center gap-2 task-container mb-3" id="task-2" draggable="true">
+          <input type="checkbox" aria-label="Mark task as complete">
+        
+          <textarea class="form-control task-name editable-input" placeholder="Enter task here" aria-label="Task name"></textarea>
+        
+          <button aria-label="Edit or save task" class="btn btn-sm btn-outline-secondary edit-btn">
+            <i class="fa-solid fa-pencil"></i>
+          </button>
+        
+          <button aria-label="Delete task" class="btn btn-sm trash-btn">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+        
 
           <!-- Task Template 3 -->
-          <div class="drag-n-drop d-flex task-container mb-3" id="task-3" draggable="true">
-              <input type="checkbox">
-              <input type="text" class="form-control task-name editable-input" placeholder="Enter task here">
-              <button aria-label="Edit/add task" class="btn btn-sm btn-outline-secondary edit-btn"><i class="fa-solid fa-pencil"></i></button>
-              <i class="fa-solid fa-trash text-danger trash-btn"></i>
-          </div>
+          <div class="drag-n-drop d-flex align-items-center gap-2 task-container mb-3" id="task-3" draggable="true">
+            <input type="checkbox" aria-label="Mark task as complete">
+          
+            <textarea class="form-control task-name editable-input" placeholder="Enter task here" aria-label="Task name"></textarea>
+          
+            <button aria-label="Edit or save task" class="btn btn-sm btn-outline-secondary edit-btn">
+              <i class="fa-solid fa-pencil"></i>
+            </button>
+          
+            <button aria-label="Delete task" class="btn btn-sm trash-btn">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>          
         </div>
       </div>
     </div>

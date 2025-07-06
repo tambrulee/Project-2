@@ -20,10 +20,12 @@
 }
 
 .trash-btn, .pencil-btn, .edit-btn {
-  position: absolute;
-  right: 30px;
   z-index: 200;
   color: rgba(31, 8, 37, 0.737254902) !important;
+}
+
+#add-new, #toggle-done, #theme-btn, #how-btn {
+  background-color: rgba(31, 8, 37, 0.737254902) !important;
 }
 
 .edit-btn {

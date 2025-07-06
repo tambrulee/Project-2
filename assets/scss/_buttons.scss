@@ -21,12 +21,15 @@
 
   // Font Awesome buttons
 
-  .trash-btn, .pencil-btn, .edit-btn{
-    position: absolute;
-    right: 30px;
+  .trash-btn, .pencil-btn, .edit-btn {
     z-index: 200;
     color: $button-colour-1 !important;
   }
+
+  #add-new, #toggle-done, #theme-btn, #how-btn {
+    background-color: $button-colour-1 !important;
+  }
+
 
   .edit-btn{
     right: 50px;
