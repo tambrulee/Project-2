@@ -287,7 +287,8 @@ Solution: removed from code
 * Trash, Edit, Save, Hide, Unhide, Change Theme buttons
 
 ### Drag and Drop API
-* <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API"> 
+
+* https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
 
 ### W3
 
