@@ -19,6 +19,8 @@ Main features include:
 * Change background
 * Current time
 
+---
+
 ## Development Cycle
 
 This project followed a clear development cycle, which is documented through structured GitHub commits and this README.
@@ -30,7 +32,6 @@ This project followed a clear development cycle, which is documented through str
 - Set up the project structure using HTML, SCSS, and JavaScript
 - Initialized Git and started version control from the beginning
 
----
 
 ###  2. Feature Development
 - Built core task functionality (add, delete, edit)
@@ -41,30 +42,26 @@ This project followed a clear development cycle, which is documented through str
 
 Each feature was developed and tested in isolation before being integrated.
 
----
 
 ### 3. Testing & Debugging
 - Manual testing was applied throughout development 
 - Issues like file path errors, non-working toggles, and DOM misreferences were identified and fixed
 - Used console logging, DOM inspection, and functional walkthroughs for each component
 
----
 
 ### 4. Styling & Responsiveness
 - Used Bootstrap for responsive layout
 - Customized components with SCSS variables
 - Ensured the UI worked on different screen sizes through browser testing
 
----
 
 ### 5. Deployment
 - Deployed using GitHub Pages
 - Verified that deployed version matched the development version
 - Final testing done post-deployment to ensure functionality and layout remained consistent
 
----
 
-### Git Commit History
+### 6. Git Commit History
 The GitHub repository includes meaningful commit messages to track each stage of the project — from initial setup to final deployment. Each commit describes what was added, fixed, or updated to maintain transparency and clarity during the development process.
 
 
@@ -80,19 +77,19 @@ Since this is a small, one-off project, I’ve decided to use manual testing. It
 
 ## User Stories
 
-As a user, I want to add tasks to my to-do list, so that I can keep track of what I need to do.
+* As a user, I want to add tasks to my to-do list, so that I can keep track of what I need to do.
 
-As a user, I want to tick off completed tasks, so that I can visually see what I’ve finished.
+* As a user, I want to tick off completed tasks, so that I can visually see what I’ve finished.
 
-As a user, I want to drag and drop tasks, so that I can prioritise or reorder them easily.
+* As a user, I want to drag and drop tasks, so that I can prioritise or reorder them easily.
 
-As a user, I want to remove tasks from my list, so that I can keep my to-do list clean and relevant.
+* As a user, I want to remove tasks from my list, so that I can keep my to-do list clean and relevant.
 
-As a user, I want to be able change the page background, so that I can customise or add a theme to my list.
+* As a user, I want to be able change the page background, so that I can customise or add a theme to my list.
 
-As a user, I want my tasks to stay saved even after I close the tab, so that I don’t lose progress (via localStorage).
+* As a user, I want my tasks to stay saved even after I close the tab, so that I don’t lose progress (via localStorage).
 
-As a user, I want to navigate the to-do list easily on desktop and mobile, so I can use it wherever I am.
+* As a user, I want to navigate the to-do list easily on desktop and mobile, so I can use it wherever I am.
 
 ### UX Testing
 
@@ -115,11 +112,11 @@ As a user, I want to navigate the to-do list easily on desktop and mobile, so I 
 
 * [Background can be changed](assets/images/README/change_bg.png) with images from local documents.
 
-* [Validation - Only image file types can be selected for a background](/assets/images/README/img-validation.png)
+* [Validation - Only image file types can be selected for a background](assets/images/README/img-validation.png)
 
 * [The list name can be changed](assets/images/README/change_tab_name.png) and automatically updates the window tab to reflect the user input to make finding the list easier when multiple tabs are open.
 
-#### Tests Run
+#### Tests Run - Desktop
 
 | Test     | Expected Outcome |Outcome Achieved? (Y/N)|
 | ----------- | ----------- |----------- |
@@ -136,7 +133,7 @@ As a user, I want to navigate the to-do list easily on desktop and mobile, so I 
 | Change background - Image validation | Ensures the user can only select image file types       |Y|
 | Learn More button | When clicked, opens up a popover which gives the user some instructions on using the app        |Y|
 
-* Further mobile testing:
+#### Tests Run - Mobile/Tablet (Touchscreen)
 
 All of these tests were performed on a touchscreen device
 
@@ -205,10 +202,11 @@ I tested my code throughout development and documented each fix through GitHub c
 
 ## Wireframes
 
-[Wireframe - 1](assets/images/README/wireframes-1.png)
-[Wireframe - 2](assets/images/README/wireframes-2.png)
-
 I focused my wireframes on functionality. My intention from the outset was to use Bootstrap and SCSS for the overall design. Note: I choose to use SCSS over CSS as I prefer having the ability to create variables in my work. 
+
+[Click here to view wireframes - 1 (Outlines functionality)](assets/images/README/wireframes-1.png)
+
+[Click here to view wireframes - 2 (Outlines website layout and style)](assets/images/README/wireframes-2.png)
 
 I had some rough ideas on how I wanted the website to look which was modern and user-friendly. The decision not to include a navigation was made from the start as it was intended to be one page. I knew that I wanted the user to be able to add, move and list items. The changing background feature was also a priority in terms of functionality and design to make the app customisable. I considered other features including the toggle between editing and saving input, also the save on keying 'Enter' which made their way into the final project. The idea to have the list name also update the document title on the HTML came later - an app called Notion has a similar feature and I thought it was a good UX design idea to help the user easily identify their open tab in the browser.
 
@@ -237,28 +235,45 @@ My preferred method of deploying projects to GitHub is via Codespaces in VSCode.
 
 ### 404 Testing
 [404 Testing](assets/images/README/404-testing.png)
+
 ### HTML
+Validator: https://validator.w3.org/detailed.html
+
+
 1. Error message about trailing slash
 * Solution: removed all forward slashes from end tags
 [Trailing Slash](assets/images/README/html-trailing-slash.png)
+
 2. Too many descendants within label tag
-*  Solution: 
+*  Solution: remove labels surrounding the relevant descending tags
 [Labels](assets/images/README/html-labels.png)
+
+3. Too many descendants within label tag
+*  Solution: closed div
 [Unclosed div](assets/images/README/html-unclosed-div.png)
-[HTML Test - No Errors](assets/images/READ/html-unclosed-div.png)
+
+4. All HTML errors fixed
+[HTML - No errors](assets/images/README/html-no-errors.png)
+
 ### CSS
+Validator: https://jigsaw.w3.org/css-validator/#validate_by_input
+
+
 [CSS Test - No Errors](assets/images/README/css-no-errors.png)
+
+
 ### JS
+
 [ES Linter](assets/images/README/eslinter.png)
-[JS Quotes](assets/images/README/js-quotes.png)
-[80 characters](assets/images/README/js-80-chars.png)
-[Trailing spaces](assets/images/README/js-trailing-space.png)
-[Functions](assets/images/README/js-functions.png)
-[Functions](assets/images/README/js-functions2.png)
-[Undeclared doc](assets/images/README/js-undeclared-doc.png)
-[Unexpected for/let](assets/images/README/js-unexpected-forlet.png)
+* Unused variables
+Solution: removed from code
+
+[ES Linter](assets/images/README/eslinter-2.png)
+* Both JS files passed ESLinter
 
 ### Lighthouse
+
+* Excellent results for accessability and performance on both mobile and desktop
 
 [Lighthouse - Mobile](assets/images/README/lighthouse-mobile.png)
 [Lighthouse - Desktop](assets/images/README/lighthouse-desktop.png)
