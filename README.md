@@ -269,4 +269,6 @@ https://www.w3schools.com/jsref/met_node_clonenode.asp
 
 ## Unresolved Known Bugs
 
-* Text does not fix in the box does not show unless the user selects edit to 
+* Text input does not auto-adjust size of the task box and does not show beyond two lines unless the user selects edit.
+
+* Hide/Unhide button - has broken multiple times despite several patches and fixes. Lastest bug not resolved.

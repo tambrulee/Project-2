@@ -2,6 +2,9 @@ document.addEventListener("DOMContentLoaded", function () {
   let hideDoneTasks = localStorage.getItem("hideDoneTasks") === "true";
   const toggleBtn = document.getElementById("toggle-done");
 
+  /**
+   * Applies toggle function
+   */
   function applyToggleState() {
     const icon = toggleBtn.querySelector("i");
     const tasks = document.querySelectorAll("#task-box .drag-n-drop");
@@ -20,7 +23,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
-
+  /**
+   * Restores state of checkboxes on page load
+   */
   function restoreCheckboxStates() {
     const tasks = document.querySelectorAll("#task-box .drag-n-drop");
     tasks.forEach(task => {
@@ -36,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
     applyToggleState();
   });
 
-  // ✅ Save each checkbox state when changed
+  // Save each checkbox state when changed
   document.getElementById("task-box").addEventListener("change", function (e) {
     if (e.target.matches("input[type='checkbox']")) {
       const checkbox = e.target;
