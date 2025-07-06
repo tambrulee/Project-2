@@ -45,7 +45,7 @@ As a user, I want to navigate the to-do list easily on desktop and mobile, so I 
 * [Tasks](assets/images/README/add_task.png) can be added from the panel.
 
 
-* [Buttons can be used to toggle ]()between edit & save
+* Buttons can be used to toggle between [edit](assets/images/README/readonly.png) & [save](assets/images/README/edit.png)
 
 
 * [Checkboxes can be selected](assets/images/README/checked_list.png) by user and  [hidden by user](assets/images/README/unchecked_list.png) via one button toggle feature
