@@ -2,7 +2,7 @@ Hello and welcome to my README for Project 2 - Sort'd
 
 # What is Sort'd?
 
-Sort'd is a simple web application which allows the user to create a list which saves to their cache using local storage.
+Sort'd is a simple web application which allows the user to create a list which saves to their cache using local storage. It's intended for every day casual use and therefore was intended to be user-friendly and easy to use with basic functions.
 
 It is limited to being used on one device on a time as it relies on the cache for local storage. 
 
@@ -18,6 +18,55 @@ Main features include:
 * Hide checked items
 * Change background
 * Current time
+
+## Development Cycle
+
+This project followed a clear development cycle, which is documented through structured GitHub commits and this README.
+
+---
+
+### 1. Planning & Setup
+- Created a wireframe and decided on key features (task creation, editing, deletion, drag-and-drop, hide completed)
+- Set up the project structure using HTML, SCSS, and JavaScript
+- Initialized Git and started version control from the beginning
+
+---
+
+###  2. Feature Development
+- Built core task functionality (add, delete, edit)
+- Implemented drag-and-drop reordering using native HTML5 API
+- Added persistent storage via 'localStorage'
+- Introduced toggle to hide/show completed tasks
+- Developed a welcome pop-up using conditional rendering via 'localStorage'
+
+Each feature was developed and tested in isolation before being integrated.
+
+---
+
+### 3. Testing & Debugging
+- Manual testing was applied throughout development 
+- Issues like file path errors, non-working toggles, and DOM misreferences were identified and fixed
+- Used console logging, DOM inspection, and functional walkthroughs for each component
+
+---
+
+### 4. Styling & Responsiveness
+- Used Bootstrap for responsive layout
+- Customized components with SCSS variables
+- Ensured the UI worked on different screen sizes through browser testing
+
+---
+
+### 5. Deployment
+- Deployed using GitHub Pages
+- Verified that deployed version matched the development version
+- Final testing done post-deployment to ensure functionality and layout remained consistent
+
+---
+
+### Git Commit History
+The GitHub repository includes meaningful commit messages to track each stage of the project — from initial setup to final deployment. Each commit describes what was added, fixed, or updated to maintain transparency and clarity during the development process.
+
 
 ## Testing
 
