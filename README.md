@@ -37,21 +37,25 @@ As a user, I want to navigate the to-do list easily on desktop and mobile, so I 
 
 ### UX Testing
 
-1. Control panel allows user to add, hide and change background.
-[Control Panel](assets/images/README/ctrl_panel.png)
-2. Tasks can be added from the panel.
-[Add Task](assets/images/README/add_task.png)
-3. Edit/Save Buttons
-[Edit/Save Buttons]()
-2. Checkboxes can be selected on individual list items and hidden by user via one button toggle feature.
-[Checkboxes -  Before Toggled](assets/images/README/checked_list.png)
-[Checkboxes -  After Toggled](assets/images/README/unchecked_list.png)
-3. Tasks can be dragged and drop into custom order.
-[Reordered list](assets/images/README/reordered_list.png)
-4. Background can be changed with images from local documents.
-[Change Background](assets/images/README/change_bg.png)
-5. The list name can be changed and automatically updates the window tab to reflect the user input to make finding the list easier when multiple tabs are open. 
-[Change Tab Name](assets/images/README/change_tab_name.png)
+* [Control Panel](assets/images/README/ctrl_panel.png) allows user to add, hide and change background.
+
+
+* [Tasks](assets/images/README/add_task.png) can be added from the panel.
+
+
+* [Buttons can be used to toggle ]()between edit & save
+
+
+* [Checkboxes can be selected](assets/images/README/checked_list.png) by user and  [hidden by user](assets/images/README/unchecked_list.png) via one button toggle feature
+
+
+*  [Tasks can be dragged and dropped](assets/images/README/reordered_list.png) into custom order
+
+
+* [Background can be changed](assets/images/README/change_bg.png) with images from local documents.
+ 
+
+* [The list name can be changed](assets/images/README/change_tab_name.png) and automatically updates the window tab to reflect the user input to make finding the list easier when multiple tabs are open.
 
 #### Tests Run
 | Test     | Expected Outcome |Outcome Achieved? (Y/N)|
@@ -69,6 +73,8 @@ As a user, I want to navigate the to-do list easily on desktop and mobile, so I 
 ## Wireframes
 
 I intend to use Bootstrap for the main layout.
+
+
 
 ## Github Deployment
 
@@ -124,10 +130,16 @@ My preferred method of deploying projects to GitHub is via Codespaces in VSCode.
 
 ## Dependencies
 
-### Drag and Drop API
-* <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API"> You can read the Drag and Drop API Docs here<a>
+### Bootstrap
+* Popovers
+* Navigation & Footer
+* Flexible/responsive containers
 
-To implement this I had to create a drop zone so I duplicated one of the text box elements.
+### Font Awesome
+* Trash, Edit, Save, Hide, Unhide, Change Theme buttons
+
+### Drag and Drop API
+* <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API"> 
 
 ### W3
 
