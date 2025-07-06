@@ -151,7 +151,7 @@
 /* List Page */
 .list-page {
   /* This will be the default background on the pages*/
-  background: url('../assets/images/default-img.jpg') no-repeat center center/cover;
+  background: url("../assets/images/default-img.jpg") no-repeat center center/cover;
 }
 
 /* List Title container */
@@ -165,7 +165,6 @@
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-  background-color: rgb(238, 234, 234);
   border-radius: 5px;
   border: none;
   font-size: 1rem;
