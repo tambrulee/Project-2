@@ -37,17 +37,34 @@ As a user, I want to navigate the to-do list easily on desktop and mobile, so I 
 
 ### UX Testing
 
+1. Control panel allows user to add, hide and change background.
 [Control Panel](assets/images/README/ctrl_panel.png)
+2. Tasks can be added from the panel.
+[Add Task](assets/images/README/add_task.png)
+3. Edit/Save Buttons
+[Edit/Save Buttons]()
+2. Checkboxes can be selected on individual list items and hidden by user via one button toggle feature.
 [Checkboxes -  Before Toggled](assets/images/README/checked_list.png)
 [Checkboxes -  After Toggled](assets/images/README/unchecked_list.png)
+3. Tasks can be dragged and drop into custom order.
 [Reordered list](assets/images/README/reordered_list.png)
+4. Background can be changed with images from local documents.
 [Change Background](assets/images/README/change_bg.png)
+5. The list name can be changed and automatically updates the window tab to reflect the user input to make finding the list easier when multiple tabs are open. 
 [Change Tab Name](assets/images/README/change_tab_name.png)
 
-### Time/Date Feature
-
-Tested whilst abroad in Malta - automatically adjusts to time/zone. Will do further testing to ensure it works in multiple time zones. 
-
+#### Tests Run
+| Test     | Expected Outcome |Outcome Achieved? (Y/N)|
+| ----------- | ----------- |----------- |
+| Time and Date     | Time and date updates to currnet time on desktop      |Y|
+| Add Task     | Add button creates a new task to the bottom of the list       |Y|
+| Edit/Save Buttons - List | Toggles input so that text can be input and then saved to list container       |Y|
+| Edit/Save Buttons - Tasks | Toggles input so that text can be input and then saved to task container        |Y|
+| Hide/Unhide Button | Toggles hide/unhide button and simultaneously hides any tasks which have a checkbox selected        |N|
+| Delete Button | When clicked deletes the task        |Y|
+| Change background Button | Prompts a local documents window to open and allows user to select image to upload as a background       |N|
+| Change background - Image validation | Ensures the user can only select        |N|
+| Learn More button | When clicked, opens up a popover which gives the user some instructions on using the app        |N|
 
 ## Wireframes
 
