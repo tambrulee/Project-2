@@ -10,7 +10,7 @@ I have chosen to have no navigation on the website as I felt it wasn't necessary
 
 Main features include:
 
-## List Page
+* List Page
 * How to instructions
 * Ability to change window tab name
 * Drag and drop
@@ -18,6 +18,16 @@ Main features include:
 * Hide checked items
 * Change background
 * Current time
+
+## Testing
+
+Throughout this project I have tested the code, functionality and responsiveness of the app. There are two main types of testing:
+
+* Manual testing involves going through the software step by step as a user would, checking things like layout, functionality, and how intuitive everything feels. It relies on human instinct, observation, and logic—especially useful when you're exploring a new feature or doing something that doesn’t follow a rigid pattern. I’d use manual testing for UI/UX checks, early-stage features that are still changing, or when you just need to quickly confirm something without setting up a whole testing framework.
+
+* Automated testing is great for catching bugs in code you’ve already written and want to keep stable. It uses tools and scripts to run tests automatically, which saves loads of time when you’re dealing with larger projects or pushing regular updates. It’s especially useful for regression testing, performance testing, and anything tied into a CI/CD pipeline. Once the tests are written, they can be reused over and over again with minimal effort—ideal for repeatable tasks and spotting issues before they go live.
+
+Since this is a small, one-off project, I’ve decided to use manual testing. It didn’t make sense to spend time setting up automated tests for something lightweight and not expected to scale. My approach involved going through each feature one by one, testing various scenarios to make sure everything worked as intended. For example, checking whether certain functions would apply to newly created tasks and not just the default ones, ensuring the app behaves consistently regardless of when or how a task is added.
 
 ## User Stories
 
@@ -75,6 +85,57 @@ As a user, I want to navigate the to-do list easily on desktop and mobile, so I 
 | Change background Button | Prompts a local documents window to open and allows user to select image to upload as a background       |Y|
 | Change background - Image validation | Ensures the user can only select image file types       |Y|
 | Learn More button | When clicked, opens up a popover which gives the user some instructions on using the app        |Y|
+
+## Bug Testing & Fixes
+
+I tested my code throughout development and documented each fix through GitHub commits. Below are some of the main bugs I encountered, the tests I carried out, and how I resolved each issue through manual testing:
+
+---
+
+### [GitHub Deployment](assets/images/README/bug-testing-deployment.png)
+
+- **Problem:** Background image wasn’t displaying on the deployed GitHub site  
+- **Tests:**  
+  - Inspected the browser console for 404 errors  
+  - Compared local file paths to GitHub deployment  
+  - Tested different relative and absolute paths  
+- **Solution:** Removed the forward slash from the image path in the JS file so the relative path resolved correctly on GitHub Pages
+
+---
+
+### [Theme Change](assets/images/README/bug-testing-pic-bg.png)
+
+- **Problem:** File upload button (for changing background) wasn’t triggering the file window in browser  
+- **Tests:**  
+  - Checked that the file input element existed in the DOM  
+  - Verified that the 'id' used in JavaScript matched the HTML  
+  - Tried logging clicks and inspecting event listeners  
+- **Solution:** Corrected the 'id' being targeted in the JS file to match the input element's ID in the HTML
+
+---
+
+### [Redirect & First-Time User Pop-Up](assets/images/README/bug-testing-redirect.png)
+
+- **Problem:** Redirect logic wasn’t working — it couldn’t detect whether a user was visiting for the first time  
+- **Tests:**  
+  - Used 'localStorage' to test state persistence  
+  - Cleared browser cache/localStorage between sessions to simulate first-time users  
+  - Console-logged logic flow and pop-up triggers  
+- **Solution:** Added a pop-up to 'index.html' and used JavaScript to check for a flag in 'localStorage'. If not found, the pop-up would show and the flag would be set to avoid showing again on return visits
+
+---
+
+### [Toggle Hide/Unhide Tasks](assets/images/README/bug-testing-toggle.png)
+
+- **Problem:** The toggle button for hiding completed tasks didn’t work and wasn’t persisting the checked state  
+- **Tests:**  
+  - Compared working vs non-working commits  
+  - Verified that 'localStorage' was saving the checked state correctly  
+  - Inspected checkbox event listeners and button click behavior  
+- **Solution:** Recovered working code from an earlier commit. Then, I separated the toggle logic into its own file ('toggle-done.js') and linked it in the HTML to ensure better separation of concerns and maintainability
+
+---
+
 
 ## Wireframes
 
@@ -167,6 +228,6 @@ https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_onclick_dom
 * Duplicating task box
 https://www.w3schools.com/jsref/met_node_clonenode.asp
 
-## Known Bugs
+## Unresolved Known Bugs
 
-* Text that does not fix in the box does not show unless the user selects edit to
+* Text does not fix in the box does not show unless the user selects edit to 
