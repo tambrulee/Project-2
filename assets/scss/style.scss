@@ -18,30 +18,6 @@ $main-container: rgb(238, 234, 234);
   font-family: Hero, sans-serif;
 }
 
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-}
-
-main.list-page {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background: url("../images/default-img.jpg") no-repeat center center/cover;
-  background-size: cover;
-  min-height: 100vh;
-}
-
-footer {
-  flex-shrink: 0;
-}
-
 // Imports button themes
 @import './buttons.scss';
 
