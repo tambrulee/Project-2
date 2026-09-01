@@ -27,8 +27,21 @@ type RoutinesViewProps = {
 
 type RoutineFilter = "all" | "due" | "overdue" | "paused";
 
+type RoutineSort =
+  | "due-date"
+  | "name"
+  | "frequency"
+  | "manual";
+
+type RoutineTaskWithRoutine = RoutineTask & {
+  routineId: string;
+  routineName: string;
+};
+
 type SortableRoutineTaskProps = {
-  task: RoutineTask;
+  task: RoutineTaskWithRoutine;
+
+  showRoutineName?: boolean;
 
   onComplete: (taskId: string) => void;
 
@@ -172,6 +185,7 @@ function formatDuration(minutes?: number) {
 
 function SortableRoutineTask({
   task,
+  showRoutineName = false,
   onComplete,
   onEdit,
 }: SortableRoutineTaskProps) {
@@ -198,20 +212,20 @@ function SortableRoutineTask({
     <div
       ref={setNodeRef}
       style={style}
-      className={`rounded-2xl border p-4 transition ${
+      className={`w-full rounded-xl border px-3 py-2.5 transition ${
         task.active
           ? "border-slate-200 bg-white"
           : "border-slate-100 bg-slate-50 opacity-60"
       } ${isDragging ? "z-30 opacity-60 shadow-lg" : ""}`}
     >
-      <div className="flex items-start gap-3">
+      <div className="flex min-w-0 items-center gap-2.5">
         <button
           type="button"
           {...attributes}
           {...listeners}
           aria-label={`Reorder ${task.title}`}
           title="Drag to reorder"
-          className="mt-1 cursor-grab rounded-md px-1 py-1 text-sm text-slate-400 active:cursor-grabbing"
+          className="cursor-grab rounded-md px-1 py-1 text-xs text-slate-400 active:cursor-grabbing"
         >
           ⋮⋮
         </button>
@@ -221,22 +235,31 @@ function SortableRoutineTask({
           onClick={() => onComplete(task.id)}
           disabled={!task.active}
           aria-label={`Complete ${task.title}`}
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-[#cd6ce7] text-lg text-[#a93ac5] transition hover:bg-[#cd6ce7] hover:text-white disabled:cursor-not-allowed"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 border-[#cd6ce7] text-base text-[#a93ac5] transition hover:bg-[#cd6ce7] hover:text-white disabled:cursor-not-allowed"
         >
           ✓
         </button>
 
         <div className="min-w-0 flex-1">
           <p className="truncate font-semibold text-slate-900">
-            {task.title || "Untitled routine task"}
+            {task.title ||
+              "Untitled routine task"}
           </p>
 
-          <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
-            <span className={`rounded-full px-2.5 py-1 ${dueStatus.className}`}>
+          {showRoutineName && (
+            <span className="text-xs text-slate-400">
+              {task.routineName}
+            </span>
+          )}
+
+          <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
+            <span
+              className={`rounded-full px-2 py-0.5 ${dueStatus.className}`}
+            >
               {dueStatus.label}
             </span>
 
-            <span className="rounded-full bg-purple-50 px-2.5 py-1 text-purple-700">
+            <span className="rounded-full bg-purple-50 px-2 py-0.5 text-purple-700">
               {getFrequencyLabel(task)}
             </span>
 
@@ -288,11 +311,21 @@ export default function RoutinesView({
 
   const [newDueDate, setNewDueDate] = useState(getTodayKey());
 
-  const [editingRoutineTaskId, setEditingRoutineTaskId] = useState<
-    string | null
-  >(null);
+  const [
+    editingRoutineTaskRef,
+    setEditingRoutineTaskRef,
+  ] = useState<{
+    routineId: string;
+    taskId: string;
+  } | null>(null);
 
   const [routineFilter, setRoutineFilter] = useState<RoutineFilter>("all");
+
+  const [showAllRoutines, setShowAllRoutines] =
+    useState(false);
+
+  const [routineSort, setRoutineSort] =
+    useState<RoutineSort>("due-date");
 
   const [deleteRoutineOpen, setDeleteRoutineOpen] =
     useState(false);
@@ -312,42 +345,113 @@ export default function RoutinesView({
     (routine) => routine.id === resolvedActiveRoutineId,
   );
 
-  const editingRoutineTask = activeRoutine?.tasks.find(
-    (task) => task.id === editingRoutineTaskId,
+  const editingRoutine = editingRoutineTaskRef
+    ? routines.find(
+        (routine) =>
+          routine.id === editingRoutineTaskRef.routineId,
+      )
+    : undefined;
+
+  const editingRoutineTask = editingRoutine?.tasks.find(
+    (task) =>
+      task.id === editingRoutineTaskRef?.taskId,
   );
 
-  const orderedTasks = useMemo(
-    () =>
-      [...(activeRoutine?.tasks ?? [])].sort(
-        (firstTask, secondTask) =>
-          (firstTask.order ?? 0) - (secondTask.order ?? 0),
-      ),
-    [activeRoutine?.tasks],
-  );
+  const routineTasks = useMemo(() => {
+    if (showAllRoutines) {
+      return routines.flatMap((routine) =>
+        routine.tasks.map((task) => ({
+          ...task,
+          routineId: routine.id,
+          routineName: routine.name,
+        })),
+      );
+    }
+
+    if (!activeRoutine) {
+      return [];
+    }
+
+    return activeRoutine.tasks.map((task) => ({
+      ...task,
+      routineId: activeRoutine.id,
+      routineName: activeRoutine.name,
+    }));
+  }, [
+    routines,
+    activeRoutine,
+    showAllRoutines,
+  ]);
 
   const visibleTasks = useMemo(() => {
     const today = getTodayKey();
 
-    return orderedTasks.filter((task) => {
-      if (routineFilter === "paused") {
-        return !task.active;
-      }
+    const filtered = routineTasks.filter(
+      (task) => {
+        if (routineFilter === "paused") {
+          return !task.active;
+        }
 
-      if (!task.active) {
-        return false;
-      }
+        if (!task.active) {
+          return false;
+        }
 
-      if (routineFilter === "due") {
-        return task.nextDueDate === today;
-      }
+        if (routineFilter === "due") {
+          return task.nextDueDate === today;
+        }
 
-      if (routineFilter === "overdue") {
-        return task.nextDueDate < today;
-      }
+        if (routineFilter === "overdue") {
+          return task.nextDueDate < today;
+        }
 
-      return true;
-    });
-  }, [orderedTasks, routineFilter]);
+        return true;
+      },
+    );
+
+    return [...filtered].sort(
+      (firstTask, secondTask) => {
+        if (routineSort === "name") {
+          return firstTask.title.localeCompare(
+            secondTask.title,
+          );
+        }
+
+        if (routineSort === "frequency") {
+          const firstDays =
+            firstTask.recurrenceUnit === "day"
+              ? firstTask.interval
+              : firstTask.recurrenceUnit === "week"
+                ? firstTask.interval * 7
+                : firstTask.interval * 30;
+
+          const secondDays =
+            secondTask.recurrenceUnit === "day"
+              ? secondTask.interval
+              : secondTask.recurrenceUnit === "week"
+                ? secondTask.interval * 7
+                : secondTask.interval * 30;
+
+          return firstDays - secondDays;
+        }
+
+        if (routineSort === "manual") {
+          return (
+            (firstTask.order ?? 0) -
+            (secondTask.order ?? 0)
+          );
+        }
+
+        // Default: due date
+        return firstTask.nextDueDate.localeCompare(
+          secondTask.nextDueDate,
+        );
+      },
+    );
+  }, [
+    routineTasks,
+    routineFilter,
+    routineSort,
+  ]);
 
   const activeRoutineCount = routines.filter(
     (routine) => !routine.archived,
@@ -577,7 +681,7 @@ export default function RoutinesView({
       }),
     );
 
-    setEditingRoutineTaskId(null);
+    setEditingRoutineTaskRef(null)
 
     setActiveRoutineId(destinationRoutineId);
   }
@@ -674,6 +778,26 @@ export default function RoutinesView({
         canDelete={routines.length > 0}
       />
 
+      <button
+        type="button"
+        onClick={() => {
+          setShowAllRoutines(
+            (current) => !current,
+          );
+
+          setRoutineSort("due-date");
+        }}
+        className={`mt-2 rounded-lg px-3 py-1.5 text-xs font-medium transition ${
+          showAllRoutines
+            ? "bg-[#f3e8f5] text-[#7c2d92]"
+            : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
+        }`}
+      >
+        {showAllRoutines
+          ? "Show selected routine"
+          : "View all routines"}
+      </button>
+
       {showCreateRoutine && (
         <form
           onSubmit={(event) => {
@@ -711,7 +835,7 @@ export default function RoutinesView({
         </form>
       )}
 
-      {!activeRoutine ? (
+      {!activeRoutine && !showAllRoutines ? (
         <div className="mt-8 px-5 py-10 text-center">
           <p className="font-medium text-slate-700">No routine selected.</p>
 
@@ -721,6 +845,7 @@ export default function RoutinesView({
         </div>
       ) : (
         <>
+        {!showAllRoutines && activeRoutine && (
           <details className="group mt-5 border-b border-slate-100 pb-4">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-lg px-1 py-2 text-sm text-slate-600 transition hover:text-slate-900 [&::-webkit-details-marker]:hidden">
               <span className="flex items-center gap-2">
@@ -768,6 +893,7 @@ export default function RoutinesView({
               </button>
             </div>
           </details>
+        )}
 
           <section className="mt-5">
             <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
@@ -816,7 +942,41 @@ export default function RoutinesView({
                 >
                   {label}
                 </button>
+                
               ))}
+              <div className="ml-auto flex items-center gap-2">
+                <span className="text-xs text-slate-400">
+                  Sort
+                </span>
+
+                <select
+                  value={routineSort}
+                  onChange={(event) =>
+                    setRoutineSort(
+                      event.target.value as RoutineSort,
+                    )
+                  }
+                  className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600"
+                >
+                  <option value="due-date">
+                    Due date
+                  </option>
+
+                  <option value="name">
+                    Name
+                  </option>
+
+                  <option value="frequency">
+                    Frequency
+                  </option>
+
+                  {!showAllRoutines && (
+                    <option value="manual">
+                      Manual order
+                    </option>
+                  )}
+                </select>
+              </div>
             </div>
 
             {showAddTask && (
@@ -885,7 +1045,7 @@ export default function RoutinesView({
               </form>
             )}
 
-            <div className="max-h-[52vh] overflow-y-auto overscroll-contain pr-1">
+            <div className="w-full max-h-[65vh] overflow-y-auto overscroll-contain pr-1">
               {visibleTasks.length === 0 ? (
                 <div className="rounded-2xl bg-[#eeeaea] p-8 text-center text-sm text-slate-500">
                   {routineFilter === "all"
@@ -901,13 +1061,19 @@ export default function RoutinesView({
                     items={visibleTasks.map((task) => task.id)}
                     strategy={verticalListSortingStrategy}
                   >
-                    <div className="space-y-3">
+                    <div className="w-full space-y-2">
                       {visibleTasks.map((task) => (
                         <SortableRoutineTask
-                          key={task.id}
+                          key={`${task.routineId}-${task.id}`}
                           task={task}
+                          showRoutineName={showAllRoutines}
                           onComplete={completeRoutineTask}
-                          onEdit={setEditingRoutineTaskId}
+                          onEdit={(taskId) => {
+                            setEditingRoutineTaskRef({
+                              routineId: task.routineId,
+                              taskId,
+                            });
+                          }}
                         />
                       ))}
                     </div>
@@ -917,12 +1083,12 @@ export default function RoutinesView({
             </div>
           </section>
 
-          {editingRoutineTask && (
+          {editingRoutineTask && editingRoutine && (
             <ItemDetailsModal
               kind="routine"
               item={editingRoutineTask}
               containerLabel="Routine"
-              currentContainerId={activeRoutine.id}
+              currentContainerId={editingRoutine.id}
               containerOptions={routines.map((routine) => ({
                 id: routine.id,
                 name: routine.name || "Untitled routine",
@@ -938,7 +1104,9 @@ export default function RoutinesView({
                   editingRoutineTask.id,
                 );
               }}
-              onClose={() => setEditingRoutineTaskId(null)}
+              onClose={() =>
+                setEditingRoutineTaskRef(null)
+              }
             />
           )}
         </>
@@ -981,7 +1149,7 @@ export default function RoutinesView({
           );
 
           setDeleteRoutineTaskId(null);
-          setEditingRoutineTaskId(null);
+          setEditingRoutineTaskRef(null)
         }}
       />
     </div>

@@ -47,6 +47,10 @@ type CollectionSwitcherProps<T extends CollectionSwitcherItem> = {
   getStatusLabel?: (item: T) => string;
 
   canDelete?: boolean;
+  showAllOption?: boolean;
+  showAllLabel?: string;
+  isAllSelected?: boolean;
+  onSelectAll?: () => void;
 };
 
 type SortableOptionProps<T extends CollectionSwitcherItem> = {
@@ -193,6 +197,10 @@ export default function CollectionSwitcher<T extends CollectionSwitcherItem>({
   getCount,
   getStatusColour,
   getStatusLabel,
+  showAllOption = false,
+  showAllLabel = "See all",
+  isAllSelected = false,
+  onSelectAll,
   canDelete = items.length > 1,
 }: CollectionSwitcherProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
@@ -201,7 +209,12 @@ export default function CollectionSwitcher<T extends CollectionSwitcherItem>({
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const activeItem = items.find((item) => item.id === activeItemId) ?? items[0];
+  const activeItem = isAllSelected
+    ? undefined
+    : items.find(
+        (item) =>
+          item.id === activeItemId,
+      ) ?? items[0];
 
   useEffect(() => {
     if (!isOpen && !isActionsOpen) {
@@ -299,7 +312,9 @@ export default function CollectionSwitcher<T extends CollectionSwitcherItem>({
             )}
 
             <span className="min-w-0 flex-1 truncate text-sm font-medium text-slate-900">
-              {activeItem?.name || placeholder}
+              {isAllSelected
+                ? showAllLabel
+                : activeItem?.name || placeholder}
             </span>
 
             {activeCount !== undefined && (
@@ -323,6 +338,25 @@ export default function CollectionSwitcher<T extends CollectionSwitcherItem>({
               <p className="px-2 py-2 text-xs font-medium text-slate-500">
                 Select or drag to reorder.
               </p>
+
+              {showAllOption && (
+              <button
+                type="button"
+                onClick={() => {
+                  onSelectAll?.();
+                  setIsOpen(false);
+                }}
+                className={`mb-1 flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-sm font-medium transition ${
+                  isAllSelected
+                    ? "bg-[#f3e8f5] text-[#7c2d92]"
+                    : "text-slate-700 hover:bg-slate-50"
+                }`}
+              >
+                <span className="text-slate-400">◎</span>
+
+                <span>{showAllLabel}</span>
+              </button>
+            )}
 
               <DndContext
                 collisionDetection={closestCenter}
