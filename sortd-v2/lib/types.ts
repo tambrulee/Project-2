@@ -167,6 +167,8 @@ export type RoutineTask = {
   createdAt: string;
 
   scheduleContext?: ScheduleContext;
+  scheduleMode?: RoutineScheduleMode;
+  fixedStartTime?: string;
 };
 
 export type Routine = {
@@ -176,6 +178,8 @@ export type Routine = {
   tasks: RoutineTask[];
   createdAt: string;
   archived: boolean;
+  scheduleMode?: RoutineScheduleMode;
+  fixedStartTime?: string;
 };
 
 //  ScheduledBlock type for representing scheduled tasks and routines in the calendar view
@@ -231,9 +235,35 @@ export type ScheduledBlock = {
 
   sessionIndex?: number;
   totalDurationMinutes?: number;
+  manuallyPlaced?: boolean;
+  anchored?: boolean;
 };
 
 export type SchedulePeriod = "any" | "morning" | "afternoon" | "evening";
+
+export type PlannerPeriod =
+  | "morning"
+  | "afternoon"
+  | "evening";
+
+export type PlannerOverride = {
+  sourceType: "task" | "routine" | "adhoc";
+  sourceId: string;
+  parentId: string;
+
+  // Important for routines:
+  // identifies THIS occurrence, not the whole recurring task.
+  occurrenceDate?: string;
+
+  date: string;
+  period: PlannerPeriod;
+
+  manuallyPlaced: true;
+};
+
+export type RoutineScheduleMode =
+  | "flexible"
+  | "anchored";
 
 // Shopping list types for managing shopping items and categories
 

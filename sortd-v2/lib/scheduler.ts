@@ -8,7 +8,9 @@ import {
   ScheduleSettings,
   Task,
   Weekday,
-  AdhocTask
+  AdhocTask,
+  PlannerOverride,
+  PlannerPeriod,
 } from "@/lib/types";
 
 export type SchedulableProjectTask =
@@ -49,28 +51,66 @@ type SchedulerSettings = ScheduleSettings & {
 
 type ScheduleCandidate = {
   id: string;
-  sourceType: "task" | "routine" | "adhoc";
+  sourceType:
+    | "task"
+    | "routine"
+    | "adhoc";
+
   sourceId: string;
   parentId: string;
   parentName: string;
   title: string;
+
   durationMinutes: number;
   maxSessionMinutes: number;
   usedDefaultDuration: boolean;
+
   context: ScheduleContext;
+
   earliestStartTime?: string;
   latestEndTime?: string;
-  priority?: "low" | "medium" | "high";
+
+  priority?:
+    | "low"
+    | "medium"
+    | "high";
+
   energy?: Energy;
+
   dueDate?: string;
   occurrenceDate?: string;
+
   earliestDate: string;
   latestDate: string;
+
+  manuallyPlaced?: boolean;
+  anchored?: boolean;
+  fixedStartTime?: string;
 };
 
 type TimeWindow = {
   start: number;
   end: number;
+};
+
+const PLANNER_PERIOD_WINDOWS: Record<
+  PlannerPeriod,
+  TimeWindow
+> = {
+  morning: {
+    start: 0,
+    end: 12 * 60,
+  },
+
+  afternoon: {
+    start: 12 * 60,
+    end: 17 * 60,
+  },
+
+  evening: {
+    start: 17 * 60,
+    end: 24 * 60,
+  },
 };
 
 type SessionOption = {
@@ -148,6 +188,192 @@ function minutesToTime(minutes: number) {
     2,
     "0",
   )}`;
+}
+
+function laterTime(
+  existing: string | undefined,
+  minimumMinutes: number,
+) {
+  if (!existing) {
+    return minutesToTime(
+      minimumMinutes,
+    );
+  }
+
+  return minutesToTime(
+    Math.max(
+      timeToMinutes(existing),
+      minimumMinutes,
+    ),
+  );
+}
+
+function earlierTime(
+  existing: string | undefined,
+  maximumMinutes: number,
+) {
+  if (!existing) {
+    return minutesToTime(
+      maximumMinutes,
+    );
+  }
+
+  return minutesToTime(
+    Math.min(
+      timeToMinutes(existing),
+      maximumMinutes,
+    ),
+  );
+}
+
+function overrideMatchesCandidate(
+  candidate: ScheduleCandidate,
+  override: PlannerOverride,
+) {
+  if (
+    candidate.sourceType !==
+      override.sourceType ||
+    candidate.sourceId !==
+      override.sourceId ||
+    candidate.parentId !==
+      override.parentId
+  ) {
+    return false;
+  }
+
+  if (
+    candidate.sourceType ===
+    "routine"
+  ) {
+    return (
+      candidate.occurrenceDate ===
+      override.occurrenceDate
+    );
+  }
+
+  return true;
+}
+
+function applyPlannerConstraint(
+  candidate: ScheduleCandidate,
+  plannerOverrides: PlannerOverride[],
+): ScheduleCandidate {
+  /*
+   * Anchored routines are the strongest
+   * scheduling constraint.
+   */
+  if (
+    candidate.anchored &&
+    candidate.fixedStartTime
+  ) {
+    const fixedStart =
+      timeToMinutes(
+        candidate.fixedStartTime,
+      );
+
+    return {
+      ...candidate,
+
+      context: "any",
+
+      earliestStartTime:
+        candidate.fixedStartTime,
+
+      latestEndTime:
+        minutesToTime(
+          fixedStart +
+            candidate.durationMinutes,
+        ),
+
+      maxSessionMinutes:
+        candidate.durationMinutes,
+
+      latestDate:
+        candidate.occurrenceDate ??
+        candidate.latestDate,
+    };
+  }
+
+  const override =
+    plannerOverrides.find(
+      (item) =>
+        overrideMatchesCandidate(
+          candidate,
+          item,
+        ),
+    );
+
+  if (!override) {
+    return candidate;
+  }
+
+  const period =
+    PLANNER_PERIOD_WINDOWS[
+      override.period
+    ];
+
+  let targetDate =
+    override.date;
+
+  /*
+   * Routine occurrences can't be dragged
+   * outside their recurrence window.
+   */
+  if (
+    candidate.sourceType ===
+    "routine"
+  ) {
+    if (
+      targetDate <
+      candidate.earliestDate
+    ) {
+      targetDate =
+        candidate.earliestDate;
+    }
+
+    if (
+      targetDate >
+      candidate.latestDate
+    ) {
+      targetDate =
+        candidate.latestDate;
+    }
+  }
+
+  return {
+    ...candidate,
+
+    manuallyPlaced: true,
+
+    earliestDate: targetDate,
+    latestDate: targetDate,
+
+    earliestStartTime:
+      laterTime(
+        candidate.earliestStartTime,
+        period.start,
+      ),
+
+    latestEndTime:
+      earlierTime(
+        candidate.latestEndTime,
+        period.end,
+      ),
+  };
+}
+
+function getPlanningRank(
+  candidate: ScheduleCandidate,
+) {
+  if (candidate.anchored) {
+    return 0;
+  }
+
+  if (candidate.manuallyPlaced) {
+    return 1;
+  }
+
+  return 2;
 }
 
 function addRecurrence(
@@ -722,7 +948,19 @@ function buildRoutineCandidates(
       routine.tasks
         .filter((task) => task.active)
         .forEach((task) => {
-          const usedDefaultDuration = !task.durationMinutes;
+          const usedDefaultDuration =
+            !task.durationMinutes;
+
+          const durationMinutes =
+            task.durationMinutes ??
+            DEFAULT_TASK_MINUTES;
+
+          const anchored =
+            task.scheduleMode ===
+              "anchored" &&
+            Boolean(
+              task.fixedStartTime,
+            );
 
           let occurrenceDate =
             task.nextDueDate < today ? today : task.nextDueDate;
@@ -752,31 +990,46 @@ function buildRoutineCandidates(
               parentName: routine.name,
               title: task.title || "Untitled routine",
 
-              durationMinutes: task.durationMinutes ?? DEFAULT_TASK_MINUTES,
+              durationMinutes,
 
-              maxSessionMinutes: Math.max(
-                1,
-                task.maxSessionMinutes ?? DEFAULT_MAX_SESSION_MINUTES,
-              ),
+              maxSessionMinutes: anchored
+                ? durationMinutes
+                : Math.max(
+                    1,
+                    task.maxSessionMinutes ??
+                      DEFAULT_MAX_SESSION_MINUTES,
+                  ),
 
               usedDefaultDuration,
 
-              context: task.scheduleContext ?? "personal",
+              context: anchored
+                ? "any"
+                : task.scheduleContext ??
+                  "personal",
 
-              earliestStartTime: task.earliestStartTime,
+              earliestStartTime:
+                task.earliestStartTime,
 
-              latestEndTime: task.latestEndTime,
+              latestEndTime:
+                task.latestEndTime,
+
+              anchored,
+
+              fixedStartTime: anchored
+                ? task.fixedStartTime
+                : undefined,
 
               priority: task.priority,
               energy: getItemEnergy(task),
 
               dueDate: occurrenceDate,
-
               occurrenceDate,
 
               earliestDate: occurrenceDate,
 
-              latestDate,
+              latestDate: anchored
+                ? occurrenceDate
+                : latestDate,
             });
 
             occurrenceDate = nextOccurrenceDate;
@@ -846,6 +1099,7 @@ export function buildRollingSchedule({
   settings,
   today,
   currentTime,
+  plannerOverrides = [],
 }: {
   tasks: SchedulableProjectTask[];
   routines: Routine[];
@@ -853,6 +1107,8 @@ export function buildRollingSchedule({
   settings: SchedulerSettings;
   today: string;
   currentTime: string;
+
+  plannerOverrides?: PlannerOverride[];
 }): ScheduleResult {
   const horizonEnd = addDaysToDateKey(
     today,
@@ -876,19 +1132,55 @@ export function buildRollingSchedule({
     ...projectCandidates,
     ...routineCandidates,
     ...adhocCandidates,
-  ].sort((first, second) => {
-    const firstDue = first.dueDate ?? horizonEnd;
+  ]
+    .map((candidate) =>
+      applyPlannerConstraint(
+        candidate,
+        plannerOverrides,
+      ),
+    )
+    .sort((first, second) => {
+      /*
+      * Scheduling hierarchy:
+      *
+      * 1. Anchored routines
+      * 2. Things the user manually moved
+      * 3. Everything Sort'd places itself
+      */
+      const rankDifference =
+        getPlanningRank(first) -
+        getPlanningRank(second);
 
-    const secondDue = second.dueDate ?? horizonEnd;
+      if (rankDifference !== 0) {
+        return rankDifference;
+      }
 
-    const dueComparison = firstDue.localeCompare(secondDue);
+      const firstDue =
+        first.dueDate ??
+        horizonEnd;
 
-    if (dueComparison !== 0) {
-      return dueComparison;
-    }
+      const secondDue =
+        second.dueDate ??
+        horizonEnd;
 
-    return getPriorityValue(second.priority) - getPriorityValue(first.priority);
-  });
+      const dueComparison =
+        firstDue.localeCompare(
+          secondDue,
+        );
+
+      if (dueComparison !== 0) {
+        return dueComparison;
+      }
+
+      return (
+        getPriorityValue(
+          second.priority,
+        ) -
+        getPriorityValue(
+          first.priority,
+        )
+      );
+    });
 
   const blocks: ScheduledBlock[] = [];
 
@@ -953,6 +1245,12 @@ export function buildRollingSchedule({
           dueDate: candidate.dueDate,
 
           occurrenceDate: candidate.occurrenceDate,
+
+          manuallyPlaced:
+            candidate.manuallyPlaced,
+
+          anchored:
+            candidate.anchored,
 
           sessionIndex,
 

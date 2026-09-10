@@ -44,6 +44,7 @@ import {
   Task,
   FoodData,
   AdhocTask,
+  PlannerOverride,
 } from "@/lib/types";
 
 import {
@@ -161,6 +162,7 @@ type CloudWorkspaceData = {
 
   activeListId: string;
   hideCompleted: boolean;
+  plannerOverrides?: PlannerOverride[];
 };
 
 export default function Home() {
@@ -169,6 +171,11 @@ export default function Home() {
   const [scheduleSettings, setScheduleSettings] = useState<ScheduleSettings>(
     () => createDefaultScheduleSettings(),
   );
+
+  const [
+    plannerOverrides,
+    setPlannerOverrides,
+  ] = useState<PlannerOverride[]>([]);
 
   const [adhocTasks, setAdhocTasks] = useState<AdhocTask[]>([]);
 
@@ -433,10 +440,13 @@ export default function Home() {
           mealPlan: [],
           shoppingList: [],
         },
+        
 
         scheduleSettings: createDefaultScheduleSettings(
           Intl.DateTimeFormat().resolvedOptions().timeZone || "Europe/London",
         ),
+
+        plannerOverrides: [],
       };
 
       if (!localStorage.getItem("sortd-pre-cloud-backup")) {
@@ -501,6 +511,10 @@ export default function Home() {
             ),
         );
 
+        setPlannerOverrides(
+          cloudWorkspace.plannerOverrides ?? [],
+        );
+
         return;
       }
 
@@ -524,6 +538,7 @@ export default function Home() {
           shoppingList: [],
         },
         scheduleSettings: localWorkspace.scheduleSettings,
+        plannerOverrides: [],
       };
 
       const { error: uploadError } = await supabase.from("workspaces").upsert(
@@ -570,6 +585,7 @@ export default function Home() {
         shoppingLists,
         foodData,
         scheduleSettings,
+        plannerOverrides,
         activeListId,
         hideCompleted,
       };
@@ -629,6 +645,7 @@ export default function Home() {
     foodData,
     scheduleSettings,
     user,
+    plannerOverrides,
   ]);
 
   function updateActiveList(updatedList: SortdList) {
@@ -1305,17 +1322,49 @@ export default function Home() {
               routines={routines}
               adhocTasks={adhocTasks}
               settings={scheduleSettings}
-              onChangeSettings={setScheduleSettings}
-              onCompleteProjectTask={completeProjectTask}
-              onCompleteRoutineTask={completeRoutineTask}
-              onUpdateProjectTask={updateProjectTaskById}
-              onUpdateRoutineTask={updateRoutineTaskById}
-              onDeleteProjectTask={deleteProjectTaskById}
-              onDeleteRoutineTask={deleteRoutineTaskById}
-              onAddAdhocTask={addAdhocTask}
-              onCompleteAdhocTask={completeAdhocTask}
-              onUpdateAdhocTask={updateAdhocTask}
-              onDeleteAdhocTask={deleteAdhocTask}
+
+              plannerOverrides={plannerOverrides}
+              onChangePlannerOverrides={
+                setPlannerOverrides
+              }
+
+              onChangeSettings={
+                setScheduleSettings
+              }
+
+              onCompleteProjectTask={
+                completeProjectTask
+              }
+              onCompleteRoutineTask={
+                completeRoutineTask
+              }
+
+              onUpdateProjectTask={
+                updateProjectTaskById
+              }
+              onUpdateRoutineTask={
+                updateRoutineTaskById
+              }
+
+              onDeleteProjectTask={
+                deleteProjectTaskById
+              }
+              onDeleteRoutineTask={
+                deleteRoutineTaskById
+              }
+
+              onAddAdhocTask={
+                addAdhocTask
+              }
+              onCompleteAdhocTask={
+                completeAdhocTask
+              }
+              onUpdateAdhocTask={
+                updateAdhocTask
+              }
+              onDeleteAdhocTask={
+                deleteAdhocTask
+              }
             />
           ) : (
             <RoutinesView routines={routines} onChangeRoutines={setRoutines} />
