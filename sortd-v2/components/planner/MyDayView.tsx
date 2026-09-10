@@ -1,7 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Routine, Task } from "@/lib/types";
+import {
+  Routine,
+  SortdList,
+  Task,
+} from "@/lib/types";
 import { createPortal } from "react-dom";
 
 import {
@@ -34,6 +38,7 @@ type RoutineTaskForDay = Routine["tasks"][number] & {
 type MyDayViewProps = {
   tasks: TaskWithProject[];
   routines: Routine[];
+  projects: SortdList[];
 
   onChangeRoutines: (
     routines: Routine[],
@@ -84,6 +89,65 @@ function formatDuration(minutes?: number) {
   return Number.isInteger(hours) ? `${hours} hr` : `${hours.toFixed(1)} hrs`;
 }
 
+function parseDateKey(
+  date: string,
+) {
+  const [year, month, day] =
+    date.split("-").map(Number);
+
+  return new Date(
+    year,
+    month - 1,
+    day,
+  );
+}
+
+function toDateKey(
+  date: Date,
+) {
+  return [
+    date.getFullYear(),
+    String(
+      date.getMonth() + 1,
+    ).padStart(2, "0"),
+    String(
+      date.getDate(),
+    ).padStart(2, "0"),
+  ].join("-");
+}
+
+function addDays(
+  date: Date,
+  days: number,
+) {
+  const next =
+    new Date(date);
+
+  next.setDate(
+    next.getDate() + days,
+  );
+
+  return next;
+}
+
+function formatShortDate(
+  date?: string,
+) {
+  if (!date) {
+    return "";
+  }
+
+  return new Intl.DateTimeFormat(
+    "en-GB",
+    {
+      day: "numeric",
+      month: "short",
+    },
+  ).format(
+    parseDateKey(date),
+  );
+}
+
 function SortableMyDayRoutineTask({
   task,
   today,
@@ -129,7 +193,7 @@ function SortableMyDayRoutineTask({
     <div
       ref={setNodeRef}
       style={style}
-      className={`flex items-center gap-3 rounded-xl bg-[#eeeaea] px-4 py-3 transition ${
+      className={`flex items-center gap-2.5 rounded-xl bg-[#eeeaea] px-4 py-2 transition ${
         isDragging
           ? "z-50 opacity-60 shadow-lg"
           : ""
@@ -139,7 +203,7 @@ function SortableMyDayRoutineTask({
         type="button"
         {...attributes}
         {...listeners}
-        className="shrink-0 cursor-grab rounded-lg px-1.5 py-1 text-slate-400 active:cursor-grabbing"
+        className="shrink-0 cursor-grab rounded-lg px-1 py-0.5 text-xs text-slate-400 active:cursor-grabbing"
         aria-label={`Reorder ${task.title}`}
         title="Drag to reorder"
       >
@@ -155,7 +219,7 @@ function SortableMyDayRoutineTask({
           )
         }
         aria-label={`Complete ${task.title}`}
-        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-[#cd6ce7] font-bold text-[#9d3db7] transition hover:bg-[#cd6ce7] hover:text-white"
+        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 border-[#cd6ce7] text-sm font-bold text-[#9d3db7] transition hover:bg-[#cd6ce7] hover:text-white"
       >
         ✓
       </button>
@@ -166,7 +230,7 @@ function SortableMyDayRoutineTask({
             "Untitled routine task"}
         </p>
 
-        <p className="mt-1 text-xs text-slate-500">
+        <p className="mt-0.5 text-xs text-slate-500">
           {task.routineName}
         </p>
       </div>
@@ -188,7 +252,7 @@ function SortableMyDayRoutineTask({
         onClick={() => onEdit(task)}
         aria-label={`Edit ${task.title}`}
         title="Routine task details"
-        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm text-slate-500 transition hover:bg-white hover:text-slate-900"
+        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs text-slate-500 transition hover:bg-white hover:text-slate-900"
       >
         •••
       </button>
@@ -199,6 +263,7 @@ function SortableMyDayRoutineTask({
 export default function MyDayView({
   tasks,
   routines,
+  projects,
   onChangeRoutines,
   onOpenProject,
   onCompleteProjectTask,
@@ -207,6 +272,13 @@ export default function MyDayView({
   onDeleteRoutineTask,
 }: MyDayViewProps) {
   const today = getLocalDateKey();
+
+  const [
+    dayViewMode,
+    setDayViewMode,
+  ] = useState<
+    "today" | "review"
+  >("today");
 
   const [activeSummary, setActiveSummary] = useState<
     "due-today" | "overdue" | "workload" | null
@@ -266,6 +338,146 @@ export default function MyDayView({
   const overdue = openTasks.filter(
     (task) => task.dueDate && task.dueDate < today,
   );
+
+  const todayDate =
+    parseDateKey(today);
+
+  const nextWeekDate =
+    addDays(
+      todayDate,
+      7,
+    );
+
+  const nextWeek =
+    toDateKey(
+      nextWeekDate,
+    );
+
+  const monthStart =
+    new Date(
+      todayDate.getFullYear(),
+      todayDate.getMonth(),
+      1,
+    );
+
+  const monthEnd =
+    new Date(
+      todayDate.getFullYear(),
+      todayDate.getMonth() + 1,
+      0,
+    );
+
+  const currentMonthProjects =
+    projects
+      .filter((project) => {
+        if (
+          project.status ===
+          "completed"
+        ) {
+          return false;
+        }
+
+        const start =
+          project.startDate
+            ? parseDateKey(
+                project.startDate,
+              )
+            : null;
+
+        const end =
+          project.targetDate
+            ? parseDateKey(
+                project.targetDate,
+              )
+            : null;
+
+        /*
+        * No dates at all:
+        * don't include it in the
+        * month section.
+        */
+        if (!start && !end) {
+          return false;
+        }
+
+        /*
+        * Only target date:
+        * show it if the target is
+        * in this month.
+        */
+        if (!start && end) {
+          return (
+            end >= monthStart &&
+            end <= monthEnd
+          );
+        }
+
+        /*
+        * Start date but no target:
+        * treat it as an ongoing
+        * active project.
+        */
+        if (start && !end) {
+          return start <= monthEnd;
+        }
+
+        return (
+          start! <= monthEnd &&
+          end! >= monthStart
+        );
+      })
+      .sort((a, b) => {
+        if (
+          a.targetDate &&
+          b.targetDate
+        ) {
+          return (
+            parseDateKey(
+              a.targetDate,
+            ).getTime() -
+            parseDateKey(
+              b.targetDate,
+            ).getTime()
+          );
+        }
+
+        if (a.targetDate) {
+          return -1;
+        }
+
+        if (b.targetDate) {
+          return 1;
+        }
+
+        return 0;
+      });
+
+  const upcomingTasks =
+    openTasks
+      .filter(
+        (task) =>
+          task.dueDate &&
+          task.dueDate > today &&
+          task.dueDate <= nextWeek,
+      )
+      .sort((a, b) =>
+        (a.dueDate ?? "").localeCompare(
+          b.dueDate ?? "",
+        ),
+      );
+
+  const upcomingRoutineTasks =
+    openRoutineTasks
+      .filter(
+        (task) =>
+          task.nextDueDate > today &&
+          task.nextDueDate <= nextWeek,
+      )
+      .sort((a, b) =>
+        a.nextDueDate.localeCompare(
+          b.nextDueDate,
+        ),
+      );
 
   const projectWorkloadMinutes = dueToday.reduce(
     (total, task) => total + (task.durationMinutes ?? 0),
@@ -381,6 +593,101 @@ export default function MyDayView({
     );
   }
 
+  function renderReviewProject(
+    project: SortdList,
+  ) {
+    const totalTasks =
+      project.tasks.length;
+
+    const completedTasks =
+      project.tasks.filter(
+        (task) =>
+          task.completed,
+      ).length;
+
+    const openCount =
+      project.tasks.filter(
+        (task) =>
+          !task.completed,
+      ).length;
+
+    const progress =
+      totalTasks > 0
+        ? Math.round(
+            (completedTasks /
+              totalTasks) *
+              100,
+          )
+        : 0;
+
+    return (
+      <button
+        key={project.id}
+        type="button"
+        onClick={() =>
+          onOpenProject(
+            project.id,
+          )
+        }
+        className="w-full border-b border-slate-100 px-1 py-4 text-left transition last:border-b-0 hover:bg-slate-50"
+      >
+        <div className="flex items-start justify-between gap-4">
+          <div className="min-w-0 flex-1">
+            <p className="truncate font-semibold text-slate-900">
+              {project.name ||
+                "Untitled project"}
+            </p>
+
+            <p className="mt-1 text-xs text-slate-500">
+              {openCount}{" "}
+              {openCount === 1
+                ? "task"
+                : "tasks"}{" "}
+              left
+            </p>
+          </div>
+
+          {project.targetDate && (
+            <div className="shrink-0 text-right">
+              <p className="text-xs text-slate-400">
+                Ends
+              </p>
+
+              <p className="mt-0.5 text-sm font-medium text-slate-700">
+                {formatShortDate(
+                  project.targetDate,
+                )}
+              </p>
+            </div>
+          )}
+        </div>
+
+        {totalTasks > 0 && (
+          <div className="mt-3">
+            <div className="mb-1.5 flex items-center justify-between text-[11px] text-slate-400">
+              <span>
+                Progress
+              </span>
+
+              <span>
+                {progress}%
+              </span>
+            </div>
+
+            <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
+              <div
+                className="h-full rounded-full bg-[#cd6ce7] transition-all"
+                style={{
+                  width: `${progress}%`,
+                }}
+              />
+            </div>
+          </div>
+        )}
+      </button>
+    );
+  }
+
   function renderTask(task: TaskWithProject) {
     return (
       <div
@@ -473,14 +780,65 @@ export default function MyDayView({
   return (
     <div className="rounded-3xl bg-white/85 p-5 shadow-xl backdrop-blur-md md:p-8">
       <div className="mb-8">
-        <p className="text-sm font-medium text-[#9d3db7]">{formattedDate}</p>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-medium text-[#9d3db7]">
+              {formattedDate}
+            </p>
 
-        <h1 className="mt-1 text-3xl font-bold text-slate-950">My Day</h1>
+            <h1 className="mt-1 text-3xl font-bold text-slate-950">
+              My Day
+            </h1>
 
-        <p className="mt-2 text-sm text-slate-500">
-          Here’s what needs your attention today.
-        </p>
+            <p className="mt-2 text-sm text-slate-500">
+              {dayViewMode ===
+              "today"
+                ? "Here’s what needs your attention today."
+                : "Step back and see what you've got going on."}
+            </p>
+          </div>
+
+          <div className="flex rounded-xl bg-slate-100 p-1">
+            <button
+              type="button"
+              onClick={() =>
+                setDayViewMode(
+                  "today",
+                )
+              }
+              className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
+                dayViewMode ===
+                "today"
+                  ? "bg-white text-slate-900 shadow-sm"
+                  : "text-slate-500 hover:text-slate-900"
+              }`}
+            >
+              Today
+            </button>
+
+            <button
+              type="button"
+              onClick={() =>
+                setDayViewMode(
+                  "review",
+                )
+              }
+              className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
+                dayViewMode ===
+                "review"
+                  ? "bg-white text-slate-900 shadow-sm"
+                  : "text-slate-500 hover:text-slate-900"
+              }`}
+            >
+              Review
+            </button>
+          </div>
+        </div>
       </div>
+
+      {dayViewMode ===
+        "today" && (
+        <>
 
       <div className="mb-8 grid gap-3 sm:grid-cols-3">
         <button
@@ -562,7 +920,7 @@ export default function MyDayView({
                   verticalListSortingStrategy
                 }
               >
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   {actionableRoutineTasks.map(
                     (task) => (
                     <SortableMyDayRoutineTask
@@ -618,6 +976,284 @@ export default function MyDayView({
           </div>
         </section>
       </div>
+
+        </>
+        )}
+      {dayViewMode ===
+        "review" && (
+        <div>
+          {/* This month */}
+
+          <section className="mb-10">
+            <div className="mb-4 flex items-end justify-between gap-4">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9d3db7]">
+                  This month
+                </p>
+
+                <h2 className="mt-1 text-xl font-semibold text-slate-950">
+                  {new Intl.DateTimeFormat(
+                    "en-GB",
+                    {
+                      month:
+                        "long",
+                      year:
+                        "numeric",
+                    },
+                  ).format(
+                    todayDate,
+                  )}
+                </h2>
+
+                <p className="mt-1 text-sm text-slate-500">
+                  The projects
+                  you&aposre currently
+                  moving forward.
+                </p>
+              </div>
+
+              <span className="text-sm text-slate-400">
+                {
+                  currentMonthProjects.length
+                }{" "}
+                {currentMonthProjects.length ===
+                1
+                  ? "project"
+                  : "projects"}
+              </span>
+            </div>
+
+            {currentMonthProjects.length >
+            0 ? (
+              <div className="rounded-2xl border border-slate-200 bg-white px-4">
+                {currentMonthProjects.map(
+                  renderReviewProject,
+                )}
+              </div>
+            ) : (
+              <div className="rounded-2xl bg-[#f3eeee] px-5 py-8 text-center">
+                <p className="font-medium text-slate-700">
+                  No projects
+                  scheduled this
+                  month.
+                </p>
+              </div>
+            )}
+          </section>
+
+          {/* Needs attention */}
+
+          <section className="mb-10">
+            <div className="mb-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9d3db7]">
+                Needs attention
+              </p>
+
+              <h2 className="mt-1 text-xl font-semibold text-slate-950">
+                Outstanding
+              </h2>
+
+              <p className="mt-1 text-sm text-slate-500">
+                Things that have
+                already passed their
+                due date.
+              </p>
+            </div>
+
+            {overdue.length +
+              overdueRoutineTasks.length >
+            0 ? (
+              <div className="grid gap-6 lg:grid-cols-2">
+                <div>
+                  <div className="mb-2 flex items-center justify-between">
+                    <h3 className="text-sm font-semibold text-slate-700">
+                      Project tasks
+                    </h3>
+
+                    <span className="text-xs text-red-500">
+                      {
+                        overdue.length
+                      }
+                    </span>
+                  </div>
+
+                  <div className="space-y-2">
+                    {overdue.length >
+                    0 ? (
+                      overdue.map(
+                        renderTask,
+                      )
+                    ) : (
+                      <p className="text-sm text-slate-400">
+                        Nothing
+                        overdue.
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <div className="mb-2 flex items-center justify-between">
+                    <h3 className="text-sm font-semibold text-slate-700">
+                      Routines
+                    </h3>
+
+                    <span className="text-xs text-red-500">
+                      {
+                        overdueRoutineTasks.length
+                      }
+                    </span>
+                  </div>
+
+                  <div className="space-y-2">
+                    {overdueRoutineTasks.length >
+                    0 ? (
+                      overdueRoutineTasks.map(
+                        renderRoutineTask,
+                      )
+                    ) : (
+                      <p className="text-sm text-slate-400">
+                        Nothing
+                        overdue.
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="rounded-2xl bg-[#f3eeee] px-5 py-6 text-center text-sm text-slate-500">
+                Nothing overdue.
+                Lovely.
+              </div>
+            )}
+          </section>
+
+          {/* Coming up */}
+
+          <section>
+            <div className="mb-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9d3db7]">
+                Coming up
+              </p>
+
+              <h2 className="mt-1 text-xl font-semibold text-slate-950">
+                Next 7 days
+              </h2>
+
+              <p className="mt-1 text-sm text-slate-500">
+                Tasks and routines
+                that are heading your
+                way.
+              </p>
+            </div>
+
+            <div className="grid gap-6 lg:grid-cols-2">
+              <div>
+                <div className="mb-2 flex items-center justify-between">
+                  <h3 className="text-sm font-semibold text-slate-700">
+                    Project tasks
+                  </h3>
+
+                  <span className="text-xs text-slate-400">
+                    {
+                      upcomingTasks.length
+                    }
+                  </span>
+                </div>
+
+                <div className="space-y-2">
+                  {upcomingTasks.length >
+                  0 ? (
+                    upcomingTasks.map(
+                      (task) => (
+                        <div
+                          key={`${task.projectId}-${task.id}`}
+                        >
+                          {renderTask(
+                            task,
+                          )}
+
+                          <p className="mt-1 px-3 text-right text-[11px] text-[#9d3db7]">
+                            Due{" "}
+                            {formatShortDate(
+                              task.dueDate,
+                            )}
+                          </p>
+                        </div>
+                      ),
+                    )
+                  ) : (
+                    <p className="rounded-xl bg-[#f3eeee] px-4 py-6 text-center text-sm text-slate-500">
+                      Nothing due
+                      over the next
+                      week.
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <div className="mb-2 flex items-center justify-between">
+                  <h3 className="text-sm font-semibold text-slate-700">
+                    Routines
+                  </h3>
+
+                  <span className="text-xs text-slate-400">
+                    {
+                      upcomingRoutineTasks.length
+                    }
+                  </span>
+                </div>
+
+                <div className="space-y-2">
+                  {upcomingRoutineTasks.length >
+                  0 ? (
+                    upcomingRoutineTasks.map(
+                      (task) => (
+                        <button
+                          key={`${task.routineId}-${task.id}`}
+                          type="button"
+                          onClick={() =>
+                            setSelectedRoutineTask(
+                              task,
+                            )
+                          }
+                          className="flex w-full items-center justify-between gap-4 rounded-xl bg-[#eeeaea] px-4 py-3 text-left transition hover:bg-[#e9e4e9]"
+                        >
+                          <div className="min-w-0">
+                            <p className="truncate font-medium text-slate-900">
+                              {task.title ||
+                                "Untitled routine task"}
+                            </p>
+
+                            <p className="mt-1 text-xs text-slate-500">
+                              {
+                                task.routineName
+                              }
+                            </p>
+                          </div>
+
+                          <span className="shrink-0 text-xs font-medium text-[#9d3db7]">
+                            {formatShortDate(
+                              task.nextDueDate,
+                            )}
+                          </span>
+                        </button>
+                      ),
+                    )
+                  ) : (
+                    <p className="rounded-xl bg-[#f3eeee] px-4 py-6 text-center text-sm text-slate-500">
+                      No routines
+                      coming up this
+                      week.
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      )}
 
       {activeSummary &&
         createPortal(

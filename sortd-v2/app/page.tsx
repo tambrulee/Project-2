@@ -1138,6 +1138,7 @@ export default function Home() {
             <MyDayView
               tasks={allTasks}
               routines={routines}
+              projects={lists}
               onChangeRoutines={setRoutines}
               onCompleteProjectTask={
                 completeProjectTask

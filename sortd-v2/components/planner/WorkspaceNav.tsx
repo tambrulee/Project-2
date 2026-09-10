@@ -18,6 +18,11 @@ const navigationItems: {
     icon: "☀",
   },
   {
+    id: "planner",
+    label: "Planner",
+    icon: "▦",
+  },
+  {
     id: "routines",
     label: "Routines",
     icon: "↻",
@@ -36,11 +41,6 @@ const navigationItems: {
     id: "dreams",
     label: "Dreams",
     icon: "✦",
-  },
-  {
-    id: "planner",
-    label: "Planner",
-    icon: "▦",
   },
   {
     id: "shopping",
