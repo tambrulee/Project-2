@@ -120,6 +120,58 @@ export default function ScheduleSettingsView({
         </div>
       </section>
 
+      <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-4">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h2 className="font-semibold text-slate-900">
+              Annual leave
+            </h2>
+
+            <p className="mt-1 text-sm text-slate-500">
+              Ignore your normal work hours and use
+              the day as personal availability.
+            </p>
+          </div>
+
+          <label className="flex cursor-pointer items-center gap-3">
+            <span
+              className={`text-sm font-medium ${
+                settings.annualLeave
+                  ? "text-[#9d3db7]"
+                  : "text-slate-500"
+              }`}
+            >
+              {settings.annualLeave
+                ? "On"
+                : "Off"}
+            </span>
+
+            <input
+              type="checkbox"
+              checked={
+                settings.annualLeave ?? false
+              }
+              onChange={(event) =>
+                onChangeSettings({
+                  ...settings,
+                  annualLeave:
+                    event.target.checked,
+                })
+              }
+              className="h-5 w-5 accent-[#cd6ce7]"
+            />
+          </label>
+        </div>
+
+        {settings.annualLeave && (
+          <div className="mt-4 rounded-xl bg-purple-50 px-3 py-2 text-sm text-purple-800">
+            🏖️ Annual leave is on — Sort&apos;d
+            will plan personal tasks through your
+            usual working hours.
+          </div>
+        )}
+      </section>
+
       <section className="mt-6">
         <div className="mb-3">
           <h2 className="text-lg font-semibold">Your normal week</h2>

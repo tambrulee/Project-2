@@ -65,6 +65,16 @@ type PlannerViewProps = {
   onDeleteAdhocTask: (taskId: string) => void;
 };
 
+const DAY_START_HOUR = 6;
+const DAY_END_HOUR = 23;
+const SLOT_MINUTES = 30;
+const SLOT_HEIGHT = 42;
+const TIME_COLUMN_WIDTH = 64;
+const DAY_COLUMN_WIDTH = 154;
+
+const TOTAL_MINUTES = (DAY_END_HOUR - DAY_START_HOUR) * 60;
+const TOTAL_SLOTS = TOTAL_MINUTES / SLOT_MINUTES;
+const GRID_HEIGHT = TOTAL_SLOTS * SLOT_HEIGHT;
 
 function getDateKeyInTimeZone(date: Date, timeZone: string) {
   const parts = new Intl.DateTimeFormat("en-GB", {
@@ -120,12 +130,87 @@ function formatMinutes(minutes: number) {
   return Number.isInteger(hours) ? `${hours} hr` : `${hours.toFixed(1)} hrs`;
 }
 
-function getPlannerPeriod(startTime: string): PlannerPeriod {
-  const [hours] = startTime.split(":").map(Number);
+function timeToMinutes(time: string) {
+  const [hours, minutes] = time.split(":").map(Number);
+  return hours * 60 + minutes;
+}
 
-  if (hours < 12) return "morning";
-  if (hours < 17) return "afternoon";
+function minutesToTime(totalMinutes: number) {
+  const safeMinutes = Math.max(0, Math.min(totalMinutes, 24 * 60));
+  const hours = Math.floor(safeMinutes / 60);
+  const minutes = safeMinutes % 60;
+
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+}
+
+function getPlannerPeriod(time: string): PlannerPeriod {
+  const minutes = timeToMinutes(time);
+
+  if (minutes < 12 * 60) return "morning";
+  if (minutes < 17 * 60) return "afternoon";
   return "evening";
+}
+
+function getBlockTop(startTime: string) {
+  const start = Math.max(
+    DAY_START_HOUR * 60,
+    Math.min(timeToMinutes(startTime), DAY_END_HOUR * 60),
+  );
+
+  return ((start - DAY_START_HOUR * 60) / SLOT_MINUTES) * SLOT_HEIGHT;
+}
+
+function getBlockHeight(
+  startTime: string,
+  endTime: string,
+  nextStartTime?: string,
+) {
+  const start = Math.max(
+    DAY_START_HOUR * 60,
+    timeToMinutes(startTime),
+  );
+
+  const end = Math.min(
+    DAY_END_HOUR * 60,
+    timeToMinutes(endTime),
+  );
+
+  const durationMinutes =
+    Math.max(1, end - start);
+
+  const realHeight =
+    (durationMinutes / SLOT_MINUTES) *
+    SLOT_HEIGHT;
+
+  // Aim for a readable chip even for
+  // 5–15 minute routines.
+  const desiredHeight = Math.max(
+    24,
+    realHeight - 2,
+  );
+
+  if (!nextStartTime) {
+    return desiredHeight;
+  }
+
+  const nextStart =
+    timeToMinutes(nextStartTime);
+
+  const gapMinutes =
+    nextStart - start;
+
+  const availableHeight =
+    (gapMinutes / SLOT_MINUTES) *
+      SLOT_HEIGHT -
+    4;
+
+  return Math.max(
+    12,
+    Math.min(
+      desiredHeight,
+      availableHeight,
+    ),
+  );
 }
 
 function matchesOverride(block: ScheduledBlock, override: PlannerOverride) {
@@ -152,7 +237,46 @@ function getRoutineTaskForBlock(routines: Routine[], block: ScheduledBlock) {
     ?.tasks.find((task) => task.id === block.sourceId);
 }
 
-function DraggablePlannerCard({
+function CalendarSlot({
+  date,
+  startTime,
+}: {
+  date: string;
+  startTime: string;
+}) {
+  const { setNodeRef, isOver } = useDroppable({
+    id: `${date}::${startTime}`,
+    data: {
+      date,
+      slotStartTime: startTime,
+    },
+  });
+
+  return (
+    <div
+      ref={setNodeRef}
+      className={`absolute left-0 right-0 border-t transition ${
+        isOver
+          ? "z-20 border-[#b53fd0] bg-purple-100/70"
+          : startTime.endsWith(":00")
+            ? "border-slate-200"
+            : "border-slate-100"
+      }`}
+      style={{
+        top:
+          ((timeToMinutes(startTime) - DAY_START_HOUR * 60) / SLOT_MINUTES) *
+          SLOT_HEIGHT,
+        height: SLOT_HEIGHT,
+      }}
+    >
+      {isOver && (
+        <div className="pointer-events-none absolute left-1 right-1 top-0 h-0.5 bg-[#b53fd0]" />
+      )}
+    </div>
+  );
+}
+
+function CalendarTaskBlock({
   block,
   anchored,
   manuallyPlaced,
@@ -167,184 +291,163 @@ function DraggablePlannerCard({
   onEdit: () => void;
   onResetToAuto: () => void;
 }) {
-  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
-    id: block.id,
-    disabled: anchored,
-    data: { block },
-  });
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useDraggable({
+      id: block.id,
+      disabled: anchored,
+      data: { block },
+    });
 
-  const style = transform
-    ? {
-        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-      }
-    : undefined;
+  const height = getBlockHeight(block.startTime, block.endTime);
+
+  const isShortBlock =
+    block.durationMinutes < 20;
+
+  const style = {
+    top: `${getBlockTop(block.startTime) + 2}px`,
+    height: `${height}px`,
+    transform: transform
+      ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
+      : undefined,
+  };
 
   return (
     <article
       ref={setNodeRef}
       style={style}
-      className={`rounded-xl border bg-white p-3 shadow-sm transition ${
-        isDragging
-          ? "z-50 border-[#cd6ce7] opacity-80 shadow-xl"
+      className={`absolute left-1 right-1 z-10 overflow-hidden rounded-md border shadow-sm transition ${
+        isShortBlock
+          ? "px-1.5 py-0"
+          : "px-2 py-1.5"
+      } ${
+    isDragging
+          ? "z-50 border-[#b53fd0] bg-white opacity-90 shadow-xl"
           : anchored
-            ? "border-slate-200"
+            ? "border-slate-200 bg-slate-100"
             : manuallyPlaced
-              ? "border-[#d9a7e7]"
-              : "border-slate-200 hover:border-slate-300"
+              ? "border-[#d9a7e7] bg-purple-50"
+              : "border-slate-200 bg-white"
       }`}
     >
-      <div className="flex items-start gap-2">
-        <button
-          type="button"
-          onClick={onComplete}
-          aria-label={`Complete ${block.title}`}
-          className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-[#cd6ce7] text-[10px] font-bold text-[#9d3db7] transition hover:bg-[#cd6ce7] hover:text-white"
-        >
-          ✓
-        </button>
+      {isShortBlock ? (
+  <div className="flex h-full min-w-0 items-center gap-1 px-1">
+    <button
+      type="button"
+      onClick={(event) => {
+        event.stopPropagation();
+        onComplete();
+      }}
+      aria-label={`Complete ${block.title}`}
+      className="flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full border border-[#cd6ce7] text-[8px] font-bold text-[#9d3db7]"
+    >
+      ✓
+    </button>
 
-        <div className="min-w-0 flex-1">
-          <div className="flex items-start justify-between gap-1">
-            <button
-              type="button"
-              onClick={onEdit}
-              className="min-w-0 flex-1 text-left"
-            >
-              <p className="break-words text-sm font-semibold leading-snug text-slate-900">
-                {block.title}
-              </p>
-            </button>
+    <button
+      type="button"
+      onClick={onEdit}
+      title={block.title}
+      className="min-w-0 flex-1 text-left"
+    >
+      <p className="truncate text-[10px] font-semibold leading-none text-slate-900">
+        {block.title}
+      </p>
+    </button>
 
-            <button
-              type="button"
-              {...(!anchored ? attributes : {})}
-              {...(!anchored ? listeners : {})}
-              aria-label={anchored ? `${block.title} is anchored` : `Move ${block.title}`}
-              title={anchored ? "Anchored routine" : "Drag to reschedule"}
-              className={`shrink-0 rounded px-1 text-sm leading-none ${
-                anchored
-                  ? "cursor-default text-slate-300"
-                  : "cursor-grab text-slate-400 hover:bg-slate-100 hover:text-slate-700 active:cursor-grabbing"
-              }`}
-            >
-              {anchored ? "🔒" : "⋮⋮"}
-            </button>
-          </div>
-
-          <p className="mt-1 text-[11px] font-medium text-[#8d369f]">
-            {block.startTime}–{block.endTime}
-          </p>
-
-          <p className="mt-1 break-words text-[11px] leading-snug text-slate-500">
-            {block.sourceType === "adhoc"
-              ? "Ad hoc"
-              : `${block.parentName} · ${
-                  block.sourceType === "routine" ? "Routine" : "Project"
-                }`}
-          </p>
-
-          <div className="mt-2 flex flex-wrap items-center gap-1">
-            {anchored && (
-              <span className="rounded-full bg-slate-100 px-1.5 py-0.5 text-[9px] font-medium text-slate-600">
-                anchored
-              </span>
-            )}
-
-            {manuallyPlaced && !anchored && (
-              <button
-                type="button"
-                onClick={onResetToAuto}
-                className="rounded-full bg-purple-50 px-1.5 py-0.5 text-[9px] font-medium text-purple-700 hover:bg-purple-100"
-                title="Let Sort'd choose the time again"
-              >
-                ↺ auto
-              </button>
-            )}
-
-            {block.sessionIndex &&
-              block.totalDurationMinutes &&
-              block.totalDurationMinutes > block.durationMinutes && (
-                <span className="rounded-full bg-slate-100 px-1.5 py-0.5 text-[9px] text-slate-600">
-                  session {block.sessionIndex}
-                </span>
-              )}
-          </div>
-        </div>
-      </div>
-    </article>
-  );
-}
-
-function DayDropZone({
-  date,
-  blocks,
-  routines,
-  plannerOverrides,
-  onComplete,
-  onEdit,
-  onResetToAuto,
-}: {
-  date: string;
-  blocks: ScheduledBlock[];
-  routines: Routine[];
-  plannerOverrides: PlannerOverride[];
-  onComplete: (block: ScheduledBlock) => void;
-  onEdit: (block: ScheduledBlock) => void;
-  onResetToAuto: (block: ScheduledBlock) => void;
-}) {
-  const { isOver, setNodeRef } = useDroppable({
-    id: `day-${date}`,
-    data: { date },
-  });
-
-  return (
-    <section
-      ref={setNodeRef}
-      className={`min-h-[420px] p-3 transition ${
-        isOver ? "bg-purple-50/80" : "bg-white/40"
+    <button
+      type="button"
+      {...(!anchored ? attributes : {})}
+      {...(!anchored ? listeners : {})}
+      aria-label={
+        anchored
+          ? `${block.title} is anchored`
+          : `Move ${block.title}`
+      }
+      className={`shrink-0 text-[8px] leading-none ${
+        anchored
+          ? "cursor-default text-slate-300"
+          : "cursor-grab text-slate-400"
       }`}
     >
-      <div className="space-y-2">
-        {blocks.length > 0 ? (
-          blocks.map((block) => {
-            const routineTask = getRoutineTaskForBlock(routines, block);
+      {anchored ? "🔒" : "⋮"}
+    </button>
+  </div>
+) : (
+  <div className="flex h-full min-w-0 items-start gap-1.5">
+    <button
+      type="button"
+      onClick={(event) => {
+        event.stopPropagation();
+        onComplete();
+      }}
+      aria-label={`Complete ${block.title}`}
+      className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-[#cd6ce7] text-[9px] font-bold text-[#9d3db7] transition hover:bg-[#cd6ce7] hover:text-white"
+    >
+      ✓
+    </button>
 
-            const anchored =
-              Boolean(block.anchored) ||
-              (routineTask?.scheduleMode === "anchored" &&
-                Boolean(routineTask.fixedStartTime));
+    <button
+      type="button"
+      onClick={onEdit}
+      className="min-w-0 flex-1 text-left"
+      title={block.title}
+    >
+      <p className="truncate text-[12px] font-semibold leading-tight text-slate-900">
+        {block.title}
+      </p>
 
-            const manuallyPlaced =
-              Boolean(block.manuallyPlaced) ||
-              plannerOverrides.some((override) =>
-                matchesOverride(block, override),
-              );
-
-            return (
-              <DraggablePlannerCard
-                key={block.id}
-                block={block}
-                anchored={anchored}
-                manuallyPlaced={manuallyPlaced}
-                onComplete={() => onComplete(block)}
-                onEdit={() => onEdit(block)}
-                onResetToAuto={() => onResetToAuto(block)}
-              />
-            );
-          })
-        ) : (
-          <div
-            className={`flex min-h-28 items-center justify-center rounded-xl border border-dashed px-3 text-center text-xs ${
-              isOver
-                ? "border-[#cd6ce7] text-[#9d3db7]"
-                : "border-slate-200 text-slate-300"
-            }`}
+      {manuallyPlaced &&
+        !anchored &&
+        height >= 48 && (
+          <span
+            role="button"
+            tabIndex={0}
+            onClick={(event) => {
+              event.stopPropagation();
+              onResetToAuto();
+            }}
+            onKeyDown={(event) => {
+              if (
+                event.key === "Enter" ||
+                event.key === " "
+              ) {
+                event.preventDefault();
+                event.stopPropagation();
+                onResetToAuto();
+              }
+            }}
+            className="mt-1 inline-block text-[9px] font-medium text-purple-600"
           >
-            {isOver ? "Drop here" : "Nothing scheduled"}
-          </div>
+            ↺ auto
+          </span>
         )}
-      </div>
-    </section>
+    </button>
+
+    <button
+      type="button"
+      {...(!anchored ? attributes : {})}
+      {...(!anchored ? listeners : {})}
+      aria-label={
+        anchored
+          ? `${block.title} is anchored`
+          : `Move ${block.title}`
+      }
+      title={
+        anchored
+          ? "Anchored routine"
+          : "Drag to reschedule"
+      }
+      className={`shrink-0 rounded px-0.5 text-[10px] leading-none ${
+        anchored
+          ? "cursor-default text-slate-300"
+          : "cursor-grab text-slate-400 hover:text-slate-700 active:cursor-grabbing"
+      }`}
+    >
+      {anchored ? "🔒" : "⋮⋮"}
+    </button>
+  </div>
+)}
+    </article>
   );
 }
 
@@ -371,6 +474,7 @@ export default function PlannerView({
   onChangePlannerOverrides,
 }: PlannerViewProps) {
   const [clock, setClock] = useState(() => new Date());
+
   const [selectedItem, setSelectedItem] = useState<{
     sourceType: "task" | "routine" | "adhoc";
     sourceId: string;
@@ -417,8 +521,6 @@ export default function PlannerView({
     ],
   );
 
-  // The Planner is deliberately always a seven-day decision surface.
-  // planningHorizonDays can still be used by the wider scheduling system elsewhere.
   const dateKeys = useMemo(() => getScheduleDateKeys(today, 7), [today]);
 
   const plannedMinutes = schedule.blocks.reduce(
@@ -478,15 +580,14 @@ export default function PlannerView({
   function handleDragEnd(event: DragEndEvent) {
     const block = event.active.data.current?.block as ScheduledBlock | undefined;
     const date = event.over?.data.current?.date as string | undefined;
+    const slotStartTime = event.over?.data.current?.slotStartTime as
+      | string
+      | undefined;
 
-    if (!block || !date) return;
-
-    // The board no longer exposes Morning / Afternoon / Evening lanes.
-    // When an item moves to another day, keep roughly the same time-of-day
-    // preference and let the scheduler choose the exact slot.
-    const period: PlannerPeriod = getPlannerPeriod(block.startTime);
+    if (!block || !date || !slotStartTime) return;
 
     const routineTask = getRoutineTaskForBlock(routines, block);
+
     const anchored =
       Boolean(block.anchored) ||
       (routineTask?.scheduleMode === "anchored" &&
@@ -501,7 +602,8 @@ export default function PlannerView({
       occurrenceDate:
         block.sourceType === "routine" ? block.occurrenceDate : undefined,
       date,
-      period,
+      period: getPlannerPeriod(slotStartTime),
+      preferredStartTime: slotStartTime,
       manuallyPlaced: true,
     };
 
@@ -531,6 +633,13 @@ export default function PlannerView({
     setNewAdhocDate(null);
   }
 
+  const currentMinutes = timeToMinutes(currentTime);
+  const currentTimeTop =
+    currentMinutes >= DAY_START_HOUR * 60 &&
+    currentMinutes <= DAY_END_HOUR * 60
+      ? ((currentMinutes - DAY_START_HOUR * 60) / SLOT_MINUTES) * SLOT_HEIGHT
+      : undefined;
+
   return (
     <div className="w-full min-w-0 max-w-full space-y-5 overflow-hidden">
       <div className="rounded-3xl bg-white/85 p-5 shadow-xl backdrop-blur-md md:p-7">
@@ -539,10 +648,12 @@ export default function PlannerView({
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#9d3db7]">
               Planner
             </p>
+
             <h1 className="mt-1 text-3xl font-bold text-slate-950">Your week</h1>
+
             <p className="mt-2 max-w-2xl text-sm text-slate-500">
-              Sort&apos;d plans the week. Drag flexible work to tell it what you want,
-              and everything else replans around that decision.
+              Drag flexible work onto a time slot. Sort&apos;d replans everything
+              else around that decision.
             </p>
           </div>
 
@@ -551,6 +662,7 @@ export default function PlannerView({
               <p className="text-xl font-bold">{schedule.blocks.length}</p>
               <p className="text-xs text-slate-500">Planned</p>
             </div>
+
             <div className="rounded-xl bg-[#f3eeee] px-4 py-3 text-center">
               <p className="text-xl font-bold">{formatMinutes(plannedMinutes)}</p>
               <p className="text-xs text-slate-500">Scheduled</p>
@@ -560,39 +672,48 @@ export default function PlannerView({
       </div>
 
       <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-        <div className="w-full min-w-0 max-w-full overflow-x-auto overscroll-x-contain pb-3">
-          <div className="grid w-max grid-flow-col auto-cols-[240px] gap-3 pr-1">
-            {dateKeys.map((dateKey) => {
-              const { weekday, date } = formatDayHeader(dateKey, settings.timeZone);
-              const dayBlocks = schedule.blocks.filter(
-                (block) => block.date === dateKey,
-              );
+        <div className="w-full min-w-0 max-w-full overflow-x-auto overscroll-x-contain pb-2">
+          <div
+            className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+            style={{
+              width: TIME_COLUMN_WIDTH + DAY_COLUMN_WIDTH * dateKeys.length,
+              minWidth: TIME_COLUMN_WIDTH + DAY_COLUMN_WIDTH * dateKeys.length,
+            }}
+          >
+            <div
+              className="grid border-b border-slate-200 bg-white"
+              style={{
+                gridTemplateColumns: `${TIME_COLUMN_WIDTH}px repeat(${dateKeys.length}, ${DAY_COLUMN_WIDTH}px)`,
+              }}
+            >
+              <div className="border-r border-slate-200 bg-white" />
 
-              return (
-                <section
-                  key={dateKey}
-                  className={`overflow-hidden rounded-2xl border shadow-sm ${
-                    dateKey === today
-                      ? "border-[#d9a7e7] bg-purple-50/30"
-                      : "border-slate-200 bg-white/80"
-                  }`}
-                >
-                  <header className="border-b border-slate-100 bg-white/90 p-3">
+              {dateKeys.map((dateKey) => {
+                const { weekday, date } = formatDayHeader(
+                  dateKey,
+                  settings.timeZone,
+                );
+
+                return (
+                  <div
+                    key={dateKey}
+                    className={`relative border-r border-slate-200 px-2 py-3 last:border-r-0 ${
+                      dateKey === today ? "bg-purple-50/70" : "bg-white"
+                    }`}
+                  >
                     <div className="flex items-start justify-between gap-2">
-                      <div>
+                      <div className="min-w-0">
                         <p
                           className={`text-sm font-bold ${
-                            dateKey === today ? "text-[#9d3db7]" : "text-slate-900"
+                            dateKey === today
+                              ? "text-[#9d3db7]"
+                              : "text-slate-900"
                           }`}
                         >
                           {weekday}
                         </p>
-                        <p className="text-xs text-slate-500">{date}</p>
-                        {dateKey === today && (
-                          <p className="mt-0.5 text-[10px] font-semibold text-[#9d3db7]">
-                            Today
-                          </p>
-                        )}
+
+                        <p className="text-[11px] text-slate-500">{date}</p>
                       </div>
 
                       <button
@@ -601,7 +722,7 @@ export default function PlannerView({
                           setNewAdhocDate(dateKey);
                           setNewAdhocTitle("");
                         }}
-                        className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#f3eeee] text-sm font-semibold text-[#9d3db7] transition hover:bg-[#eaddea]"
+                        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[#f3eeee] text-xs font-semibold text-[#9d3db7] transition hover:bg-[#eaddea]"
                         title="Add an ad hoc task"
                       >
                         +
@@ -609,12 +730,17 @@ export default function PlannerView({
                     </div>
 
                     {newAdhocDate === dateKey && (
-                      <div className="mt-3 space-y-2">
+                      <div className="absolute left-1 right-1 top-full z-40 mt-1 rounded-xl border border-slate-200 bg-white p-2 shadow-xl">
                         <input
                           value={newAdhocTitle}
-                          onChange={(event) => setNewAdhocTitle(event.target.value)}
+                          onChange={(event) =>
+                            setNewAdhocTitle(event.target.value)
+                          }
                           onKeyDown={(event) => {
-                            if (event.key === "Enter") addAdhocForDate(dateKey);
+                            if (event.key === "Enter") {
+                              addAdhocForDate(dateKey);
+                            }
+
                             if (event.key === "Escape") {
                               setNewAdhocDate(null);
                               setNewAdhocTitle("");
@@ -622,51 +748,146 @@ export default function PlannerView({
                           }}
                           placeholder="Add task…"
                           autoFocus
-                          className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-xs outline-none focus:border-[#cd6ce7]"
+                          className="w-full rounded-lg border border-slate-200 px-2 py-1.5 text-xs outline-none focus:border-[#cd6ce7]"
                         />
-                        <div className="flex gap-1.5">
+
+                        <div className="mt-2 flex gap-1">
                           <button
                             type="button"
                             disabled={!newAdhocTitle.trim()}
                             onClick={() => addAdhocForDate(dateKey)}
-                            className="rounded-lg bg-[#9d3db7] px-2.5 py-1.5 text-[10px] font-semibold text-white disabled:opacity-40"
+                            className="rounded-md bg-[#9d3db7] px-2 py-1 text-[10px] font-semibold text-white disabled:opacity-40"
                           >
                             Add
                           </button>
+
                           <button
                             type="button"
                             onClick={() => {
                               setNewAdhocDate(null);
                               setNewAdhocTitle("");
                             }}
-                            className="px-2 py-1.5 text-[10px] text-slate-500"
+                            className="px-2 py-1 text-[10px] text-slate-500"
                           >
                             Cancel
                           </button>
                         </div>
                       </div>
                     )}
-                  </header>
+                  </div>
+                );
+              })}
+            </div>
 
-                  <DayDropZone
-                    date={dateKey}
-                    blocks={dayBlocks}
-                    routines={routines}
-                    plannerOverrides={plannerOverrides}
-                    onComplete={completeBlock}
-                    onEdit={openBlock}
-                    onResetToAuto={removeOverride}
-                  />
-                </section>
-              );
-            })}
+            <div
+              className="grid"
+              style={{
+                gridTemplateColumns: `${TIME_COLUMN_WIDTH}px repeat(${dateKeys.length}, ${DAY_COLUMN_WIDTH}px)`,
+              }}
+            >
+              <div
+                className="relative border-r border-slate-200 bg-white"
+                style={{ height: GRID_HEIGHT }}
+              >
+                {Array.from({
+                  length: DAY_END_HOUR - DAY_START_HOUR + 1,
+                }).map((_, index) => {
+                  const hour = DAY_START_HOUR + index;
+                  const top = index * SLOT_HEIGHT * 2;
+
+                  return (
+                    <div
+                      key={hour}
+                      className="absolute left-0 right-0 border-t border-slate-200"
+                      style={{ top }}
+                    >
+                      <span className="absolute right-2 -translate-y-1/2 bg-white px-1 text-[10px] text-slate-400">
+                        {minutesToTime(hour * 60)}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {dateKeys.map((dateKey) => {
+                const dayBlocks = schedule.blocks.filter(
+                  (block) => block.date === dateKey,
+                );
+
+                return (
+                  <div
+                    key={dateKey}
+                    className={`relative border-r border-slate-200 last:border-r-0 ${
+                      dateKey === today ? "bg-purple-50/20" : "bg-white"
+                    }`}
+                    style={{ height: GRID_HEIGHT }}
+                  >
+                    {Array.from({ length: TOTAL_SLOTS }).map((_, slotIndex) => {
+                      const minutes =
+                        DAY_START_HOUR * 60 + slotIndex * SLOT_MINUTES;
+
+                      return (
+                        <CalendarSlot
+                          key={`${dateKey}-${slotIndex}`}
+                          date={dateKey}
+                          startTime={minutesToTime(minutes)}
+                        />
+                      );
+                    })}
+
+                    {dateKey === today && currentTimeTop !== undefined && (
+                      <div
+                        className="pointer-events-none absolute left-0 right-0 z-30 flex items-center"
+                        style={{ top: currentTimeTop }}
+                      >
+                        <span className="h-2 w-2 -translate-x-1/2 rounded-full bg-[#b53fd0]" />
+                        <span className="h-0.5 flex-1 bg-[#b53fd0]" />
+                      </div>
+                    )}
+
+                    {dayBlocks.map((block) => {
+                      const routineTask = getRoutineTaskForBlock(
+                        routines,
+                        block,
+                      );
+
+                      const anchored =
+                        Boolean(block.anchored) ||
+                        (routineTask?.scheduleMode === "anchored" &&
+                          Boolean(routineTask.fixedStartTime));
+
+                      const manuallyPlaced =
+                        Boolean(block.manuallyPlaced) ||
+                        plannerOverrides.some((override) =>
+                          matchesOverride(block, override),
+                        );
+
+                      return (
+                        <CalendarTaskBlock
+                          key={block.id}
+                          block={block}
+                          anchored={anchored}
+                          manuallyPlaced={manuallyPlaced}
+                          onComplete={() => completeBlock(block)}
+                          onEdit={() => openBlock(block)}
+                          onResetToAuto={() => removeOverride(block)}
+                        />
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </DndContext>
 
       {schedule.unscheduled.length > 0 && (
         <section className="rounded-3xl border border-amber-200 bg-amber-50 p-5">
-          <h2 className="font-semibold text-amber-950">Couldn&apos;t fit everything</h2>
+          <h2 className="font-semibold text-amber-950">
+            Couldn&apos;t fit everything
+          </h2>
+
           <p className="mt-1 text-sm text-amber-800">
             These still need space. You can edit their duration or constraints,
             or move other flexible work out of the way.
@@ -742,7 +963,9 @@ export default function PlannerView({
         <ItemDetailsModal
           kind="task"
           item={selectedAdhocTask}
-          onChange={(updates) => onUpdateAdhocTask(selectedAdhocTask.id, updates)}
+          onChange={(updates) =>
+            onUpdateAdhocTask(selectedAdhocTask.id, updates)
+          }
           onDelete={() => onDeleteAdhocTask(selectedAdhocTask.id)}
           onClose={() => setSelectedItem(null)}
         />

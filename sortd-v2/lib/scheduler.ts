@@ -10,7 +10,6 @@ import {
   Weekday,
   AdhocTask,
   PlannerOverride,
-  PlannerPeriod,
 } from "@/lib/types";
 
 export type SchedulableProjectTask =
@@ -86,31 +85,12 @@ type ScheduleCandidate = {
   manuallyPlaced?: boolean;
   anchored?: boolean;
   fixedStartTime?: string;
+  overdue?: boolean;
 };
 
 type TimeWindow = {
   start: number;
   end: number;
-};
-
-const PLANNER_PERIOD_WINDOWS: Record<
-  PlannerPeriod,
-  TimeWindow
-> = {
-  morning: {
-    start: 0,
-    end: 12 * 60,
-  },
-
-  afternoon: {
-    start: 12 * 60,
-    end: 17 * 60,
-  },
-
-  evening: {
-    start: 17 * 60,
-    end: 24 * 60,
-  },
 };
 
 type SessionOption = {
@@ -307,10 +287,10 @@ function applyPlannerConstraint(
     return candidate;
   }
 
-  const period =
-    PLANNER_PERIOD_WINDOWS[
-      override.period
-    ];
+  const overrideStartMinutes =
+    override.preferredStartTime
+      ? timeToMinutes(override.preferredStartTime)
+      : undefined;
 
   let targetDate =
     override.date;
@@ -349,16 +329,16 @@ function applyPlannerConstraint(
     latestDate: targetDate,
 
     earliestStartTime:
-      laterTime(
-        candidate.earliestStartTime,
-        period.start,
-      ),
+      overrideStartMinutes !== undefined
+        ? laterTime(
+            candidate.earliestStartTime,
+            overrideStartMinutes,
+          )
+        : candidate.earliestStartTime,
 
-    latestEndTime:
-      earlierTime(
-        candidate.latestEndTime,
-        period.end,
-      ),
+    // A grid drop sets the preferred start, not a Morning/Afternoon/Evening
+    // end boundary. Keep only the task's genuine latest-end restriction.
+    latestEndTime: candidate.latestEndTime,
   };
 }
 
@@ -426,6 +406,29 @@ function getAvailableWindows(
 
   if (bedTime <= wakeTime) {
     return [];
+  }
+
+    /*
+  * Annual leave temporarily removes
+  * the normal work block.
+  *
+  * Personal / any-context tasks may use
+  * the whole waking day.
+  *
+  * Work tasks should not be scheduled
+  * while the user is on leave.
+  */
+  if (settings.annualLeave) {
+    if (context === "work") {
+      return [];
+    }
+
+    return [
+      {
+        start: wakeTime,
+        end: bedTime,
+      },
+    ];
   }
 
   const hasWorkBlock = Boolean(day.workStart) && Boolean(day.workEnd);
@@ -962,8 +965,11 @@ function buildRoutineCandidates(
               task.fixedStartTime,
             );
 
+          const originalNextDueDate = task.nextDueDate;
+          let firstOccurrence = true;
+
           let occurrenceDate =
-            task.nextDueDate < today ? today : task.nextDueDate;
+            originalNextDueDate < today ? today : originalNextDueDate;
 
           while (occurrenceDate <= horizonEnd) {
             const nextOccurrenceDate = addRecurrence(
@@ -1000,8 +1006,6 @@ function buildRoutineCandidates(
                       DEFAULT_MAX_SESSION_MINUTES,
                   ),
 
-              usedDefaultDuration,
-
               context: anchored
                 ? "any"
                 : task.scheduleContext ??
@@ -1019,10 +1023,16 @@ function buildRoutineCandidates(
                 ? task.fixedStartTime
                 : undefined,
 
+              usedDefaultDuration,
+
+              overdue:
+                firstOccurrence && originalNextDueDate < today,
+
               priority: task.priority,
               energy: getItemEnergy(task),
 
               dueDate: occurrenceDate,
+
               occurrenceDate,
 
               earliestDate: occurrenceDate,
@@ -1032,6 +1042,7 @@ function buildRoutineCandidates(
                 : latestDate,
             });
 
+            firstOccurrence = false;
             occurrenceDate = nextOccurrenceDate;
           }
         });
@@ -1262,6 +1273,26 @@ export function buildRollingSchedule({
     }
 
     if (remainingMinutes > 0) {
+      // Future routine occurrences should not flood the "Couldn't fit" list.
+      // Only surface a routine here when it represents a genuinely overdue
+      // occurrence, and only surface that routine once.
+      if (candidate.sourceType === "routine") {
+        if (!candidate.overdue) {
+          continue;
+        }
+
+        const alreadyListed = unscheduled.some(
+          (item) =>
+            item.sourceType === "routine" &&
+            item.sourceId === candidate.sourceId &&
+            item.parentId === candidate.parentId,
+        );
+
+        if (alreadyListed) {
+          continue;
+        }
+      }
+
       const remainingHours = remainingMinutes / 60;
 
       const remainingLabel =

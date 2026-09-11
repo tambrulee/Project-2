@@ -211,6 +211,7 @@ export type ScheduleSettings = {
   bufferMinutes: number;
   energyPattern?: EnergyPattern;
   days: Record<Weekday, DayAvailability>;
+  annualLeave?: boolean;
 };
 
 export type ScheduledBlock = {
@@ -259,6 +260,7 @@ export type PlannerOverride = {
   period: PlannerPeriod;
 
   manuallyPlaced: true;
+  preferredStartTime?: string;
 };
 
 export type RoutineScheduleMode =

@@ -375,7 +375,26 @@ export default function Home() {
     getServerSnapshot,
   );
 
-  const [activeView, setActiveView] = useState<AppView>("projects");
+  const [activeView, setActiveView] =
+    useState<AppView>(() => {
+      if (typeof window === "undefined") {
+        return "projects";
+      }
+
+      const storedView =
+        window.sessionStorage.getItem(
+          "sortd-active-view",
+        ) as AppView | null;
+
+      return storedView ?? "projects";
+    });
+
+  useEffect(() => {
+    window.sessionStorage.setItem(
+      "sortd-active-view",
+      activeView,
+    );
+  }, [activeView]);
 
   const visibleTasks = useMemo(() => {
     let filteredTasks = hideCompleted
